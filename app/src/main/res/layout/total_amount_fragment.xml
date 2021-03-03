@@ -7,61 +7,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.add.AddExpenseFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
         android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?colorSurface"
-        app:liftOnScroll="true">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_back"
-                android:tint="?android:textColorPrimary" />
-
-            <TextView
-                android:id="@+id/txtToolbarTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorTextPrimary"
-                android:textAlignment="center"
-                android:layout_centerInParent="true"
-                android:layout_toStartOf="@id/btnEdit"
-                android:layout_toEndOf="@id/btnBack" />
-
-            <ImageButton
-                android:id="@+id/btnEdit"
-                android:visibility="invisible"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="16dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_edit"
-                android:tint="?android:textColorPrimary"
-                android:contentDescription="@string/app_name" />
-
-        </RelativeLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+        layout="@layout/dialog_toolbar_layout" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollViewContent"
@@ -79,9 +27,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:layout_marginBottom="@dimen/vertical_margin_half"
                 android:backgroundTint="@color/colorCardBackground"
                 app:cardCornerRadius="12dp">
 
@@ -91,16 +39,16 @@
                     android:layout_margin="8dp"
                     android:paddingBottom="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp" />
+                    android:layout_height="230dp" />
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="@dimen/vertical_margin_half"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
                 android:backgroundTint="@color/colorCardBackground"
                 app:cardCornerRadius="12dp">
 

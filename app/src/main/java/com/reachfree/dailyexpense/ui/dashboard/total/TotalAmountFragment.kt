@@ -87,18 +87,18 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
 //        }
 
         val group1 = ArrayList<BarEntry>()
-        group1.add(BarEntry(0f, 230000f))
-        group1.add(BarEntry(1f, 330000f))
-        group1.add(BarEntry(2f, 430000f))
-        group1.add(BarEntry(3f, 530000f))
-        group1.add(BarEntry(4f, 630000f))
+        group1.add(BarEntry(0f, 2130000f))
+        group1.add(BarEntry(1f, 2530000f))
+        group1.add(BarEntry(2f, 1530000f))
+        group1.add(BarEntry(3f, 2030000f))
+        group1.add(BarEntry(4f, 1830000f))
 
         val group2 = ArrayList<BarEntry>()
-        group2.add(BarEntry(0f, 130000f))
-        group2.add(BarEntry(1f, 430000f))
-        group2.add(BarEntry(2f, 330000f))
-        group2.add(BarEntry(3f, 430000f))
-        group2.add(BarEntry(4f, 530000f))
+        group2.add(BarEntry(0f, 3330000f))
+        group2.add(BarEntry(1f, 3220000f))
+        group2.add(BarEntry(2f, 3530000f))
+        group2.add(BarEntry(3f, 3250000f))
+        group2.add(BarEntry(4f, 3380000f))
 
         barColors.add(ContextCompat.getColor(requireContext(), R.color.purple_200))
         barColors.add(ContextCompat.getColor(requireContext(), R.color.purple_200))
@@ -106,62 +106,71 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
         barColors.add(ContextCompat.getColor(requireContext(), R.color.purple_200))
         barColors.add(ContextCompat.getColor(requireContext(), R.color.md_amber_500))
 
+//        binding.barChartTotalAmount.xAxis.apply {
+//            position = XAxis.XAxisPosition.BOTTOM
+//            labelCount = group1.size
+//            valueFormatter = object : IndexAxisValueFormatter() {
+//                override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+//                    axis?.textSize = 14f
+//                    axis?.yOffset = 10f
+//                    Timber.d("value: $value")
+//                    return xAxisLabel[value.toInt()]
+//                }
+//            }
+//            setDrawLabels(true)
+//            axisLineColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
+//            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
+//            setDrawGridLines(false)
+//        }
+//        binding.barChartTotalAmount.axisLeft.apply {
+//            axisLineColor = Color.WHITE
+//            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
+//            setDrawGridLines(false)
+//            isEnabled = false
+//        }
+//        binding.barChartTotalAmount.axisRight.apply {
+//            axisLineColor = Color.WHITE
+//            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
+//            setDrawGridLines(false)
+//            isEnabled = false
+//        }
+
+        binding.barChartTotalAmount.axisLeft.apply { isEnabled = false }
+        binding.barChartTotalAmount.axisRight.apply { isEnabled = false }
+
         binding.barChartTotalAmount.xAxis.apply {
-            position = XAxis.XAxisPosition.BOTTOM
-            labelCount = group1.size
-            valueFormatter = object : IndexAxisValueFormatter() {
-                override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-                    axis?.textSize = 14f
-                    axis?.yOffset = 10f
-                    Timber.d("value: $value")
-                    return xAxisLabel[value.toInt()]
-                }
-            }
-            setDrawLabels(true)
+            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
+            textSize = 14f
+
+            yOffset = 10f
             axisLineColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
+
+            valueFormatter = IndexAxisValueFormatter(xAxisLabel)
+            setCenterAxisLabels(true)
+            position = XAxis.XAxisPosition.BOTTOM
+            granularity = 1f
+            isGranularityEnabled = true
             setDrawGridLines(false)
         }
-        binding.barChartTotalAmount.axisLeft.apply {
-            axisLineColor = Color.WHITE
-            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            setDrawGridLines(false)
-            isEnabled = false
-        }
-        binding.barChartTotalAmount.axisRight.apply {
-            axisLineColor = Color.WHITE
-            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            setDrawGridLines(false)
-            isEnabled = false
-        }
-        binding.barChartTotalAmount.apply {
-            description.text = "Expense Budget"
-            description.isEnabled = false
-            legend.isEnabled = false
 
-            extraBottomOffset = 10f
+        binding.barChartTotalAmount.axisLeft.axisMinimum = 0f
 
-            setScaleEnabled(false)
-            setFitBars(true)
-        }
-
-
-        val bardataset1 = BarDataSet(group1, "Brand 1").apply {
-            color = Color.RED
+        val bardataset1 = BarDataSet(group1, "Expense").apply {
+            color = ContextCompat.getColor(requireContext(), R.color.colorExpense)
 
             valueTextColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            valueTextSize = 10f
+            valueTextSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return AppUtils.changeAmountByCurrency(BigDecimal(value.toString()))
                 }
             }
         }
-        val bardataset2 = BarDataSet(group2, "Brand 2").apply {
-            color = ContextCompat.getColor(requireContext(), R.color.orange)
+        val bardataset2 = BarDataSet(group2, "Income").apply {
+            color = ContextCompat.getColor(requireContext(), R.color.colorIncome)
 
             valueTextColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            valueTextSize = 10f
+            valueTextSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return AppUtils.changeAmountByCurrency(BigDecimal(value.toString()))
@@ -173,7 +182,19 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
             barWidth = 0.3f
         }
 
-        binding.barChartTotalAmount.groupBars(0f, 0.25f, 0.05f)
+        binding.barChartTotalAmount.apply {
+            description.isEnabled = false
+            legend.isEnabled = false
+
+            extraBottomOffset = 10f
+
+            xAxis.axisMinimum = 0f
+            xAxis.axisMaximum = 5f
+
+            setScaleEnabled(false)
+        }
+        // (0.3 + 0.05) * 2 + 0.3 = 1.00
+        binding.barChartTotalAmount.groupBars(0f, 0.3f, 0.05f)
         binding.barChartTotalAmount.invalidate()
     }
 
