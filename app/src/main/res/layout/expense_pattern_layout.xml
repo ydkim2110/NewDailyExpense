@@ -42,8 +42,8 @@
                 <ProgressBar
                     android:id="@+id/progressbarWaste"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
                     android:layout_marginEnd="52dp"
                     android:background="@drawable/shape_circle_progressbar"
                     android:indeterminate="false"
@@ -56,8 +56,8 @@
                 <ProgressBar
                     android:id="@+id/progressbarInvest"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
                     android:layout_marginStart="52dp"
                     android:background="@drawable/shape_circle_progressbar"
                     android:indeterminate="false"
@@ -70,8 +70,8 @@
                 <ProgressBar
                     android:id="@+id/progressbarNormal"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
+                    android:layout_width="145dp"
+                    android:layout_height="145dp"
                     android:background="@drawable/shape_circle_progressbar"
                     android:indeterminate="false"
                     android:max="100"

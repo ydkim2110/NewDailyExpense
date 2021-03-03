@@ -288,8 +288,7 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 )
             }
             1 -> {
-                viewModel.getTransactionSortedBy(
-                    SortType.AMOUNT,
+                viewModel.getTransactionSortedBy(                    SortType.AMOUNT,
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(INCOME.ordinal)
