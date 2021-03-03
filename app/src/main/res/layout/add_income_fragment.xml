@@ -162,6 +162,7 @@
                     android:textColor="@color/colorTextPrimary"
                     android:textAllCaps="false"
                     android:drawableEnd="@drawable/ic_arrow_drop_down"
+                    android:drawableTint="@color/colorTextPrimary"
                     app:layout_constraintStart_toEndOf="@+id/guidelineCategory"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
