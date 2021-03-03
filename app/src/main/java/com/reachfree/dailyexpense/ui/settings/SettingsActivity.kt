@@ -11,6 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SettingsActivity : BaseActivity<SettingsActivityBinding>({ SettingsActivityBinding.inflate(it) }) {
 
+    override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
