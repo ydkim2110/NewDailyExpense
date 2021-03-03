@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="CURRENCY"
+        android:title="Currency"
+        android:summary="KRW"
+        android:icon="@drawable/ic_money"
+        android:defaultValue="true" />
+
+    <ListPreference
+        android:key="APP_THEME"
+        android:title="App Theme"
+        android:summary="System Default"
+        android:icon="@drawable/ic_brightness"
+        android:entries="@array/app_theme"
+        android:entryValues="@array/app_theme_values"
+        android:dialogTitle="App Theme"
+        android:defaultValue="0" />
+
+    <SwitchPreference
+        android:key="PREF_SWITCH"
+        android:title="SWITCH"
+        android:summary="switch description"
+        android:icon="@drawable/ic_bus"
+        android:defaultValue="true" />
+
+</PreferenceScreen>

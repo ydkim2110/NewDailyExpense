@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.reachfree.dailyexpense.ui.dashboard.DashboardFragment"
+        android:label="dashboard_fragment"
+        tools:layout="@layout/dashboard_fragment" />
+
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.reachfree.dailyexpense.ui.transaction.TransactionFragment"
+        android:label="transaction_fragment"
+        tools:layout="@layout/transaction_fragment" />
+
+    <fragment
+        android:id="@+id/budgetFragment"
+        android:name="com.reachfree.dailyexpense.ui.budget.BudgetFragment"
+        android:label="budget_fragment"
+        tools:layout="@layout/budget_fragment" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.reachfree.dailyexpense.ui.settings.SettingsFragment"
+        android:label="settings_fragment"
+        tools:layout="@layout/settings_fragment" />
+
+</navigation>

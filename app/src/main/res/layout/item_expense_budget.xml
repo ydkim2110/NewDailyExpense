@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/expensePatternLayout"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_marginVertical="@dimen/vertical_margin_half"
+    android:layout_marginHorizontal="@dimen/horizontal_margin"
+    android:backgroundTint="@color/colorCardBackground"
+    app:cardCornerRadius="@dimen/card_corner_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgCategoryIcon"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="16dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_bus"
+                tools:ignore="VectorDrawableCompat"
+                app:tint="@color/white"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/txtCategoryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                tools:text="Food &amp; Drinks"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
+                app:layout_constraintStart_toEndOf="@+id/imgCategoryIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtAmountPerDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="8dp"
+                tools:text="$24/day"
+                android:textSize="12sp"
+                android:textColor="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgCategoryIcon"
+                app:layout_constraintTop_toBottomOf="@+id/txtCategoryName" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:fabSize="mini"
+                android:src="@drawable/ic_arrow_forward"
+                app:fabCustomSize="32dp"
+                app:backgroundTint="#EEEEEE"
+                app:layout_constraintBottom_toBottomOf="@+id/imgCategoryIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgCategoryIcon"
+                android:contentDescription="@string/app_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/darker_gray" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <TextView
+                android:id="@+id/txtBudgetTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Budget"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/progressbarCategory"
+                app:layout_constraintTop_toTopOf="@+id/progressbarCategory" />
+
+            <TextView
+                android:id="@+id/txtExpenseTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Spent"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@+id/txtBudgetTitle"
+                app:layout_constraintStart_toEndOf="@+id/progressbarCategory" />
+
+
+            <TextView
+                android:id="@+id/txtLeftToSpendTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:text="Left to Spend"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/progressbarCategory"
+                app:layout_constraintBottom_toBottomOf="@+id/progressbarCategory" />
+
+
+            <ProgressBar
+                android:id="@+id/progressbarCategory"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/shape_circle_progressbar_small"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/rotate_circular_progressbar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.411" />
+
+            <TextView
+                android:id="@+id/txtPercent"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="90%"
+                android:textAlignment="center"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/progressbarCategory"
+                app:layout_constraintEnd_toEndOf="@+id/progressbarCategory"
+                app:layout_constraintStart_toStartOf="@+id/progressbarCategory"
+                app:layout_constraintTop_toTopOf="@+id/progressbarCategory" />
+
+            <TextView
+                android:id="@+id/txtExpenseAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="320,000원"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtExpenseTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtExpenseTitle" />
+
+            <TextView
+                android:id="@+id/txtBudgetAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="1,320,000원"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtBudgetTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtBudgetTitle" />
+
+            <TextView
+                android:id="@+id/txtLeftToSpendAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="320,000원"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtLeftToSpendTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtLeftToSpendTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

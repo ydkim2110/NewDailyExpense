@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/expensePatternLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/vertical_margin"
+    android:layout_marginHorizontal="@dimen/horizontal_margin"
+    android:backgroundTint="@color/colorCardBackground"
+    app:cardCornerRadius="@dimen/card_corner_radius">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtTitleExpensePattern"
+            android:visibility="gone"
+            style="@style/TextCardTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/text_title_expense_pattern"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitleExpensePattern"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progressbarWaste"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginEnd="52dp"
+                    android:background="@drawable/shape_circle_progressbar"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/rotate_circular_progressbar_waste"
+                    app:layout_constraintBottom_toBottomOf="@+id/progressbarNormal"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline" />
+
+                <ProgressBar
+                    android:id="@+id/progressbarInvest"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginStart="52dp"
+                    android:background="@drawable/shape_circle_progressbar"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/rotate_circular_progressbar_invest"
+                    app:layout_constraintStart_toEndOf="@+id/guideline"
+                    app:layout_constraintBottom_toBottomOf="@+id/progressbarNormal" />
+
+                <ProgressBar
+                    android:id="@+id/progressbarNormal"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/shape_circle_progressbar"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/rotate_circular_progressbar_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtWastePercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/progressbarWaste"
+                    app:layout_constraintEnd_toEndOf="@+id/progressbarWaste"
+                    app:layout_constraintStart_toStartOf="@+id/progressbarWaste"
+                    app:layout_constraintTop_toTopOf="@+id/progressbarWaste"
+                    app:layout_constraintVertical_bias="0.4"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_waste"
+                    app:layout_constraintStart_toStartOf="@+id/txtWastePercent"
+                    app:layout_constraintEnd_toEndOf="@+id/txtWastePercent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtWastePercent"
+                    />
+
+                <TextView
+                    android:id="@+id/txtNormalPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/progressbarNormal"
+                    app:layout_constraintEnd_toEndOf="@+id/progressbarNormal"
+                    app:layout_constraintStart_toStartOf="@+id/progressbarNormal"
+                    app:layout_constraintTop_toTopOf="@+id/progressbarNormal"
+                    app:layout_constraintVertical_bias="0.4"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_normal"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@+id/txtNormalPercent"
+                    app:layout_constraintEnd_toEndOf="@+id/txtNormalPercent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNormalPercent"
+                    />
+
+                <TextView
+                    android:id="@+id/txtInsertPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintBottom_toBottomOf="@+id/progressbarInvest"
+                    app:layout_constraintEnd_toEndOf="@+id/progressbarInvest"
+                    app:layout_constraintStart_toStartOf="@+id/progressbarInvest"
+                    app:layout_constraintTop_toTopOf="@+id/progressbarInvest"
+                    app:layout_constraintVertical_bias="0.4"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_invest"
+                    app:layout_constraintStart_toStartOf="@+id/txtInsertPercent"
+                    app:layout_constraintEnd_toEndOf="@+id/txtInsertPercent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtInsertPercent"
+                    />
+
+                <TextView
+                    android:id="@+id/txtWasteSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="32,000원"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/progressbarWaste"
+                    app:layout_constraintStart_toStartOf="@+id/progressbarWaste"
+                    app:layout_constraintTop_toBottomOf="@+id/progressbarWaste" />
+
+                <TextView
+                    android:id="@+id/txtNormalSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="1,320,000원"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/progressbarNormal"
+                    app:layout_constraintStart_toStartOf="@+id/progressbarNormal"
+                    app:layout_constraintTop_toBottomOf="@+id/progressbarNormal" />
+
+                <TextView
+                    android:id="@+id/txtInvestSum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="200,000원"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/progressbarInvest"
+                    app:layout_constraintStart_toStartOf="@+id/progressbarInvest"
+                    app:layout_constraintTop_toBottomOf="@+id/progressbarInvest" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTotalList"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:text="@string/text_show_details"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNormalSum"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

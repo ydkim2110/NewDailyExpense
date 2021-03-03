@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutWeekSummary"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/vertical_margin"
+    android:layout_marginHorizontal="@dimen/horizontal_margin"
+    android:backgroundTint="@color/colorCardBackground"
+    app:cardCornerRadius="12dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txtMonthlySumTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/text_monthly_sum"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/txtMonthlySumAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            tools:text="240,000원"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="RtlSymmetry" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/txtMonthlySumTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txtNormalExpense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_normal"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtNormalAmount"
+                    android:layout_width="wrap_content"
+                    android:minWidth="80dp"
+                    android:layout_height="wrap_content"
+                    tools:text="435,515원"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textAlignment="textEnd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txtNormalExpense"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtNormalExpense"
+                    />
+
+                <TextView
+                    android:id="@+id/txtWasteExpense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/text_waste"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNormalExpense"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/txtWasteAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="435,515원"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorTextSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txtWasteExpense"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtWasteExpense"
+                    />
+
+                <TextView
+                    android:id="@+id/txtInvestExpense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/text_invest"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/txtWasteExpense"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/txtInvestAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="435,515원"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorTextSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/txtInvestExpense"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtInvestExpense"
+                    />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/txtBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="txtNormalExpense, txtWasteExpense, txtInvestExpense"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/txtBarrierAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="start"
+                    app:constraint_referenced_ids="txtNormalAmount, txtWasteAmount, txtInvestAmount"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <ProgressBar
+                    android:id="@+id/normalProgressbar"
+                    style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:progressDrawable="@drawable/bg_progressbar_normal"
+                    android:progress="70"
+                    app:layout_constraintStart_toEndOf="@+id/txtBarrier"
+                    app:layout_constraintEnd_toStartOf="@+id/txtBarrierAmount"
+                    app:layout_constraintTop_toTopOf="@+id/txtNormalExpense"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtNormalExpense" />
+
+                <ProgressBar
+                    android:id="@+id/wasteProgressbar"
+                    style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:progressDrawable="@drawable/bg_progressbar_waste"
+                    android:progress="50"
+                    app:layout_constraintStart_toEndOf="@+id/txtBarrier"
+                    app:layout_constraintEnd_toStartOf="@+id/txtBarrierAmount"
+                    app:layout_constraintTop_toTopOf="@+id/txtWasteExpense"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtWasteExpense" />
+
+                <ProgressBar
+                    android:id="@+id/investProgressbar"
+                    style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                    android:layout_width="0dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:progressDrawable="@drawable/bg_progressbar_invest"
+                    android:progress="20"
+                    app:layout_constraintStart_toEndOf="@+id/txtBarrier"
+                    app:layout_constraintEnd_toStartOf="@+id/txtBarrierAmount"
+                    app:layout_constraintTop_toTopOf="@+id/txtInvestExpense"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtInvestExpense" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

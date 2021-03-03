@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/legendLayout"
+    android:gravity="center"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:background="@color/tabLayoutColor">
+
+    <TextView
+        android:id="@+id/calendarSunLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/sun"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/calendarMonLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/mon"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/calendarTueLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/tue"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/calendarWedLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/wed"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/calendarThuLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/thu"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/calendarFriLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/fri"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/calendarSatLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/sat"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
+
+</LinearLayout>

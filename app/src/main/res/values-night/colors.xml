@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="colorGray">#E6E6E6</color>
+
+    <color name="colorBackground">#121212</color>
+    <color name="colorCardBackground">#202124</color>
+    <color name="colorCalendarBackground">#121212</color>
+    <color name="colorCalendarTopBackground">#202124</color>
+    <color name="colorBottomSheetBackground">#202124</color>
+    <color name="colorCircleProgressBarBackground">#121212</color>
+    <color name="colorCategoryChipBackground">#121212</color>
+    <color name="colorProgressBarTintBackground">#191919</color>
+    <color name="colorPieChartHoleBackground">#121212</color>
+    <color name="colorTabBackground">#121212</color>
+    <color name="colorNavBackground">#121212</color>
+    <color name="colorItemTransactionDateBackground">#000000</color>
+    <color name="colorArrowIcon">#FFFFFF</color>
+
+    <color name="colorExpense">#F76353</color>
+
+    <color name="colorTextPrimary">#F1F1F1</color>
+    <color name="colorTextSecondary">#D9D9D9</color>
+
+    <color name="colorNormalExpense">#00CC99</color>
+    <color name="colorWasteExpense">#F76353</color>
+    <color name="colorInvestExpense">#F2B900</color>
+
+    <color name="dividerColor">#1FEEEEEE</color>
+
+    <color name="chipStrokeColor">#1F000000</color>
+    <color name="chipSelectedColor">#4D66d3ff</color>
+    <color name="chipSelectedNormalColor">#00CC99</color>
+    <color name="chipSelectedWasteColor">#F76353</color>
+    <color name="chipSelectedInvestColor">#F2B900</color>
+    <color name="tabLayoutColor">#202124</color>
+
+    <color name="tabColor">#E17055</color>
+</resources>

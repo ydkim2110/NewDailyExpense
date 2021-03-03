@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DailyExpense</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="transaction">Transaction</string>
+    <string name="budget">Budget</string>
+    <string name="calendar">Calendar</string>
+    <string name="settings">Settings</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+
+    <string name="toolbar_title_add_expense">Add Expense</string>
+    <string name="toolbar_title_add_income">Add Income</string>
+
+    <string name="btn_text_delete">Delete</string>
+
+    <string name="text_total_income">Total Income</string>
+    <string name="text_total_expense">Total Expense</string>
+    <string name="text_normal">Normal</string>
+    <string name="text_waste">Waste</string>
+    <string name="text_invest">Invest</string>
+    <string name="text_normal_expense">Normal Expense</string>
+    <string name="text_waste_expense">Waste Expense</string>
+    <string name="text_invest_expense">Invest Expense</string>
+    <string name="text_monthly_sum">Monthly Total:</string>
+    <string name="text_weekly_sum">Weekly Total:</string>
+    <string name="text_select">Select</string>
+    <string name="text_sort_by">Sort By:</string>
+    <string name="text_sub_category_group">Group</string>
+    <string name="text_sub_category_list">List</string>
+    <string name="text_get_started">Get Started!</string>
+    <string name="text_show_details">Show All</string>
+    <string name="text_all">All</string>
+    <string name="text_add">Add</string>
+    <string name="text_add_transaction">Add Transaction</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_description">Description</string>
+    <string name="text_pattern">Pattern</string>
+    <string name="text_category">Category</string>
+    <string name="text_sub_category">SubCategory</string>
+    <string name="text_date">Date</string>
+    <string name="text_hint_zero_amount">0</string>
+    <string name="text_credit_card">Credit</string>
+    <string name="text_cash">Cash</string>
+    <string name="this_field_is_required">This field is required.</string>
+    <string name="text_must_be_greater_than_zero">Must be greater than 0</string>
+
+    <string name="chart_record">My Record</string>
+    <string name="chart_default">Default</string>
+    <string name="text_title_expense_pattern">Expense Pattern</string>
+    <string name="text_title_transactions">Transactions</string>
+
+    <string name="text_expense_by_category">Expense By Category</string>
+    <string name="text_no_transaction">No transactions.</string>
+
+    <string name="pick_date">Pick Date</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+
+    <string-array name="day_of_week">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>
+
+    <string name="money_unit">$</string>
+
+    <string name="toast_exit">Press back again to exit.</string>
+
+    <string-array name="filter_sort_options">
+        <item>Amount</item>
+        <item>Date</item>
+        <item>Category</item>
+    </string-array>
+
+    <string-array name="filter_transaction_options">
+        <item>Total</item>
+        <item>Expense</item>
+        <item>Income</item>
+    </string-array>
+
+    <!-- Theme -->
+    <string name="follow_system">System Default</string>
+    <string name="light_theme">Light Mode</string>
+    <string name="dark_theme">Dark Mode</string>
+
+    <string-array name="app_theme">
+        <item>System Default</item>
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
+    </string-array>
+
+    <string name="category_salary">Salary</string>
+    <string name="category_interest_dividend">Interest/Dividend</string>
+    <string name="category_bonus">Bonus</string>
+    <string name="category_sale">Sale</string>
+    <string name="category_refund">Refund</string>
+    <string name="category_other_income">Other Income</string>
+
+    <string name="category_food_drink">Food/Drink</string>
+    <string name="category_utility">Utility</string>
+    <string name="category_communication">Communication</string>
+    <string name="category_household">Household</string>
+    <string name="category_clothing_beauty">Clothing/Beauty</string>
+    <string name="category_education">Education</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_healthcare">Healthcare</string>
+    <string name="category_gifts_donation">Gifts/Donation</string>
+    <string name="category_transportation">Transportation</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_tax">Tax</string>
+    <string name="category_other_expense">Other Expense</string>
+
+    <string-array name="pattern">
+        <item>Normal</item>
+        <item>Waste</item>
+        <item>Invest</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Food/Drink</item>
+        <item>Utility</item>
+        <item>Communication</item>
+        <item>Household</item>
+        <item>Clothing/Beauty</item>
+        <item>Education</item>
+        <item>Entertainment</item>
+        <item>Healthcare</item>
+        <item>Gifts/Donation</item>
+        <item>Transportation</item>
+        <item>Travel</item>
+        <item>Tax</item>
+        <item>Other Expense</item>
+    </string-array>
+
+    <string-array name="sub_categories">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Mart/Grocery</item>
+        <item>Snack</item>
+        <item>Coffee/Beverage</item>
+        <item>Other</item>
+        <item>Maintenance</item>
+        <item>Electricity</item>
+        <item>Water</item>
+        <item>Water</item>
+        <item>Mobile</item>
+        <item>Kitchen Products</item>
+        <item>Clothing</item>
+        <item>Academy</item>
+        <item>Movie</item>
+        <item>Hospital</item>
+        <item>Gift</item>
+        <item>Bus</item>
+        <item>Domestic</item>
+        <item>Tax</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="sub_categories_clothing">
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Mart/Grocery</item>
+        <item>Snack</item>
+        <item>Coffee/Beverage</item>
+    </string-array>
+
+    <string-array name="sub_categories_utility">
+        <item>Maintenance</item>
+        <item>Electricity</item>
+        <item>Water</item>
+        <item>Water</item>
+    </string-array>
+
+    <string-array name="income_categories">
+        <item>Salary</item>
+        <item>Interest/Dividend</item>
+        <item>Bonus</item>
+        <item>Sale</item>
+        <item>Refund</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="sub_category_breakfast">Breakfast</string>
+    <string name="sub_category_lunch">Lunch</string>
+    <string name="sub_category_dinner">Dinner</string>
+    <string name="sub_category_grocery">Mart/Grocery</string>
+    <string name="sub_category_snack">Snack</string>
+    <string name="sub_category_coffee_beverage">Coffee/Beverage</string>
+
+    <string name="sub_category_maintenance_charge">Maintenance</string>
+    <string name="sub_category_electricity_bill">Electricity</string>
+    <string name="sub_category_water_bill">Water</string>
+    <string name="sub_category_gas_bill">Water</string>
+
+    <string name="sub_category_mobile">Mobile</string>
+    <string name="sub_category_internet_tv">Internet/TV</string>
+
+    <string name="sub_category_furniture_appliances">Furniture/Appliances</string>
+    <string name="sub_category_kitchen_products">Kitchen Products</string>
+    <string name="sub_category_washroom_products">WashRoom Products</string>
+    <string name="sub_category_miscellaneous">Miscellaneous</string>
+
+    <string name="sub_category_clothing">Clothing</string>
+    <string name="sub_category_accessory">Accessory</string>
+    <string name="sub_category_shoes">Shoes</string>
+    <string name="sub_category_hair">Hair</string>
+    <string name="sub_category_beauty">Beauty</string>
+    <string name="sub_category_laundry">Laundry</string>
+
+    <string name="sub_category_academy">Academy</string>
+    <string name="sub_category_book">Book</string>
+    <string name="sub_category_lecture">Lecture</string>
+
+    <string name="sub_category_movie">Movie</string>
+    <string name="sub_category_performance">Performance</string>
+    <string name="sub_category_game">Game</string>
+
+    <string name="sub_category_hospital">Hospital</string>
+    <string name="sub_category_drug">Drug</string>
+    <string name="sub_category_sports">Sports</string>
+
+    <string name="sub_category_gift">Gift</string>
+    <string name="sub_category_marriage">Marriage</string>
+    <string name="sub_category_funeral">Funeral</string>
+    <string name="sub_category_donation">Donation</string>
+
+    <string name="sub_category_bus">Bus</string>
+    <string name="sub_category_taxi">Taxi</string>
+    <string name="sub_category_metro">Metro</string>
+
+    <string name="sub_category_inbound">Domestic</string>
+    <string name="sub_category_outbound">Overseas</string>
+
+    <string name="sub_category_other">Other</string>
+    <string name="dialog_delete_title">delete</string>
+    <string name="dialog_delete_negative">No</string>
+
+</resources>
