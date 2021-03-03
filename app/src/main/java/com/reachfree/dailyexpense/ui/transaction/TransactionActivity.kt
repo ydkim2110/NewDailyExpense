@@ -1,5 +1,6 @@
 package com.reachfree.dailyexpense.ui.transaction
 
+import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
@@ -92,6 +93,8 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
             endOfMonth,
             intArrayOf(EXPENSE.ordinal, INCOME.ordinal)
         )
+
+        binding.relativeLayoutOptionsFragment.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         binding.txtSwitcherSortBy.setFactory {
             val textView = TextView(this)

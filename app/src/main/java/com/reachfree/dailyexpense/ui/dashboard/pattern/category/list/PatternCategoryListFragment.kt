@@ -1,5 +1,6 @@
 package com.reachfree.dailyexpense.ui.dashboard.pattern.category.list
 
+import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.TypedValue
@@ -56,6 +57,8 @@ class PatternCategoryListFragment : BaseFragment<PatternCategoryListFragmentBind
                 .replace(R.id.frameLayoutTransactionList, fragment)
                 .commit()
         }
+
+        binding.relativeLayoutOptionsFragment.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         binding.txtSwitcherSortBy.setFactory {
             val textView = TextView(requireContext())
