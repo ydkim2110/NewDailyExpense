@@ -131,16 +131,20 @@
     <string name="category_other_income">기타수입</string>
 
     <string name="category_food_drink">식사/음료</string>
+    <string name="category_shopping">쇼핑</string>
+    <string name="category_personal_care">개인관리</string>
     <string name="category_utility">주거</string>
     <string name="category_communication">통신</string>
     <string name="category_household">생활용품</string>
-    <string name="category_clothing_beauty">의복/미용</string>
     <string name="category_education">교육</string>
     <string name="category_entertainment">엔터테인먼트</string>
     <string name="category_healthcare">건강</string>
     <string name="category_gifts_donation">선물/기부</string>
     <string name="category_transportation">교통</string>
     <string name="category_travel">여행</string>
+    <string name="category_pet">애완동물</string>
+    <string name="category_kids">자녀</string>
+    <string name="category_insurance">보험</string>
     <string name="category_tax">세금</string>
     <string name="category_other_expense">기타비용</string>
 
@@ -216,58 +220,85 @@
         <item>기타수입</item>
     </string-array>
 
-    <string name="sub_category_breakfast">아침</string>
-    <string name="sub_category_lunch">점심</string>
-    <string name="sub_category_dinner">저녁</string>
+    <string name="sub_category_eatingout">외식</string>
     <string name="sub_category_grocery">마트/식료품</string>
     <string name="sub_category_snack">간식</string>
-    <string name="sub_category_coffee_beverage">커피/음료</string>
+    <string name="sub_category_coffee">커피</string>
+    <string name="sub_category_beverage">음료</string>
 
-    <string name="sub_category_maintenance_charge">관리비</string>
-    <string name="sub_category_electricity_bill">전기요금</string>
-    <string name="sub_category_water_bill">수도요금</string>
-    <string name="sub_category_gas_bill">가스요금</string>
+    <string name="sub_category_clothing">의복</string>
+    <string name="sub_category_shoes">신발</string>
+    <string name="sub_category_accessory">액세서리</string>
+
+    <string name="sub_category_haircut">미용실</string>
+    <string name="sub_category_beauty">뷰티</string>
+    <string name="sub_category_cosmetics">화장품</string>
+    <string name="sub_category_gym">운동</string>
+    <string name="sub_category_massage_spa">마사지/스파</string>
+
+    <string name="sub_category_metro">지하철</string>
+    <string name="sub_category_bus">버스</string>
+    <string name="sub_category_taxi">택시</string>
+    <string name="sub_category_car_gasfuel">자동차/기름</string>
 
     <string name="sub_category_mobile">모바일</string>
     <string name="sub_category_internet_tv">인터넷/TV</string>
-
-    <string name="sub_category_furniture_appliances">가전/가구</string>
-    <string name="sub_category_kitchen_products">주방용품</string>
-    <string name="sub_category_washroom_products">욕실용품</string>
-    <string name="sub_category_miscellaneous">잡화</string>
-
-    <string name="sub_category_clothing">의복</string>
-    <string name="sub_category_accessory">액세서리</string>
-    <string name="sub_category_shoes">신발</string>
-    <string name="sub_category_hair">미용</string>
-    <string name="sub_category_beauty">뷰티</string>
-    <string name="sub_category_laundry">세탁/수선</string>
-
-    <string name="sub_category_academy">학원</string>
-    <string name="sub_category_book">도서</string>
-    <string name="sub_category_lecture">강의</string>
+    <string name="sub_category_com_subscriptions">정기구독</string>
 
     <string name="sub_category_movie">영화</string>
     <string name="sub_category_performance">공연</string>
     <string name="sub_category_game">게임</string>
+    <string name="sub_category_hobbies">취미생활</string>
+
+    <string name="sub_category_home_appliances">가전</string>
+    <string name="sub_category_furniture_decor">가구/인테리어</string>
+    <string name="sub_category_kitchen">주방용품</string>
+    <string name="sub_category_cleaning_supplies">청소용품</string>
+    <string name="sub_category_laundry_mending">세탁/수선</string>
+
+    <string name="sub_category_house_rent">집세</string>
+    <string name="sub_category_maintenance_fee">관리비</string>
+    <string name="sub_category_electric">전기요금</string>
+    <string name="sub_category_water">수도요금</string>
+    <string name="sub_category_utility_gas">가스요금</string>
 
     <string name="sub_category_hospital">병원</string>
-    <string name="sub_category_drug">약</string>
-    <string name="sub_category_sports">스포츠</string>
+    <string name="sub_category_medicine">약</string>
+    <string name="sub_category_vitamin">비타민</string>
+
+    <string name="sub_category_tuition">교육/강의</string>
+    <string name="sub_category_book">책</string>
+    <string name="sub_category_edu_subscriptions">정기구독</string>
+
+    <string name="sub_category_tra_accommodation">숙박</string>
+    <string name="sub_category_tra_transportation">교통</string>
+    <string name="sub_category_tra_food">음식</string>
+    <string name="sub_category_tra_activity">액티비티</string>
 
     <string name="sub_category_gift">선물</string>
-    <string name="sub_category_marriage">결혼식</string>
-    <string name="sub_category_funeral">장례식</string>
+    <string name="sub_category_weddings">결혼식</string>
+    <string name="sub_category_condolatory">장례식</string>
     <string name="sub_category_donation">기부</string>
 
-    <string name="sub_category_bus">버스</string>
-    <string name="sub_category_taxi">택시</string>
-    <string name="sub_category_metro">지하철</string>
+    <string name="sub_category_pet_food">사료</string>
+    <string name="sub_category_pet_snack">간식</string>
+    <string name="sub_category_pet_toys_clothing">장난감/옷</string>
+    <string name="sub_category_pet_vet_visit">동물병원</string>
 
-    <string name="sub_category_inbound">국내여행</string>
-    <string name="sub_category_outbound">해외여행</string>
+    <string name="sub_category_kid_school_fee">교육비</string>
+    <string name="sub_category_kid_school_supplies">학용품</string>
+    <string name="sub_category_kid_school_toys">장난감</string>
+    <string name="sub_category_kid_school_allowances">용돈</string>
+    <string name="sub_category_kid_school_diapers">유아용품</string>
+
+    <string name="sub_category_life_insurance">생명보험</string>
+    <string name="sub_category_medical_insurance">손해보험</string>
+    <string name="sub_category_fire_insurance">화재보험</string>
+    <string name="sub_category_savings_insurance">저축보험</string>
 
     <string name="sub_category_other">기타</string>
+
+
     <string name="dialog_delete_title">delete</string>
     <string name="dialog_delete_description_number">Delete?</string>
     <string name="dialog_delete_positive">OK</string>

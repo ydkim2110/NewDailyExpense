@@ -125,16 +125,20 @@
     <string name="category_other_income">Other Income</string>
 
     <string name="category_food_drink">Food/Drink</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_personal_care">Personal Care</string>
     <string name="category_utility">Utility</string>
     <string name="category_communication">Communication</string>
     <string name="category_household">Household</string>
-    <string name="category_clothing_beauty">Clothing/Beauty</string>
     <string name="category_education">Education</string>
     <string name="category_entertainment">Entertainment</string>
     <string name="category_healthcare">Healthcare</string>
     <string name="category_gifts_donation">Gifts/Donation</string>
     <string name="category_transportation">Transportation</string>
     <string name="category_travel">Travel</string>
+    <string name="category_pet">Pet</string>
+    <string name="category_kids">Kids</string>
+    <string name="category_insurance">Insurance</string>
     <string name="category_tax">Tax</string>
     <string name="category_other_expense">Other Expense</string>
 
@@ -210,58 +214,85 @@
         <item>Other</item>
     </string-array>
 
-    <string name="sub_category_breakfast">Breakfast</string>
-    <string name="sub_category_lunch">Lunch</string>
-    <string name="sub_category_dinner">Dinner</string>
+    <string name="sub_category_eatingout">Eatingout</string>
     <string name="sub_category_grocery">Mart/Grocery</string>
     <string name="sub_category_snack">Snack</string>
-    <string name="sub_category_coffee_beverage">Coffee/Beverage</string>
-
-    <string name="sub_category_maintenance_charge">Maintenance</string>
-    <string name="sub_category_electricity_bill">Electricity</string>
-    <string name="sub_category_water_bill">Water</string>
-    <string name="sub_category_gas_bill">Water</string>
-
-    <string name="sub_category_mobile">Mobile</string>
-    <string name="sub_category_internet_tv">Internet/TV</string>
-
-    <string name="sub_category_furniture_appliances">Furniture/Appliances</string>
-    <string name="sub_category_kitchen_products">Kitchen Products</string>
-    <string name="sub_category_washroom_products">WashRoom Products</string>
-    <string name="sub_category_miscellaneous">Miscellaneous</string>
+    <string name="sub_category_coffee">Coffee</string>
+    <string name="sub_category_beverage">Beverage</string>
 
     <string name="sub_category_clothing">Clothing</string>
-    <string name="sub_category_accessory">Accessory</string>
     <string name="sub_category_shoes">Shoes</string>
-    <string name="sub_category_hair">Hair</string>
+    <string name="sub_category_accessory">Accessory</string>
+
+    <string name="sub_category_haircut">Haircut</string>
     <string name="sub_category_beauty">Beauty</string>
-    <string name="sub_category_laundry">Laundry</string>
-
-    <string name="sub_category_academy">Academy</string>
-    <string name="sub_category_book">Book</string>
-    <string name="sub_category_lecture">Lecture</string>
-
-    <string name="sub_category_movie">Movie</string>
-    <string name="sub_category_performance">Performance</string>
-    <string name="sub_category_game">Game</string>
-
-    <string name="sub_category_hospital">Hospital</string>
-    <string name="sub_category_drug">Drug</string>
-    <string name="sub_category_sports">Sports</string>
-
-    <string name="sub_category_gift">Gift</string>
-    <string name="sub_category_marriage">Marriage</string>
-    <string name="sub_category_funeral">Funeral</string>
-    <string name="sub_category_donation">Donation</string>
+    <string name="sub_category_cosmetics">Cosmetics</string>
+    <string name="sub_category_gym">Gym</string>
+    <string name="sub_category_massage_spa">Massage/Spa</string>
 
     <string name="sub_category_bus">Bus</string>
     <string name="sub_category_taxi">Taxi</string>
     <string name="sub_category_metro">Metro</string>
+    <string name="sub_category_car_gasfuel">Car/Gas Fuel</string>
 
-    <string name="sub_category_inbound">Domestic</string>
-    <string name="sub_category_outbound">Overseas</string>
+    <string name="sub_category_mobile">Mobile</string>
+    <string name="sub_category_internet_tv">Internet/TV</string>
+    <string name="sub_category_com_subscriptions">Subscriptions</string>
+
+    <string name="sub_category_movie">Movie</string>
+    <string name="sub_category_performance">Performance</string>
+    <string name="sub_category_game">Game</string>
+    <string name="sub_category_hobbies">Hobbies</string>
+
+    <string name="sub_category_home_appliances">Home Appliances</string>
+    <string name="sub_category_furniture_decor">Furniture/Decor</string>
+    <string name="sub_category_kitchen">Kitchen</string>
+    <string name="sub_category_cleaning_supplies">Cleaning Supplies</string>
+    <string name="sub_category_laundry_mending">Laundry/Mending</string>
+
+    <string name="sub_category_house_rent">House Rent</string>
+    <string name="sub_category_maintenance_fee">Maintenance</string>
+    <string name="sub_category_electric">Electric</string>
+    <string name="sub_category_water">Water</string>
+    <string name="sub_category_utility_gas">Gas</string>
+
+    <string name="sub_category_hospital">Hospital</string>
+    <string name="sub_category_medicine">Medicine</string>
+    <string name="sub_category_vitamin">Vitamin</string>
+
+    <string name="sub_category_tuition">Academy</string>
+    <string name="sub_category_book">Book</string>
+    <string name="sub_category_edu_subscriptions">Lecture</string>
+
+    <string name="sub_category_tra_accommodation">Accommodation</string>
+    <string name="sub_category_tra_transportation">Transportation</string>
+    <string name="sub_category_tra_food">Food</string>
+    <string name="sub_category_tra_activity">Activity</string>
+
+    <string name="sub_category_gift">Gift</string>
+    <string name="sub_category_weddings">Weddings</string>
+    <string name="sub_category_condolatory">Condolatory</string>
+    <string name="sub_category_donation">Donation</string>
+
+    <string name="sub_category_pet_food">Food</string>
+    <string name="sub_category_pet_snack">Snack</string>
+    <string name="sub_category_pet_toys_clothing">Toys/Clothing</string>
+    <string name="sub_category_pet_vet_visit">Vet Visit</string>
+
+    <string name="sub_category_kid_school_fee">School Fee</string>
+    <string name="sub_category_kid_school_supplies">School Supplies</string>
+    <string name="sub_category_kid_school_toys">Toys</string>
+    <string name="sub_category_kid_school_allowances">Allowances</string>
+    <string name="sub_category_kid_school_diapers">Diapers</string>
+
+    <string name="sub_category_life_insurance">Life Ins</string>
+    <string name="sub_category_medical_insurance">Medical Ins</string>
+    <string name="sub_category_fire_insurance">Fire Ins</string>
+    <string name="sub_category_savings_insurance">Savings Ins</string>
 
     <string name="sub_category_other">Other</string>
+
+
     <string name="dialog_delete_title">delete</string>
     <string name="dialog_delete_negative">No</string>
 

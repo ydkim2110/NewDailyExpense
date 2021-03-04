@@ -104,23 +104,27 @@ class DatabaseModule {
 
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('이삭 토스트', 300000, 0, 0, 0, ':food&drink', ':breakfast', ${dateTime1})"
+                        " VALUES ('이삭 토스트', 300000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime1})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('순대국', 800000, 0, 0, 0, ':food&drink', ':lunch', ${dateTime1})"
+                        " VALUES ('순대국', 800000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime1})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('스타벅스', 410000, 0, 0, 0, ':food&drink', ':coffee&beverage', ${dateTime1})"
+                        " VALUES ('스타벅스', 410000, 0, 0, 0, ':food_drinks', ':coffee', ${dateTime1})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('이삭 토스트2', 300000, 0, 1, 0, ':food&drink', ':breakfast', ${dateTime1})"
+                        " VALUES ('개사료', 4000000, 0, 0, 0, ':pet', ':pet_food', ${dateTime1})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('배당', 1500000, 1, 2, 0, ':interest&dividend', ':interest&dividend', ${dateTime1})"
+                        " VALUES ('이삭 토스트2', 300000, 0, 1, 0, ':food_drinks', ':eatingout', ${dateTime1})"
+            )
+            db.execSQL(
+                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
+                        " VALUES ('배당', 1500000, 1, 2, 0, ':interest_dividend', ':interest_dividend', ${dateTime1})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
@@ -128,19 +132,19 @@ class DatabaseModule {
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('감자탕', 1450000, 0, 0, 2, ':food&drink', ':dinner', ${dateTime2})"
+                        " VALUES ('감자탕', 1450000, 0, 0, 2, ':food_drinks', ':eatingout', ${dateTime2})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('커피', 1450000, 0, 1, 1, ':food&drink', ':coffee&beverage', ${dateTime3})"
+                        " VALUES ('커피', 1450000, 0, 1, 1, ':food_drinks', ':coffee', ${dateTime3})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('술값', 3450000, 0, 0, 0, ':food&drink', ':dinner', ${dateTime3})"
+                        " VALUES ('술값', 3450000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime3})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('신발구매', 15000000, 0, 0, 0, ':clothing&beauty', ':shoes', ${dateTime4})"
+                        " VALUES ('신발구매', 15000000, 0, 0, 0, ':shopping', ':shoes', ${dateTime4})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
@@ -156,19 +160,19 @@ class DatabaseModule {
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('이자', 34200, 1, 2, 3, ':interest&dividend', ':interest&dividend', ${dateTime8})"
+                        " VALUES ('이자', 34200, 1, 2, 3, ':interest_dividend', ':interest_dividend', ${dateTime8})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('스타벅스', 410000, 0, 0, 0, ':food&drink', ':coffee&beverage', ${dateTime8})"
+                        " VALUES ('스타벅스', 410000, 0, 0, 0, ':food_drinks', ':coffee', ${dateTime8})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('순대국', 800000, 0, 0, 0, ':food&drink', ':lunch', ${dateTime8})"
+                        " VALUES ('순대국', 800000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime8})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('월급', 1300000000, 1, 2, 3, ':salary', ':salary', ${dateTime9})"
+                        " VALUES ('월급', 130000000, 1, 2, 3, ':salary', ':salary', ${dateTime9})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
@@ -176,7 +180,7 @@ class DatabaseModule {
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('인터넷 강의', 16550000, 0, 0, 0, ':education', ':lecture', ${dateTime10})"
+                        " VALUES ('인터넷 강의', 16550000, 0, 0, 0, ':education', ':tuition', ${dateTime10})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
@@ -184,22 +188,16 @@ class DatabaseModule {
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('냉면', 750000, 0, 1, 0, ':food&drink', ':lunch', ${dateTime11})"
+                        " VALUES ('냉면', 750000, 0, 1, 0, ':food_drinks', ':eatingout', ${dateTime11})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('관리비', 150034, 0, 0, 0, ':household', ':maintenance_charge', ${dateTime12})"
+                        " VALUES ('관리비', 150034, 0, 0, 0, ':household', ':maintenance_fee', ${dateTime12})"
             )
             db.execSQL(
                 "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('숙박', 1500000, 0, 0, 0, ':travel', ':inbound', ${dateTime13})"
+                        " VALUES ('숙박', 1500000, 0, 0, 0, ':travel', ':tra_accommodation', ${dateTime13})"
             )
-
-//            for (i in Constants.expenseCategories().indices) {
-//                db.execSQL(
-//                    "INSERT INTO expense_budget_table (categoryId, amount, registerDate) VALUES(?, ?, ?)",
-//                    arrayOf<Any>(Constants.expenseCategories()[i].id, 15000000, Date().time))
-//            }
         }
     }
 }

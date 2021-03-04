@@ -56,15 +56,19 @@
     <color name="sub_category_other">@color/md_blue_300</color>
 
     <color name="category_utility">#56BDE6</color>
+    <color name="category_shopping">#FF805D</color>
+    <color name="category_personal_care">#AF805D</color>
     <color name="category_communication">#4E51BF</color>
     <color name="category_household">#00796b</color>
-    <color name="category_clothing_beauty">#FF805D</color>
     <color name="category_education">#61C589</color>
     <color name="category_entertainment">#FFCC7B</color>
     <color name="category_healthcare">#564AA5</color>
     <color name="category_gifts_donation">#99DE9F</color>
     <color name="category_transportation">#253864</color>
     <color name="category_travel">#FF8C3E</color>
+    <color name="category_pet">#EE13DF</color>
+    <color name="category_kids">#10AF23</color>
+    <color name="category_insurance">#AA88EE</color>
     <color name="category_tax">#B12341</color>
     <color name="category_other_expense">#4E7D96</color>
 

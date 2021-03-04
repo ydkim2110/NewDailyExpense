@@ -14,7 +14,7 @@ import com.reachfree.dailyexpense.ui.dashboard.pattern.category.list.PatternCate
 import com.reachfree.dailyexpense.ui.transaction.TabAdapter
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
-import com.reachfree.dailyexpense.util.Constants.FOOD_DRINK
+import com.reachfree.dailyexpense.util.Constants.FOOD_DRINKS
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -24,7 +24,7 @@ import kotlin.collections.ArrayList
 class PatternCategoryFragment : BaseDialogFragment<PatternCategoryFragmentBinding>() {
 
     private var expensePatternType = Constants.EXPENSE_PATTERN_TOTAL
-    private var categoryId = FOOD_DRINK
+    private var categoryId = FOOD_DRINKS
     private lateinit var currentDate: Date
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class PatternCategoryFragment : BaseDialogFragment<PatternCategoryFragmentBindin
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
 
         expensePatternType = requireArguments().getInt(PATTERN, Constants.EXPENSE_PATTERN_TOTAL)
-        categoryId = requireArguments().getString(CATEGORY_ID, FOOD_DRINK)
+        categoryId = requireArguments().getString(CATEGORY_ID, FOOD_DRINKS)
         currentDate = Date(requireArguments().getLong(DATE, Date().time))
     }
 

@@ -12,7 +12,7 @@ import com.reachfree.dailyexpense.ui.base.BaseFragment
 import com.reachfree.dailyexpense.ui.dashboard.pattern.category.PatternCategoryViewModel
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
-import com.reachfree.dailyexpense.util.Constants.FOOD_DRINK
+import com.reachfree.dailyexpense.util.Constants.FOOD_DRINKS
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -30,7 +30,7 @@ class PatternCategoryGroupFragment : BaseFragment<PatternCategoryGroupFragmentBi
     private var endOfMonth = 0L
 
     private var expensePatternType = Constants.EXPENSE_PATTERN_TOTAL
-    private var categoryId = FOOD_DRINK
+    private var categoryId = FOOD_DRINKS
 
     private lateinit var currentDate: Date
 
@@ -38,7 +38,7 @@ class PatternCategoryGroupFragment : BaseFragment<PatternCategoryGroupFragmentBi
         super.onCreate(savedInstanceState)
 
         requireArguments().getInt(PATTERN, NORMAL.ordinal).also { expensePatternType = it }
-        requireArguments().getString(CATEGORY_ID, FOOD_DRINK).also { categoryId = it }
+        requireArguments().getString(CATEGORY_ID, FOOD_DRINKS).also { categoryId = it }
         requireArguments().getLong(DATE, Date().time).also { currentDate = Date(it) }
 
         startOfMonth = AppUtils.startOfMonth(AppUtils.convertDateToYearMonth(currentDate))

@@ -60,8 +60,8 @@ class AddExpenseFragment : DialogFragment() {
 
     private var selectedPayment = PAYMENT.CREDIT.ordinal
     private var selectedPattern = NORMAL.ordinal
-    private var selectedCategory = Constants.FOOD_DRINK
-    private var selectedSubCategory = Constants.BREAKFAST
+    private var selectedCategory = Constants.FOOD_DRINKS
+    private var selectedSubCategory = Constants.EATING_OUT
 
     private var passedTransaction: TransactionEntity? = null
     private var passedDate: Long? = null

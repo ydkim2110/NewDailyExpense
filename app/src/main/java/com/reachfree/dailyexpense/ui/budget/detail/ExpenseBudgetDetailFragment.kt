@@ -32,7 +32,6 @@ import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.math.BigDecimal
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -58,7 +57,7 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
 
-        category = AppUtils.getExpenseCategory(requireArguments().getString(CATEGORY_ID, Constants.FOOD_DRINK))
+        category = AppUtils.getExpenseCategory(requireArguments().getString(CATEGORY_ID, Constants.FOOD_DRINKS))
         currentDate = Date(requireArguments().getLong(DATE, Date().time))
 
         val dateTypeYearMonth = AppUtils.convertDateToYearMonth(currentDate)

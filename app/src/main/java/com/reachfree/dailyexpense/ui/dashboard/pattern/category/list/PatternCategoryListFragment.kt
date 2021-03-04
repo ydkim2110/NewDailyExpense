@@ -15,17 +15,15 @@ import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.PatternCategoryListFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseFragment
 import com.reachfree.dailyexpense.util.Constants
-import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.SortType
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
 class PatternCategoryListFragment : BaseFragment<PatternCategoryListFragmentBinding>() {
 
     private var expensePatternType = Constants.EXPENSE_PATTERN_TOTAL
-    private var categoryId = Constants.FOOD_DRINK
+    private var categoryId = Constants.FOOD_DRINKS
 
     private var isOptionsExpanded = false
     private var selectedIndex = 0
@@ -37,7 +35,7 @@ class PatternCategoryListFragment : BaseFragment<PatternCategoryListFragmentBind
 
         filterArray = resources.getStringArray(R.array.filter_sort_options)
         expensePatternType = requireArguments().getInt(PATTERN, Constants.EXPENSE_PATTERN_TOTAL)
-        categoryId = requireArguments().getString(CATEGORY_ID, Constants.FOOD_DRINK)
+        categoryId = requireArguments().getString(CATEGORY_ID, Constants.FOOD_DRINKS)
         currentDate = Date(requireArguments().getLong(DATE, Date().time))
     }
 

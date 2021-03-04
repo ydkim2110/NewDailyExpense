@@ -38,13 +38,13 @@ class PatternCategoryListNotGroupFragment : BaseFragment<PatternCategoryListNotG
     private val subCategoryNameArray = mutableListOf<String>()
 
     private var expensePatternType = Constants.EXPENSE_PATTERN_TOTAL
-    private var categoryId = Constants.FOOD_DRINK
+    private var categoryId = Constants.FOOD_DRINKS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requireArguments().getInt(PATTERN, NORMAL.ordinal).also { expensePatternType = it }
-        requireArguments().getString(CATEGORY_ID, Constants.FOOD_DRINK).also { categoryId = it }
+        requireArguments().getString(CATEGORY_ID, Constants.FOOD_DRINKS).also { categoryId = it }
         requireArguments().getLong(DATE, Date().time).also { currentDate = Date(it) }
 
         startOfMonth = AppUtils.startOfMonth(AppUtils.convertDateToYearMonth(currentDate))
