@@ -6,6 +6,7 @@ import com.reachfree.dailyexpense.data.dao.TransactionDao
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountModel
 import javax.inject.Inject
 
 /**
@@ -200,6 +201,13 @@ class TransactionRepositoryImpl @Inject constructor(
         categoryId: String
     ): LiveData<List<ExpenseBySubCategory>> {
         return transactionDao.getSubCategoryGroupLiveData(startDate, endDate, pattern, categoryId)
+    }
+
+    override fun getAllTransactionByTypeLiveData(
+        startDate: Long,
+        endDate: Long
+    ): LiveData<List<TotalAmountModel>> {
+        return transactionDao.getAllTransactionByTypeLiveData(startDate, endDate)
     }
 
 }

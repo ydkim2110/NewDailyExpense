@@ -13,6 +13,8 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
+import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
 
@@ -32,7 +34,7 @@ class TGListAdapter(
         fun bind(transaction: TransactionEntity) {
 
             with(binding) {
-                if (transaction.type == Constants.TYPE.EXPENSE.ordinal) {
+                if (transaction.type == EXPENSE.ordinal) {
                     val expenseCategory = AppUtils.getExpenseCategory(transaction.categoryId)
                     val expenseSubCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
@@ -60,7 +62,7 @@ class TGListAdapter(
                         }
                     }
                 }
-                else if (transaction.type == Constants.TYPE.INCOME.ordinal) {
+                else if (transaction.type == INCOME.ordinal) {
                     val incomeCategory = AppUtils.getIncomeCategory(transaction.categoryId)
 
                     imgIcon.setImageResource(incomeCategory.iconResId)

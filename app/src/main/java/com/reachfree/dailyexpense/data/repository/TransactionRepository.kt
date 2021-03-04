@@ -5,6 +5,7 @@ import com.reachfree.dailyexpense.data.Result
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountModel
 
 /**
  * DailyExpense
@@ -134,5 +135,10 @@ interface TransactionRepository {
         pattern: IntArray,
         categoryId: String
     ): LiveData<List<ExpenseBySubCategory>>
+
+    fun getAllTransactionByTypeLiveData(
+        startDate: Long,
+        endDate: Long
+    ): LiveData<List<TotalAmountModel>>
 
 }

@@ -2,9 +2,11 @@ package com.reachfree.dailyexpense.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.reachfree.dailyexpense.data.model.CategoryExpenseByDate
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountModel
 
 /**
  * DailyExpense
@@ -316,5 +318,20 @@ interface TransactionDao {
     @Query("SELECT * FROM transaction_table WHERE registerDate BETWEEN :startDate AND :endDate")
     fun getRecentTransactions(startDate: Long, endDate: Long): LiveData<List<TransactionEntity>>
 
+
+    @Query("""
+        SELECT
+            STRFTIME('%Y-%m', datetime(registerDate/1000,  'unixepoch')) AS date,
+            SUM(amount) AS amount,
+            COUNT(amount) AS count,
+            type
+        FROM TRANSACTION_TABLE
+        WHERE registerDate BETWEEN :startDate AND :endDate
+        GROUP BY type, STRFTIME('%Y-%m', datetime(registerDate/1000,  'unixepoch')) 
+    """)
+    fun getAllTransactionByTypeLiveData(
+        startDate: Long,
+        endDate: Long
+    ) : LiveData<List<TotalAmountModel>>
 
 }

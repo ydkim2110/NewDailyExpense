@@ -50,7 +50,6 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
     private val viewModel: TransactionViewModel by viewModels()
     private lateinit var transactionAdapter: TGListHeaderAdapter
 
-    private lateinit var moneyUnit: String
     private var currentDate = ""
     private var isExpanded = false
 
@@ -66,8 +65,6 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        moneyUnit = resources.getString(R.string.money_unit)
 
         filterSortArray = resources.getStringArray(R.array.filter_sort_options)
         filterTransactionArray = resources.getStringArray(R.array.filter_transaction_options)
