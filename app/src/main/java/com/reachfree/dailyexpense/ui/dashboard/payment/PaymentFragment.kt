@@ -1,4 +1,4 @@
-package com.reachfree.dailyexpense.ui.dashboard.total
+package com.reachfree.dailyexpense.ui.dashboard.payment
 
 import android.animation.LayoutTransition
 import android.animation.ObjectAnimator
@@ -21,9 +21,12 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.reachfree.dailyexpense.R
-import com.reachfree.dailyexpense.databinding.TotalAmountFragmentBinding
+import com.reachfree.dailyexpense.databinding.PaymentFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
 import com.reachfree.dailyexpense.util.AppUtils
+import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.PAYMENT.CASH
+import com.reachfree.dailyexpense.util.Constants.PAYMENT.CREDIT
 import com.reachfree.dailyexpense.util.Constants.SortType
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
@@ -34,14 +37,13 @@ import java.math.BigDecimal
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
+class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
 
-    private val viewModel: TotalAmountViewModel by viewModels()
-    private val totalAmountAdapter: TotalAmountAdapter by lazy {
-        TotalAmountAdapter()
+    private val viewModel: PaymentViewModel by viewModels()
+    private val paymentAdapter: PaymentAdapter by lazy {
+        PaymentAdapter()
     }
 
     private lateinit var currentDate: Date
@@ -57,35 +59,37 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
     private var selectedTransactionIndex = 0
     private var beforeSelectedTransactionIndex = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
 
         currentDate = Date(requireArguments().getLong(DATE, Date().time))
 
         filterSortArray = resources.getStringArray(R.array.filter_sort_options)
-        filterTransactionArray = resources.getStringArray(R.array.filter_total_amount_options)
+        filterTransactionArray = resources.getStringArray(R.array.filter_payment_options)
 
         startOfBeforeFiveMonth = AppUtils.startOfBeforeFiveMonth(AppUtils.convertDateToYearMonth(currentDate))
         startOfMonth = AppUtils.startOfMonth(AppUtils.convertDateToYearMonth(currentDate))
         endOfMonth = AppUtils.endOfMonth(AppUtils.convertDateToYearMonth(currentDate))
 
-        viewModel.getAllTransactionByTypeLiveData(startOfBeforeFiveMonth, endOfMonth)
+        viewModel.getAllTransactionByPaymentLiveData(startOfBeforeFiveMonth, endOfMonth)
         viewModel.getTransactionSortedBy(
             SortType.AMOUNT,
             startOfMonth,
             endOfMonth,
-            intArrayOf(INCOME.ordinal)
+            intArrayOf(EXPENSE.ordinal),
+            intArrayOf(CREDIT.ordinal)
         )
     }
 
     override fun getDialogFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): TotalAmountFragmentBinding {
-        return TotalAmountFragmentBinding.inflate(inflater, container, false)
+    ): PaymentFragmentBinding {
+        return PaymentFragmentBinding.inflate(inflater, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,7 +101,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
     }
 
     private fun setupToolbar() {
-        binding.appBar.txtToolbarTitle.text = "Total Amount"
+        binding.appBar.txtToolbarTitle.text = "Payment"
         binding.appBar.btnBack.setOnSingleClickListener { dismiss() }
     }
 
@@ -197,15 +201,16 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
                     sortType,
                     startOfMonth,
                     endOfMonth,
-                    intArrayOf(EXPENSE.ordinal)
+                    intArrayOf(EXPENSE.ordinal),
+                    intArrayOf(CASH.ordinal)
                 )
-            }
-            else -> {
+            } else -> {
                 viewModel.getTransactionSortedBy(
                     sortType,
                     startOfMonth,
                     endOfMonth,
-                    intArrayOf(INCOME.ordinal)
+                    intArrayOf(EXPENSE.ordinal),
+                    intArrayOf(CREDIT.ordinal)
                 )
             }
         }
@@ -220,7 +225,8 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
                     SortType.AMOUNT,
                     startOfMonth,
                     endOfMonth,
-                    intArrayOf(INCOME.ordinal)
+                    intArrayOf(EXPENSE.ordinal),
+                    intArrayOf(CREDIT.ordinal)
                 )
             }
             else -> {
@@ -230,25 +236,26 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
                     SortType.AMOUNT,
                     startOfMonth,
                     endOfMonth,
-                    intArrayOf(EXPENSE.ordinal)
+                    intArrayOf(EXPENSE.ordinal),
+                    intArrayOf(CASH.ordinal)
                 )
             }
         }
     }
 
     private fun subscribeToObserver() {
-        viewModel.allTransactionByType.observe(this) { result ->
+        viewModel.allTransactionByPayment.observe(this) { result ->
             setupBarChart(result)
         }
-        viewModel.transactionListByType.observe(this) { result ->
-            binding.recyclerTransaction.adapter = totalAmountAdapter
-            totalAmountAdapter.submitList(result)
+        viewModel.transactionListByPayment.observe(this) { result ->
+            binding.recyclerTransaction.adapter = paymentAdapter
+            paymentAdapter.submitList(result)
         }
     }
 
-    private fun setupBarChart(result: List<TotalAmountChartModel>) {
-        val incomeBarColors = ArrayList<Int>()
-        val expenseBarColors = ArrayList<Int>()
+    private fun setupBarChart(result: List<PaymentChartModel>) {
+        val creditBarColors = ArrayList<Int>()
+        val cashBarColors = ArrayList<Int>()
 
         val labels = AppUtils.convertDateToYearMonth(currentDate)
 
@@ -267,23 +274,23 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
 
         Timber.d("list $newList")
 
-        val incomeResult = result.filter { it.type == INCOME.ordinal }
-        val expenseResult = result.filter { it.type == EXPENSE.ordinal }
+        val creditResult = result.filter { it.payment == CREDIT.ordinal }
+        val cashResult = result.filter { it.payment == CASH.ordinal }
 
-        val incomeBarEntries = setDataToCalendar(labels, incomeResult)
-        val expenseBarEntries = setDataToCalendar(labels, expenseResult)
+        val creditBarEntries = setDataToCalendar(labels, creditResult)
+        val cashBarEntries = setDataToCalendar(labels, cashResult)
 
-        incomeBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        incomeBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        incomeBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        incomeBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        incomeBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorIncome))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorIncome))
 
-        expenseBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        expenseBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        expenseBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        expenseBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        expenseBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorExpense))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorExpense))
 
         binding.barChartTotalAmount.axisLeft.apply { isEnabled = false }
         binding.barChartTotalAmount.axisRight.apply { isEnabled = false }
@@ -305,8 +312,8 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
 
         binding.barChartTotalAmount.axisLeft.axisMinimum = 0f
 
-        val expenseBarDataSet = BarDataSet(expenseBarEntries, "Expense").apply {
-            colors = expenseBarColors
+        val expenseBarDataSet = BarDataSet(cashBarEntries, "Expense").apply {
+            colors = cashBarColors
 
             valueTextColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
             valueTextSize = 12f
@@ -316,8 +323,8 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
                 }
             }
         }
-        val incomeBarDataSet = BarDataSet(incomeBarEntries, "Income").apply {
-            colors = incomeBarColors
+        val incomeBarDataSet = BarDataSet(creditBarEntries, "Income").apply {
+            colors = creditBarColors
 
             valueTextColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
             valueTextSize = 12f
@@ -348,7 +355,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
         binding.barChartTotalAmount.invalidate()
     }
 
-    private fun setDataToCalendar(labels: YearMonth, list: List<TotalAmountChartModel>): List<BarEntry> {
+    private fun setDataToCalendar(labels: YearMonth, list: List<PaymentChartModel>): List<BarEntry> {
         val barEntries = ArrayList<BarEntry>()
         var index = 0f
 
@@ -372,13 +379,13 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
     }
 
     companion object {
-        const val TAG = "TotalAmountFragment"
+        const val TAG = "PaymentFragment"
 
         private const val ROTATION = "rotation"
         private const val ROTATION_ANIM_DURATION = 250L
         private const val DATE = "date"
 
-        fun newInstance(date: Long) = TotalAmountFragment().apply {
+        fun newInstance(date: Long) = PaymentFragment().apply {
             arguments = bundleOf(DATE to date)
         }
     }

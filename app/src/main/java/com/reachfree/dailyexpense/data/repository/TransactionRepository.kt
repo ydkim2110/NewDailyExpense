@@ -5,7 +5,8 @@ import com.reachfree.dailyexpense.data.Result
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
-import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountModel
+import com.reachfree.dailyexpense.ui.dashboard.payment.PaymentChartModel
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountChartModel
 
 /**
  * DailyExpense
@@ -65,6 +66,13 @@ interface TransactionRepository {
         type: IntArray
     ): LiveData<List<TransactionEntity>>
 
+    fun getTransactionByPaymentSortedByDate(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
+    ): LiveData<List<TransactionEntity>>
+
     fun getTransactionSortedByDate(
         startDate: Long,
         endDate: Long,
@@ -76,6 +84,13 @@ interface TransactionRepository {
         startDate: Long,
         endDate: Long,
         type: IntArray
+    ): LiveData<List<TransactionEntity>>
+
+    fun getTransactionByPaymentSortedByAmount(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
     ): LiveData<List<TransactionEntity>>
 
     fun getTransactionSortedByAmount(
@@ -115,6 +130,13 @@ interface TransactionRepository {
         type: IntArray
     ): LiveData<List<TransactionEntity>>
 
+    fun getTransactionByPaymentSortedByCategory(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
+    ): LiveData<List<TransactionEntity>>
+
     fun getTransactionSortedByCategory(
         startDate: Long,
         endDate: Long,
@@ -139,6 +161,10 @@ interface TransactionRepository {
     fun getAllTransactionByTypeLiveData(
         startDate: Long,
         endDate: Long
-    ): LiveData<List<TotalAmountModel>>
+    ): LiveData<List<TotalAmountChartModel>>
 
+    fun getAllTransactionByPaymentLiveData(
+        startDate: Long,
+        endDate: Long
+    ): LiveData<List<PaymentChartModel>>
 }

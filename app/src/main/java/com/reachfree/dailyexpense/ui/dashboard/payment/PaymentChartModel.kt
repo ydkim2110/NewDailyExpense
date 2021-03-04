@@ -1,4 +1,4 @@
-package com.reachfree.dailyexpense.ui.dashboard.total
+package com.reachfree.dailyexpense.ui.dashboard.payment
 
 import java.math.BigDecimal
 
@@ -8,9 +8,9 @@ import java.math.BigDecimal
  * Date: 2021-03-04
  * Time: 오전 11:55
  */
-data class TotalAmountModel(
+data class PaymentChartModel(
     var date: String = "",
     var amount: BigDecimal? = null,
     var count: Int = 0,
-    var type: Int = 0
+    var payment: Int = 0
 )

@@ -101,6 +101,11 @@
         <item>지출</item>
     </string-array>
 
+    <string-array name="filter_payment_options">
+        <item>카드</item>
+        <item>현금</item>
+    </string-array>
+
     <!-- Theme -->
     <string name="follow_system">자동</string>
     <string name="light_theme">라이트모드</string>

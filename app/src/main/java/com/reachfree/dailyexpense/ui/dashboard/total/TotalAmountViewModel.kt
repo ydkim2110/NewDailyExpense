@@ -2,13 +2,11 @@ package com.reachfree.dailyexpense.ui.dashboard.total
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
-import com.reachfree.dailyexpense.data.model.CategoryExpenseByDate
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.data.repository.TransactionRepository
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -24,13 +22,12 @@ class TotalAmountViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    val allTransactionByType = MediatorLiveData<List<TotalAmountModel>>()
+    val allTransactionByType = MediatorLiveData<List<TotalAmountChartModel>>()
 
     fun getAllTransactionByTypeLiveData(
         startDate: Long,
         endDate: Long
     ) {
-        Timber.d("Total!!!")
         val transactionByType = repository.getAllTransactionByTypeLiveData(startDate, endDate)
 
         allTransactionByType.addSource(transactionByType) { result ->

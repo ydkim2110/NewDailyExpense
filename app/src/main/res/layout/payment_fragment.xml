@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.add.AddExpenseFragment">
+
+    <include
+        android:id="@+id/appBar"
+        layout="@layout/dialog_toolbar_layout" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewContent"
+        android:overScrollMode="never"
+        android:background="@color/colorBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:layout_marginBottom="@dimen/vertical_margin_half"
+                android:backgroundTint="@color/colorCardBackground"
+                app:cardCornerRadius="12dp">
+
+                <com.reachfree.dailyexpense.util.RoundedBarChart
+                    android:id="@+id/barChartTotalAmount"
+                    app:radius="12dp"
+                    android:layout_margin="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp" />
+
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutOptionsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:elevation="4dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutCompletedItems"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/horizontal_margin"
+                        android:layout_marginVertical="@dimen/vertical_margin"
+                        android:backgroundTint="@color/colorCardBackground"
+                        app:cardCornerRadius="@dimen/card_corner_radius">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/btnOptions"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:padding="16dp"
+                                tools:ignore="UseCompoundDrawables">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Options"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorTextPrimary"
+                                    android:textSize="16sp"
+                                    app:icon="@drawable/ic_arrow_drop_down"
+                                    app:iconGravity="end"
+                                    app:iconSize="24dp" />
+
+                                <ImageView
+                                    android:id="@+id/imageViewOptions"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginStart="8dp"
+                                    android:src="@drawable/ic_arrow_drop_down"
+                                    app:tint="@color/colorTextPrimary"
+                                    android:contentDescription="@string/app_name" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/linearLayoutOptions"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="8dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgTransactionIcon"
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="24dp"
+                                        android:src="@drawable/ic_group"
+                                        app:tint="?android:textColorPrimary"
+                                        android:contentDescription="@string/app_name" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="8dp"
+                                        android:layout_toEndOf="@id/imgTransactionIcon"
+                                        android:text="Group By Transaction:"
+                                        android:textSize="14sp"
+                                        android:textColor="?android:textColorPrimary"
+                                        />
+
+                                    <TextSwitcher
+                                        android:id="@+id/txtSwitcherTransaction"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="24dp"
+                                        android:inAnimation="@android:anim/slide_in_left"
+                                        android:outAnimation="@android:anim/slide_out_right"
+                                        android:paddingStart="12dp"
+                                        android:paddingEnd="12dp"
+                                        tools:ignore="RelativeOverlap" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_marginBottom="16dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgSortIcon"
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="24dp"
+                                        android:src="@drawable/ic_filter"
+                                        app:tint="?android:textColorPrimary"
+                                        android:contentDescription="@string/app_name" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginStart="8dp"
+                                        android:layout_toEndOf="@id/imgSortIcon"
+                                        android:text="@string/text_sort_by"
+                                        android:textSize="14sp"
+                                        android:textColor="?android:textColorPrimary"
+                                        />
+
+                                    <TextSwitcher
+                                        android:id="@+id/txtSwitcherSortBy"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="24dp"
+                                        android:inAnimation="@android:anim/slide_in_left"
+                                        android:outAnimation="@android:anim/slide_out_right"
+                                        android:paddingStart="12dp"
+                                        android:paddingEnd="12dp"
+                                        tools:ignore="RelativeOverlap" />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/recyclerContentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_margin_half"
+                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:backgroundTint="@color/colorCardBackground"
+                app:cardCornerRadius="12dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerTransaction"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutNoItem"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imgNoItem"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            tools:src="@drawable/avatar" />
+
+        <TextView
+            android:id="@+id/txtViewNoItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,11 +2,11 @@ package com.reachfree.dailyexpense.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.reachfree.dailyexpense.data.model.CategoryExpenseByDate
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
-import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountModel
+import com.reachfree.dailyexpense.ui.dashboard.payment.PaymentChartModel
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountChartModel
 
 /**
  * DailyExpense
@@ -97,7 +97,22 @@ interface TransactionDao {
     fun getTransactionSortedByDate(
         startDate: Long,
         endDate: Long,
+        type: IntArray
+    ): LiveData<List<TransactionEntity>>
+
+    @Query("""
+        SELECT *
+        FROM transaction_table
+        WHERE registerDate BETWEEN :startDate AND :endDate
+            AND type IN (:type)
+            AND payment IN (:payment)
+        ORDER BY registerDate DESC
+    """)
+    fun getTransactionByPaymentSortedByDate(
+        startDate: Long,
+        endDate: Long,
         type: IntArray,
+        payment: IntArray
     ): LiveData<List<TransactionEntity>>
 
     @Query("""
@@ -126,7 +141,22 @@ interface TransactionDao {
     fun getTransactionSortedByAmount(
         startDate: Long,
         endDate: Long,
+        type: IntArray
+    ): LiveData<List<TransactionEntity>>
+
+    @Query("""
+        SELECT *
+        FROM transaction_table
+        WHERE registerDate BETWEEN :startDate AND :endDate
+            AND type IN (:type)
+            AND payment IN (:payment)
+        ORDER BY amount DESC
+    """)
+    fun getTransactionByPaymentSortedByAmount(
+        startDate: Long,
+        endDate: Long,
         type: IntArray,
+        payment: IntArray
     ): LiveData<List<TransactionEntity>>
 
     @Query("""
@@ -211,6 +241,21 @@ interface TransactionDao {
         startDate: Long,
         endDate: Long,
         type: IntArray
+    ): LiveData<List<TransactionEntity>>
+
+    @Query("""
+        SELECT *
+        FROM transaction_table
+        WHERE registerDate BETWEEN :startDate AND :endDate
+            AND type IN (:type)
+            AND payment IN (:payment)
+        ORDER BY categoryId, subCategoryId
+    """)
+    fun getTransactionByPaymentSortedByCategory(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
     ): LiveData<List<TransactionEntity>>
 
     @Query("""
@@ -332,6 +377,21 @@ interface TransactionDao {
     fun getAllTransactionByTypeLiveData(
         startDate: Long,
         endDate: Long
-    ) : LiveData<List<TotalAmountModel>>
+    ) : LiveData<List<TotalAmountChartModel>>
 
+    @Query("""
+        SELECT
+            STRFTIME('%Y-%m', datetime(registerDate/1000,  'unixepoch')) AS date,
+            SUM(amount) AS amount,
+            COUNT(amount) AS count,
+            payment
+        FROM TRANSACTION_TABLE
+        WHERE registerDate BETWEEN :startDate AND :endDate
+        AND type LIKE 0
+        GROUP BY payment, STRFTIME('%Y-%m', datetime(registerDate/1000,  'unixepoch')) 
+    """)
+    fun getAllTransactionByPaymentLiveData(
+        startDate: Long,
+        endDate: Long
+    ) : LiveData<List<PaymentChartModel>>
 }

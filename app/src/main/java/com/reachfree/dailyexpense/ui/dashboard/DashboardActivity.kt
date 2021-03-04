@@ -28,6 +28,7 @@ import com.reachfree.dailyexpense.ui.bottomsheet.SelectTypeBottomSheet
 import com.reachfree.dailyexpense.ui.budget.ExpenseBudgetActivity
 import com.reachfree.dailyexpense.ui.calendar.CalendarActivity
 import com.reachfree.dailyexpense.ui.dashboard.pattern.PatternDetailFragment
+import com.reachfree.dailyexpense.ui.dashboard.payment.PaymentFragment
 import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountFragment
 import com.reachfree.dailyexpense.ui.settings.PREF_APP_THEME
 import com.reachfree.dailyexpense.ui.settings.PREF_CURRENCY
@@ -298,6 +299,12 @@ class DashboardActivity :
         binding.totalAmountLayout.totalAmountLayout.setOnSingleClickListener {
             TotalAmountFragment.newInstance(currentDate.time).apply {
                 show(supportFragmentManager, TotalAmountFragment.TAG)
+            }
+        }
+
+        binding.paymentSummaryLayout.paymentSummaryLayout.setOnSingleClickListener {
+            PaymentFragment.newInstance(currentDate.time).apply {
+                show(supportFragmentManager, PaymentFragment.TAG)
             }
         }
         

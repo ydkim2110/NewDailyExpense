@@ -6,7 +6,8 @@ import com.reachfree.dailyexpense.data.dao.TransactionDao
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
-import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountModel
+import com.reachfree.dailyexpense.ui.dashboard.payment.PaymentChartModel
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountChartModel
 import javax.inject.Inject
 
 /**
@@ -120,6 +121,15 @@ class TransactionRepositoryImpl @Inject constructor(
         return transactionDao.getTransactionSortedByDate(startDate, endDate, pattern, categoryId)
     }
 
+    override fun getTransactionByPaymentSortedByDate(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
+    ): LiveData<List<TransactionEntity>> {
+        return transactionDao.getTransactionByPaymentSortedByDate(startDate, endDate, type, payment)
+    }
+
     override fun getTransactionSortedByAmount(
         startDate: Long,
         endDate: Long,
@@ -135,6 +145,15 @@ class TransactionRepositoryImpl @Inject constructor(
         categoryId: String
     ): LiveData<List<TransactionEntity>> {
         return transactionDao.getTransactionSortedByAmount(startDate, endDate, pattern, categoryId)
+    }
+
+    override fun getTransactionByPaymentSortedByAmount(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
+    ): LiveData<List<TransactionEntity>> {
+        return transactionDao.getTransactionByPaymentSortedByAmount(startDate, endDate, type, payment)
     }
 
     override fun getTransactionBySubCategorySortedByAmount(
@@ -184,6 +203,15 @@ class TransactionRepositoryImpl @Inject constructor(
         return transactionDao.getTransactionSortedByCategory(startDate, endDate, pattern, categoryId)
     }
 
+    override fun getTransactionByPaymentSortedByCategory(
+        startDate: Long,
+        endDate: Long,
+        type: IntArray,
+        payment: IntArray
+    ): LiveData<List<TransactionEntity>> {
+        return transactionDao.getTransactionByPaymentSortedByCategory(startDate, endDate, type, payment)
+    }
+
     override suspend fun getSubCategoryGroup(
         startDate: Long,
         endDate: Long,
@@ -206,8 +234,15 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun getAllTransactionByTypeLiveData(
         startDate: Long,
         endDate: Long
-    ): LiveData<List<TotalAmountModel>> {
+    ): LiveData<List<TotalAmountChartModel>> {
         return transactionDao.getAllTransactionByTypeLiveData(startDate, endDate)
+    }
+
+    override fun getAllTransactionByPaymentLiveData(
+        startDate: Long,
+        endDate: Long
+    ): LiveData<List<PaymentChartModel>> {
+        return transactionDao.getAllTransactionByPaymentLiveData(startDate, endDate)
     }
 
 }

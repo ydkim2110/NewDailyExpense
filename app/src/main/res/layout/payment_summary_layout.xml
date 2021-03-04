@@ -7,6 +7,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/vertical_margin"
     android:layout_marginHorizontal="@dimen/horizontal_margin"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:backgroundTint="@color/colorCardBackground"
     app:cardCornerRadius="@dimen/card_corner_radius">
 

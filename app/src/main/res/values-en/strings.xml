@@ -101,6 +101,11 @@
         <item>Expense</item>
     </string-array>
 
+    <string-array name="filter_payment_options">
+        <item>Credit</item>
+        <item>Cash</item>
+    </string-array>
+
     <!-- Theme -->
     <string name="follow_system">System Default</string>
     <string name="light_theme">Light Mode</string>
