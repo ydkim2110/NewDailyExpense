@@ -33,7 +33,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/sub_category_transportation_bus"
                 tools:ignore="VectorDrawableCompat"
-                app:tint="@color/white" />
+                app:tint="@color/white"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/txtCategoryName"

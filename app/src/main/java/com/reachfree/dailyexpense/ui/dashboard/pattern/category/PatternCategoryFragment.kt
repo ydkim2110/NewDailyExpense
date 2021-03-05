@@ -52,7 +52,7 @@ class PatternCategoryFragment : BaseDialogFragment<PatternCategoryFragmentBindin
     }
 
     private fun setupView() {
-        binding.txtToolbarTitle.text = resources.getString(AppUtils.getExpenseCategory(categoryId).visibleNameResId)
+        binding.appBar.txtToolbarTitle.text = resources.getString(AppUtils.getExpenseCategory(categoryId).visibleNameResId)
     }
 
     private fun setupTabLayout() {
@@ -78,9 +78,7 @@ class PatternCategoryFragment : BaseDialogFragment<PatternCategoryFragmentBindin
     }
 
     private fun setupViewHandler() {
-        binding.btnBack.setOnSingleClickListener {
-            dismiss()
-        }
+        binding.appBar.btnBack.setOnSingleClickListener { dismiss() }
     }
 
     companion object {

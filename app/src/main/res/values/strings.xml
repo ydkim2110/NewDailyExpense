@@ -1,120 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DailyExpense</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="dashboard">홈</string>
-    <string name="transaction">거래</string>
-    <string name="budget">예산</string>
-    <string name="calendar">달력</string>
-    <string name="settings">설정</string>
-    <string name="expense">지출</string>
-    <string name="income">수입</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="transaction">Transaction</string>
+    <string name="budget">Budget</string>
+    <string name="calendar">Calendar</string>
+    <string name="settings">Settings</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
 
-    <string name="toolbar_title_add_expense">지출 등록</string>
-    <string name="toolbar_title_add_income">수입 등록</string>
+    <string name="toolbar_title_add_expense">Add Expense</string>
+    <string name="toolbar_title_add_income">Add Income</string>
 
-    <string name="btn_text_delete">삭제하기</string>
+    <string name="btn_text_delete">Delete</string>
 
-    <string name="text_total_income">총수입</string>
-    <string name="text_total_expense">총지출</string>
-    <string name="text_normal">정상소비</string>
-    <string name="text_waste">과소비</string>
-    <string name="text_invest">투자소비</string>
-    <string name="text_normal_expense">정상소비</string>
-    <string name="text_waste_expense">과소비</string>
-    <string name="text_invest_expense">투자소비</string>
-    <string name="text_monthly_sum">월간 합계:</string>
-    <string name="text_weekly_sum">주간 합계:</string>
-    <string name="text_select">선택하기</string>
-    <string name="text_sort_by">정렬 기준:</string>
-    <string name="text_sub_category_group">그룹별</string>
-    <string name="text_sub_category_list">상세내역</string>
-    <string name="text_get_started">시작하기!</string>
-    <string name="text_show_details">전체보기</string>
-    <string name="text_all">전체</string>
+    <string name="text_total_income">Total Income</string>
+    <string name="text_total_expense">Total Expense</string>
+    <string name="text_normal">Normal</string>
+    <string name="text_waste">Waste</string>
+    <string name="text_invest">Invest</string>
+    <string name="text_normal_expense">Normal Expense</string>
+    <string name="text_waste_expense">Waste Expense</string>
+    <string name="text_invest_expense">Invest Expense</string>
+    <string name="text_monthly_sum">Monthly Total:</string>
+    <string name="text_weekly_sum">Weekly Total:</string>
+    <string name="text_select">Select</string>
+    <string name="text_sort_by">Sort By:</string>
+    <string name="text_sub_category_group">Group</string>
+    <string name="text_sub_category_list">List</string>
+    <string name="text_get_started">Get Started!</string>
+    <string name="text_show_details">Show All</string>
+    <string name="text_all">All</string>
     <string name="text_add">Add</string>
-    <string name="text_add_transaction">내역 추가하기</string>
-    <string name="text_amount">금액</string>
-    <string name="text_description">제목</string>
-    <string name="text_pattern">소비유형</string>
-    <string name="text_category">분류</string>
-    <string name="text_sub_category">소분류</string>
-    <string name="text_date">날짜</string>
-    <string name="text_hint_zero_amount">0원</string>
-    <string name="text_credit_card">카드</string>
-    <string name="text_cash">현금</string>
+    <string name="text_add_transaction">Add Transaction</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_description">Description</string>
+    <string name="text_pattern">Pattern</string>
+    <string name="text_category">Category</string>
+    <string name="text_sub_category">SubCategory</string>
+    <string name="text_date">Date</string>
+    <string name="text_hint_zero_amount">0</string>
+    <string name="text_credit_card">Credit</string>
+    <string name="text_cash">Cash</string>
+    <string name="this_field_is_required">This field is required.</string>
+    <string name="text_must_be_greater_than_zero">Must be greater than 0</string>
 
-    <string name="this_field_is_required">내용을 입력해주세요.</string>
-    <string name="text_must_be_greater_than_zero">입력한 값이 0보다 커야 합니다.</string>
+    <string name="chart_record">My Record</string>
+    <string name="chart_default">Default</string>
+    <string name="text_title_expense_pattern">Expense Pattern</string>
+    <string name="text_title_transactions">Transactions</string>
 
-    <string name="chart_record">내기록</string>
-    <string name="chart_default">기본값</string>
-    <string name="text_title_expense_pattern">소비패턴</string>
-    <string name="text_title_transactions">거래내역</string>
+    <string name="text_expense_by_category">Expense By Category</string>
+    <string name="text_no_transaction">No transactions.</string>
 
-    <string name="text_expense_by_category">분류별 소비</string>
-    <string name="text_no_transaction">거래 내역이 없습니다.</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 
-    <string name="pick_date">날짜선택</string>
-    <string name="yesterday">어제</string>
-    <string name="today">오늘</string>
-    <string name="tomorrow">내일</string>
-
-    <string name="sun">일</string>
-    <string name="mon">월</string>
-    <string name="tue">화</string>
-    <string name="wed">수</string>
-    <string name="thu">목</string>
-    <string name="fri">금</string>
-    <string name="sat">토</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
 
     <string-array name="day_of_week">
-        <item>일</item>
-        <item>월</item>
-        <item>화</item>
-        <item>수</item>
-        <item>목</item>
-        <item>금</item>
-        <item>토</item>
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
     </string-array>
 
-    <string name="money_unit">원</string>
+    <string name="money_unit">$</string>
 
-    <string name="toast_exit">종료하시려면 뒤로가기 버튼을 한번 더 눌러주세요.</string>
+    <string name="toast_exit">Press back again to exit.</string>
 
     <string-array name="filter_sort_options">
-        <item>금액</item>
-        <item>날짜</item>
-        <item>카테고리</item>
+        <item>Amount</item>
+        <item>Date</item>
+        <item>Category</item>
     </string-array>
 
     <string-array name="filter_transaction_options">
-        <item>전체</item>
-        <item>지출</item>
-        <item>수입</item>
+        <item>Total</item>
+        <item>Expense</item>
+        <item>Income</item>
     </string-array>
 
     <string-array name="filter_total_amount_options">
-        <item>수입</item>
-        <item>지출</item>
+        <item>Income</item>
+        <item>Expense</item>
     </string-array>
 
     <string-array name="filter_payment_options">
-        <item>카드</item>
-        <item>현금</item>
+        <item>Credit</item>
+        <item>Cash</item>
     </string-array>
 
     <!-- Theme -->
-    <string name="follow_system">자동</string>
-    <string name="light_theme">라이트모드</string>
-    <string name="dark_theme">다크모드</string>
+    <string name="follow_system">System Default</string>
+    <string name="light_theme">Light Mode</string>
+    <string name="dark_theme">Dark Mode</string>
 
     <string-array name="app_theme">
-        <item>자동</item>
-        <item>라이트모드</item>
-        <item>다크모드</item>
+        <item>System Default</item>
+        <item>Light Mode</item>
+        <item>Dark Mode</item>
     </string-array>
 
     <string-array name="app_theme_values">
@@ -123,181 +122,180 @@
         <item>2</item>
     </string-array>
 
-    <string name="category_salary">월급</string>
-    <string name="category_interest_dividend">이자/배당</string>
-    <string name="category_bonus">보너스</string>
-    <string name="category_sale">판매</string>
-    <string name="category_refund">환급</string>
-    <string name="category_other_income">기타수입</string>
+    <string name="category_salary">Salary</string>
+    <string name="category_interest_dividend">Interest/Dividend</string>
+    <string name="category_bonus">Bonus</string>
+    <string name="category_sale">Sale</string>
+    <string name="category_refund">Refund</string>
+    <string name="category_other_income">Other Income</string>
 
-    <string name="category_food_drink">식사/음료</string>
-    <string name="category_shopping">쇼핑</string>
-    <string name="category_personal_care">개인관리</string>
-    <string name="category_utility">주거</string>
-    <string name="category_communication">통신</string>
-    <string name="category_household">생활용품</string>
-    <string name="category_education">교육</string>
-    <string name="category_entertainment">엔터테인먼트</string>
-    <string name="category_healthcare">건강</string>
-    <string name="category_gifts_donation">선물/기부</string>
-    <string name="category_transportation">교통</string>
-    <string name="category_travel">여행</string>
-    <string name="category_pet">애완동물</string>
-    <string name="category_kids">자녀</string>
-    <string name="category_insurance">보험</string>
-    <string name="category_tax">세금</string>
-    <string name="category_other_expense">기타비용</string>
+    <string name="category_food_drink">Food/Drink</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_personal_care">Personal Care</string>
+    <string name="category_utility">Utility</string>
+    <string name="category_communication">Communication</string>
+    <string name="category_household">Household</string>
+    <string name="category_education">Education</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_healthcare">Healthcare</string>
+    <string name="category_gifts_donation">Gifts/Donation</string>
+    <string name="category_transportation">Transportation</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_pet">Pet</string>
+    <string name="category_kids">Kids</string>
+    <string name="category_insurance">Insurance</string>
+    <string name="category_tax">Tax</string>
+    <string name="category_other_expense">Other Expense</string>
 
     <string-array name="pattern">
-        <item>정상소비</item>
-        <item>과소비</item>
-        <item>투자소비</item>
+        <item>Normal</item>
+        <item>Waste</item>
+        <item>Invest</item>
     </string-array>
 
     <string-array name="categories">
-        <item>식사/음료</item>
-        <item>주거</item>
-        <item>통신</item>
-        <item>생활용품</item>
-        <item>의복/미용</item>
-        <item>교육</item>
-        <item>엔터테인먼트</item>
-        <item>건강</item>
-        <item>선물/기부</item>
-        <item>교통</item>
-        <item>여행</item>
-        <item>세금</item>
-        <item>기타비용</item>
+        <item>Food/Drink</item>
+        <item>Utility</item>
+        <item>Communication</item>
+        <item>Household</item>
+        <item>Clothing/Beauty</item>
+        <item>Education</item>
+        <item>Entertainment</item>
+        <item>Healthcare</item>
+        <item>Gifts/Donation</item>
+        <item>Transportation</item>
+        <item>Travel</item>
+        <item>Tax</item>
+        <item>Other Expense</item>
     </string-array>
 
     <string-array name="sub_categories">
-        <item>아침</item>
-        <item>점심</item>
-        <item>저녁</item>
-        <item>마트/식료품</item>
-        <item>간식</item>
-        <item>커피/음료</item>
-        <item>관리비</item>
-        <item>기타</item>
-        <item>전기요금</item>
-        <item>수도요금</item>
-        <item>가스요금</item>
-        <item>모바일</item>
-        <item>주방용품</item>
-        <item>의복</item>
-        <item>학원</item>
-        <item>영화</item>
-        <item>병원</item>
-        <item>선물</item>
-        <item>버스</item>
-        <item>국내여행</item>
-        <item>세금</item>
-        <item>기타</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Mart/Grocery</item>
+        <item>Snack</item>
+        <item>Coffee/Beverage</item>
+        <item>Other</item>
+        <item>Maintenance</item>
+        <item>Electricity</item>
+        <item>Water</item>
+        <item>Water</item>
+        <item>Mobile</item>
+        <item>Kitchen Products</item>
+        <item>Clothing</item>
+        <item>Academy</item>
+        <item>Movie</item>
+        <item>Hospital</item>
+        <item>Gift</item>
+        <item>Bus</item>
+        <item>Domestic</item>
+        <item>Tax</item>
+        <item>Other</item>
     </string-array>
 
     <string-array name="sub_categories_clothing">
-        <item>아침</item>
-        <item>점심</item>
-        <item>저녁</item>
-        <item>마트/식료품</item>
-        <item>간식</item>
-        <item>커피/음료</item>
+        <item>Breakfast</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Mart/Grocery</item>
+        <item>Snack</item>
+        <item>Coffee/Beverage</item>
     </string-array>
 
     <string-array name="sub_categories_utility">
-        <item>관리비</item>
-        <item>전기요금</item>
-        <item>수도요금</item>
-        <item>가스요금</item>
+        <item>Maintenance</item>
+        <item>Electricity</item>
+        <item>Water</item>
+        <item>Water</item>
     </string-array>
 
     <string-array name="income_categories">
-        <item>월급</item>
-        <item>이자/배당</item>
-        <item>보너스</item>
-        <item>판매</item>
-        <item>환급</item>
-        <item>기타수입</item>
+        <item>Salary</item>
+        <item>Interest/Dividend</item>
+        <item>Bonus</item>
+        <item>Sale</item>
+        <item>Refund</item>
+        <item>Other</item>
     </string-array>
 
-    <string name="sub_category_eatingout">외식</string>
-    <string name="sub_category_grocery">마트/식료품</string>
-    <string name="sub_category_snack">간식</string>
-    <string name="sub_category_coffee">커피</string>
-    <string name="sub_category_beverage">음료</string>
+    <string name="sub_category_eatingout">Eatingout</string>
+    <string name="sub_category_grocery">Mart/Grocery</string>
+    <string name="sub_category_snack">Snack</string>
+    <string name="sub_category_coffee">Coffee</string>
+    <string name="sub_category_beverage">Beverage</string>
 
-    <string name="sub_category_clothing">의복</string>
-    <string name="sub_category_shoes">신발</string>
-    <string name="sub_category_accessory">액세서리</string>
+    <string name="sub_category_clothing">Clothing</string>
+    <string name="sub_category_shoes">Shoes</string>
+    <string name="sub_category_accessory">Accessory</string>
 
-    <string name="sub_category_haircut">미용실</string>
-    <string name="sub_category_beauty">뷰티</string>
-    <string name="sub_category_cosmetics">화장품</string>
-    <string name="sub_category_gym">운동</string>
-    <string name="sub_category_massage_spa">마사지/스파</string>
+    <string name="sub_category_haircut">Haircut</string>
+    <string name="sub_category_beauty">Beauty</string>
+    <string name="sub_category_cosmetics">Cosmetics</string>
+    <string name="sub_category_gym">Gym</string>
+    <string name="sub_category_massage_spa">Massage/Spa</string>
 
-    <string name="sub_category_metro">지하철</string>
-    <string name="sub_category_bus">버스</string>
-    <string name="sub_category_taxi">택시</string>
-    <string name="sub_category_car_gasfuel">자동차/기름</string>
+    <string name="sub_category_bus">Bus</string>
+    <string name="sub_category_taxi">Taxi</string>
+    <string name="sub_category_metro">Metro</string>
+    <string name="sub_category_car_gasfuel">Car/Gas Fuel</string>
 
-    <string name="sub_category_mobile">모바일</string>
-    <string name="sub_category_internet_tv">인터넷/TV</string>
-    <string name="sub_category_com_subscriptions">정기구독</string>
+    <string name="sub_category_mobile">Mobile</string>
+    <string name="sub_category_internet_tv">Internet/TV</string>
+    <string name="sub_category_com_subscriptions">Subscriptions</string>
 
-    <string name="sub_category_movie">영화</string>
-    <string name="sub_category_performance">공연</string>
-    <string name="sub_category_game">게임</string>
-    <string name="sub_category_hobbies">취미생활</string>
+    <string name="sub_category_movie">Movie</string>
+    <string name="sub_category_performance">Performance</string>
+    <string name="sub_category_game">Game</string>
+    <string name="sub_category_hobbies">Hobbies</string>
 
-    <string name="sub_category_home_appliances">가전</string>
-    <string name="sub_category_furniture_decor">가구/인테리어</string>
-    <string name="sub_category_kitchen">주방용품</string>
-    <string name="sub_category_cleaning_supplies">청소용품</string>
-    <string name="sub_category_laundry_mending">세탁/수선</string>
+    <string name="sub_category_home_appliances">Home Appliances</string>
+    <string name="sub_category_furniture_decor">Furniture/Decor</string>
+    <string name="sub_category_kitchen">Kitchen</string>
+    <string name="sub_category_cleaning_supplies">Cleaning Supplies</string>
+    <string name="sub_category_laundry_mending">Laundry/Mending</string>
 
-    <string name="sub_category_house_rent">집세</string>
-    <string name="sub_category_maintenance_fee">관리비</string>
-    <string name="sub_category_electric">전기요금</string>
-    <string name="sub_category_water">수도요금</string>
-    <string name="sub_category_utility_gas">가스요금</string>
+    <string name="sub_category_house_rent">House Rent</string>
+    <string name="sub_category_maintenance_fee">Maintenance</string>
+    <string name="sub_category_electric">Electric</string>
+    <string name="sub_category_water">Water</string>
+    <string name="sub_category_utility_gas">Gas</string>
 
-    <string name="sub_category_hospital">병원</string>
-    <string name="sub_category_medicine">약</string>
-    <string name="sub_category_vitamin">비타민</string>
+    <string name="sub_category_hospital">Hospital</string>
+    <string name="sub_category_medicine">Medicine</string>
+    <string name="sub_category_vitamin">Vitamin</string>
 
-    <string name="sub_category_tuition">교육/강의</string>
-    <string name="sub_category_book">책</string>
-    <string name="sub_category_edu_subscriptions">정기구독</string>
+    <string name="sub_category_tuition">Academy</string>
+    <string name="sub_category_book">Book</string>
+    <string name="sub_category_edu_subscriptions">Lecture</string>
 
-    <string name="sub_category_tra_accommodation">숙박</string>
-    <string name="sub_category_tra_transportation">교통</string>
-    <string name="sub_category_tra_food">음식</string>
-    <string name="sub_category_tra_activity">액티비티</string>
+    <string name="sub_category_tra_accommodation">Accommodation</string>
+    <string name="sub_category_tra_transportation">Transportation</string>
+    <string name="sub_category_tra_food">Food</string>
+    <string name="sub_category_tra_activity">Activity</string>
 
-    <string name="sub_category_gift">선물</string>
-    <string name="sub_category_weddings">결혼식</string>
-    <string name="sub_category_condolatory">장례식</string>
-    <string name="sub_category_donation">기부</string>
+    <string name="sub_category_gift">Gift</string>
+    <string name="sub_category_weddings">Weddings</string>
+    <string name="sub_category_condolatory">Condolatory</string>
+    <string name="sub_category_donation">Donation</string>
 
-    <string name="sub_category_pet_food">사료</string>
-    <string name="sub_category_pet_snack">간식</string>
-    <string name="sub_category_pet_toys_clothing">장난감/옷</string>
-    <string name="sub_category_pet_vet_visit">동물병원</string>
+    <string name="sub_category_pet_food">Food</string>
+    <string name="sub_category_pet_snack">Snack</string>
+    <string name="sub_category_pet_toys_clothing">Toys/Clothing</string>
+    <string name="sub_category_pet_vet_visit">Vet Visit</string>
 
-    <string name="sub_category_kid_school_fee">교육비</string>
-    <string name="sub_category_kid_school_supplies">학용품</string>
-    <string name="sub_category_kid_school_toys">장난감</string>
-    <string name="sub_category_kid_school_allowances">용돈</string>
-    <string name="sub_category_kid_school_diapers">유아용품</string>
+    <string name="sub_category_kid_school_fee">School Fee</string>
+    <string name="sub_category_kid_school_supplies">School Supplies</string>
+    <string name="sub_category_kid_school_toys">Toys</string>
+    <string name="sub_category_kid_school_allowances">Allowances</string>
+    <string name="sub_category_kid_school_diapers">Diapers</string>
 
-    <string name="sub_category_life_insurance">생명보험</string>
-    <string name="sub_category_medical_insurance">손해보험</string>
-    <string name="sub_category_fire_insurance">화재보험</string>
-    <string name="sub_category_savings_insurance">저축보험</string>
+    <string name="sub_category_life_insurance">Life Ins</string>
+    <string name="sub_category_medical_insurance">Medical Ins</string>
+    <string name="sub_category_fire_insurance">Fire Ins</string>
+    <string name="sub_category_savings_insurance">Savings Ins</string>
 
-    <string name="sub_category_other">기타</string>
-
+    <string name="sub_category_other">Other</string>
 
     <string name="dialog_delete_title">delete</string>
     <string name="dialog_delete_description_number">Delete?</string>

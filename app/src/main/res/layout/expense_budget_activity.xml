@@ -74,7 +74,8 @@
                             android:id="@+id/imgNoItem"
                             android:layout_width="86dp"
                             android:layout_height="86dp"
-                            tools:src="@drawable/avatar" />
+                            tools:src="@drawable/avatar"
+                            android:contentDescription="@string/app_name" />
 
                         <TextView
                             android:id="@+id/txtViewNoItem"

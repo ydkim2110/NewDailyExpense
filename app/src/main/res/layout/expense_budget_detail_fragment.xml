@@ -93,30 +93,24 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="32dp">
 
-                                <LinearLayout
+                                <TextView
+                                    android:id="@+id/txtLeftToSpendTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    app:layout_constraintHorizontal_bias="1"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:gravity="end"
+                                    android:text="Left To Spend"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent">
+                                    app:layout_constraintEnd_toEndOf="parent" />
 
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="end"
-                                        android:text="Left To Spend" />
-
-                                    <TextView
-                                        android:id="@+id/txtLeftToSpendAmount"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="end"
-                                        android:text="$323" />
-
-                                </LinearLayout>
+                                <TextView
+                                    android:id="@+id/txtLeftToSpendAmount"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:text="$323"
+                                    app:layout_constraintTop_toBottomOf="@+id/txtLeftToSpendTitle"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent" />
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -233,7 +227,8 @@
             android:id="@+id/imgNoItem"
             android:layout_width="86dp"
             android:layout_height="86dp"
-            tools:src="@drawable/avatar" />
+            tools:src="@drawable/avatar"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/txtViewNoItem"

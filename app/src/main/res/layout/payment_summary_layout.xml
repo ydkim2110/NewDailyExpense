@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/paymentSummaryLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -25,7 +26,8 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -57,7 +59,7 @@
                     android:id="@+id/txtCreditAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$3,100" />
+                    tools:text="$3,100" />
 
             </LinearLayout>
 
@@ -91,7 +93,7 @@
                     android:id="@+id/txtCashAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$3,100" />
+                    tools:text="$3,100" />
 
             </LinearLayout>
 

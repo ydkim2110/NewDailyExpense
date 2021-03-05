@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DailyExpense</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -292,8 +291,10 @@
 
     <string name="sub_category_other">Other</string>
 
-
     <string name="dialog_delete_title">delete</string>
+    <string name="dialog_delete_description_number">Delete?</string>
+    <string name="dialog_delete_positive">OK</string>
     <string name="dialog_delete_negative">No</string>
+
 
 </resources>

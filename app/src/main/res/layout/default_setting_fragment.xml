@@ -15,7 +15,8 @@
         android:src="@drawable/avatar"
         app:layout_constraintBottom_toBottomOf="@id/textViewProfile"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textViewProfile" />
+        app:layout_constraintTop_toTopOf="@id/textViewProfile"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/textViewProfile"

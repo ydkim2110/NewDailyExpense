@@ -48,7 +48,7 @@ class DatePickerFragment: DialogFragment(),
     override fun onShow(dialog: DialogInterface?) {
         (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
             .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
-        (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEGATIVE)
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
             .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray))
     }
 }

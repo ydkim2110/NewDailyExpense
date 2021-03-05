@@ -99,7 +99,7 @@ class ExpenseBudgetActivity :
         binding.appBar.compactcalendarView.setListener(object :
             CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
-                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked!!)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {

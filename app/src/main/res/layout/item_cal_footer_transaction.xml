@@ -23,7 +23,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_add"
         tools:ignore="VectorDrawableCompat"
-        app:tint="@color/white" />
+        app:tint="@color/white"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/txtDescription"

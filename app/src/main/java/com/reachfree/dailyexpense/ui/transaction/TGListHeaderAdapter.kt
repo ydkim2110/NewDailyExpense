@@ -30,7 +30,7 @@ class TGListHeaderAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(transactionGroup: TransactionGroup) {
             with(binding) {
-                var total = BigDecimal(0)
+                val total: BigDecimal
 
                 val totalExpense = transactionGroup.transactionList
                     .filter { it.type == Constants.TYPE.EXPENSE.ordinal }

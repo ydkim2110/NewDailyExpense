@@ -51,11 +51,11 @@ class CurrencyFragment : BaseDialogFragment<CurrencyFragmentBinding>() {
     }
 
     private fun setupToolbar() {
-        binding.btnBack.setOnSingleClickListener {
+        binding.appBar.btnBack.setOnSingleClickListener {
             dismiss()
         }
 
-        binding.txtToolbarTitle.text = "Currency Selection"
+        binding.appBar.txtToolbarTitle.text = "Currency Selection"
     }
 
     private fun setupRecyclerView() {

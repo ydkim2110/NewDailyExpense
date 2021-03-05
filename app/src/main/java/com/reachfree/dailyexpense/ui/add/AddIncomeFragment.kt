@@ -117,7 +117,7 @@ class AddIncomeFragment : DialogFragment() {
 
                 try {
                     var givenNumber = number.toString()
-                    var longValue = 0L
+                    val longValue: Long
                     if (givenNumber.contains(",")) {
                         givenNumber = givenNumber.replace(",".toRegex(), "")
                     }
