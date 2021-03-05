@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.TotalAmountFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
+import com.reachfree.dailyexpense.ui.budget.detail.ExpenseBudgetDetailFragment
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants.SortType
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
@@ -345,6 +347,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
         }
         // (0.3 + 0.05) * 2 + 0.3 = 1.00
         binding.barChartTotalAmount.groupBars(0f, 0.3f, 0.05f)
+        binding.barChartTotalAmount.animateY(ANIMATION_DURATION, Easing.EaseInOutQuad)
         binding.barChartTotalAmount.invalidate()
     }
 
@@ -374,6 +377,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
     companion object {
         const val TAG = "TotalAmountFragment"
 
+        private const val ANIMATION_DURATION = 1000
         private const val ROTATION = "rotation"
         private const val ROTATION_ANIM_DURATION = 250L
         private const val DATE = "date"

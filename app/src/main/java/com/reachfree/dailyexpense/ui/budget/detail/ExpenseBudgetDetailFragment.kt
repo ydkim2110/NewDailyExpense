@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -25,6 +26,7 @@ import com.reachfree.dailyexpense.databinding.ExpenseBudgetDetailFragmentBinding
 import com.reachfree.dailyexpense.ui.add.AddExpenseFragment
 import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
+import com.reachfree.dailyexpense.ui.dashboard.pattern.PatternDetailFragment
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.AppUtils.changeAmountByCurrency
 import com.reachfree.dailyexpense.util.Constants
@@ -256,6 +258,9 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
         binding.barChartExpenseBudget.data = BarData(barDataSet).apply {
             barWidth = 0.4f
         }
+
+        binding.barChartExpenseBudget.animateY(ANIMATION_DURATION, Easing.EaseInOutQuad)
+
         binding.barChartExpenseBudget.invalidate()
     }
 
@@ -290,6 +295,7 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
     }
 
     companion object {
+        private const val ANIMATION_DURATION = 1000
         private const val DATE = "date"
         private const val CATEGORY_ID = "categoryId"
         const val TAG = "ExpenseBudgetDetailFragment"

@@ -73,11 +73,11 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         binding.imgNoItem.setImageResource(R.drawable.avatar)
 
         setCurrentDate(Date())
-        binding.datePickerButton.setOnClickListener {
+        binding.appBar.datePickerButton.setOnClickListener {
             val rotation = if (isExpanded) 0f else 180f
-            ViewCompat.animate(binding.datePickerArrow).rotation(rotation).start()
+            ViewCompat.animate(binding.appBar.datePickerArrow).rotation(rotation).start()
             isExpanded = !isExpanded
-            binding.appBar.setExpanded(isExpanded, true)
+            binding.appBar.appBar.setExpanded(isExpanded, true)
         }
 
         setupToolbar()
@@ -240,22 +240,22 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.appBar.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        binding.toolbar.setNavigationIcon(R.drawable.ic_close)
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.appBar.toolbar.setNavigationIcon(R.drawable.ic_close)
+        binding.appBar.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     private fun setupCalendarView() {
-        binding.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
-        binding.compactcalendarView.setShouldDrawDaysHeader(true)
-        binding.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
-        binding.compactcalendarView.setFirstDayOfWeek(Constants.FIRST_DAY_OF_WEEK)
-        binding.compactcalendarView.setListener(object :
+        binding.appBar.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
+        binding.appBar.compactcalendarView.setShouldDrawDaysHeader(true)
+        binding.appBar.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
+        binding.appBar.compactcalendarView.setFirstDayOfWeek(Constants.FIRST_DAY_OF_WEEK)
+        binding.appBar.compactcalendarView.setListener(object :
             CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
-                binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
@@ -264,7 +264,7 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 }
                 hideContentLayout()
 
-                binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
                 setupNewCalendarView(firstDayOfNewMonth)
             }
         })
@@ -474,8 +474,8 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
     }
 
     private fun setCurrentDate(date: Date) {
-        binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
-        binding.compactcalendarView.setCurrentDate(date)
+        binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
+        binding.appBar.compactcalendarView.setCurrentDate(date)
     }
 
     companion object {

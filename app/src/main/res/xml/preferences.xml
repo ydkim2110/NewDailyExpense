@@ -21,7 +21,7 @@
         android:key="PREF_SWITCH"
         android:title="SWITCH"
         android:summary="switch description"
-        android:icon="@drawable/ic_bus"
+        android:icon="@drawable/sub_category_transportation_bus"
         android:defaultValue="true" />
 
 </PreferenceScreen>

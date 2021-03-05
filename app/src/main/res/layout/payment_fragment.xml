@@ -34,7 +34,7 @@
                 app:cardCornerRadius="12dp">
 
                 <com.reachfree.dailyexpense.util.RoundedBarChart
-                    android:id="@+id/barChartTotalAmount"
+                    android:id="@+id/barChartPaymentAmount"
                     app:radius="12dp"
                     android:layout_margin="8dp"
                     android:paddingBottom="8dp"

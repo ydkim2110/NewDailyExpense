@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.PaymentFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
+import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountFragment
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PAYMENT.CASH
@@ -292,10 +294,10 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
         cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
         cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorExpense))
 
-        binding.barChartTotalAmount.axisLeft.apply { isEnabled = false }
-        binding.barChartTotalAmount.axisRight.apply { isEnabled = false }
+        binding.barChartPaymentAmount.axisLeft.apply { isEnabled = false }
+        binding.barChartPaymentAmount.axisRight.apply { isEnabled = false }
 
-        binding.barChartTotalAmount.xAxis.apply {
+        binding.barChartPaymentAmount.xAxis.apply {
             textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
             textSize = 14f
 
@@ -310,7 +312,7 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
             setDrawGridLines(false)
         }
 
-        binding.barChartTotalAmount.axisLeft.axisMinimum = 0f
+        binding.barChartPaymentAmount.axisLeft.axisMinimum = 0f
 
         val expenseBarDataSet = BarDataSet(cashBarEntries, "Expense").apply {
             colors = cashBarColors
@@ -335,11 +337,11 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
             }
         }
 
-        binding.barChartTotalAmount.data = BarData(expenseBarDataSet, incomeBarDataSet).apply {
+        binding.barChartPaymentAmount.data = BarData(expenseBarDataSet, incomeBarDataSet).apply {
             barWidth = 0.3f
         }
 
-        binding.barChartTotalAmount.apply {
+        binding.barChartPaymentAmount.apply {
             description.isEnabled = false
             legend.isEnabled = false
 
@@ -351,8 +353,9 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
             setScaleEnabled(false)
         }
         // (0.3 + 0.05) * 2 + 0.3 = 1.00
-        binding.barChartTotalAmount.groupBars(0f, 0.3f, 0.05f)
-        binding.barChartTotalAmount.invalidate()
+        binding.barChartPaymentAmount.groupBars(0f, 0.3f, 0.05f)
+        binding.barChartPaymentAmount.animateY(ANIMATION_DURATION, Easing.EaseInOutQuad)
+        binding.barChartPaymentAmount.invalidate()
     }
 
     private fun setDataToCalendar(labels: YearMonth, list: List<PaymentChartModel>): List<BarEntry> {
@@ -377,10 +380,11 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
 
         return barEntries
     }
-
+ 
     companion object {
         const val TAG = "PaymentFragment"
 
+        private const val ANIMATION_DURATION = 1000
         private const val ROTATION = "rotation"
         private const val ROTATION_ANIM_DURATION = 250L
         private const val DATE = "date"

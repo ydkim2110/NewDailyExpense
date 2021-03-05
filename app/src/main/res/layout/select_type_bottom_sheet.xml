@@ -79,7 +79,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_bus"
+            app:srcCompat="@drawable/sub_category_transportation_bus"
             tools:ignore="VectorDrawableCompat"
             app:tint="@color/white"
             android:contentDescription="@string/app_name" />
@@ -120,7 +120,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_bus"
+            app:srcCompat="@drawable/sub_category_transportation_bus"
             tools:ignore="VectorDrawableCompat"
             app:tint="@color/white"
             android:contentDescription="@string/app_name" />

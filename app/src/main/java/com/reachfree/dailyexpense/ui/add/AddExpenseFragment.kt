@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.reachfree.dailyexpense.R
@@ -66,6 +67,8 @@ class AddExpenseFragment : DialogFragment() {
     private var passedTransaction: TransactionEntity? = null
     private var passedDate: Long? = null
 
+    private val dropDownIcon
+        get() = ResourcesCompat.getDrawable(resources, R.drawable.ic_arrow_drop_down, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,6 +132,11 @@ class AddExpenseFragment : DialogFragment() {
         binding.txtCurrency.text = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
         binding.txtDatePicked.text = AppUtils.addTransactionDateFormat.format(passedDate)
         binding.btnPaymentToggleGroup.check(binding.btnCredit.id)
+
+        val categoryIcon = ResourcesCompat.getDrawable(resources, R.drawable.category_food_drink, null)
+        val subCategoryIcon = ResourcesCompat.getDrawable(resources, R.drawable.sub_category_food_drinks_eating_out, null)
+        binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(categoryIcon, null, dropDownIcon, null)
+        binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(subCategoryIcon, null, dropDownIcon, null)
     }
 
     private fun setupViewHandler() {
@@ -140,7 +148,6 @@ class AddExpenseFragment : DialogFragment() {
                     binding.btnCredit.id -> selectedPayment = PAYMENT.CREDIT.ordinal
                     binding.btnCash.id -> selectedPayment = PAYMENT.CASH.ordinal
                 }
-                Timber.d("selectedPayment: $selectedPayment")
             }
 
         }
@@ -157,7 +164,7 @@ class AddExpenseFragment : DialogFragment() {
 
                 try {
                     var givenNumber = number.toString()
-                    var longValue = 0L
+                    val longValue: Long
                     if (givenNumber.contains(",")) {
                         givenNumber = givenNumber.replace(",".toRegex(), "")
                     }
@@ -194,6 +201,11 @@ class AddExpenseFragment : DialogFragment() {
 
                 selectedSubCategory = subCategory.firstOrNull()?.id ?: category.id
                 binding.btnSubCategory.text = resources.getString(nameResId)
+
+                val categoryIcon = ResourcesCompat.getDrawable(resources, category.iconResId, null)
+                val subCategoryIcon = ResourcesCompat.getDrawable(resources, subCategory.firstOrNull()!!.iconResId, null)
+                binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(categoryIcon, null, dropDownIcon, null)
+                binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(subCategoryIcon, null, dropDownIcon, null)
             }
         })
 
@@ -214,6 +226,8 @@ class AddExpenseFragment : DialogFragment() {
                 override fun onSelectedSubCategory(subCategory: SubCategory) {
                     selectedSubCategory = subCategory.id
                     binding.btnSubCategory.text = resources.getString(subCategory.visibleNameResId)
+                    val subCategoryIcon = ResourcesCompat.getDrawable(resources, subCategory.iconResId, null)
+                    binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(subCategoryIcon, null, dropDownIcon, null)
                 }
             })
         }

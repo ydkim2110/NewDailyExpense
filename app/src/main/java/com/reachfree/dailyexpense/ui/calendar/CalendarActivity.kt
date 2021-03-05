@@ -47,11 +47,11 @@ class CalendarActivity :
         setCurrentDate(Date())
         calendar.time = Date()
 
-        binding.datePickerButton.setOnClickListener {
+        binding.appBar.datePickerButton.setOnClickListener {
             val rotation = if (isExpanded) 0f else 180f
-            ViewCompat.animate(binding.datePickerArrow).rotation(rotation).start()
+            ViewCompat.animate(binding.appBar.datePickerArrow).rotation(rotation).start()
             isExpanded = !isExpanded
-            binding.appBar.setExpanded(isExpanded, true)
+            binding.appBar.appBar.setExpanded(isExpanded, true)
         }
 
         binding.recyclerCalendar.apply {
@@ -75,9 +75,8 @@ class CalendarActivity :
 
         val display = windowManager.defaultDisplay
         val height = display.height
-        val toolbarHeight = binding.toolbar.height
+        val toolbarHeight = binding.appBar.toolbar.height
         val rectangle = Rect()
-        val window = window.decorView.getWindowVisibleDisplayFrame(rectangle)
         val statusBarHeight = rectangle.top
         val dayHeight = binding.dayOfWeekLayout.height
         recyclerItemHeight = height - statusBarHeight - toolbarHeight - dayHeight
@@ -86,11 +85,11 @@ class CalendarActivity :
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.appBar.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        binding.toolbar.setNavigationIcon(R.drawable.ic_close)
-        binding.toolbar.setNavigationOnClickListener { onBackPressed() }
+        binding.appBar.toolbar.setNavigationIcon(R.drawable.ic_close)
+        binding.appBar.toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     private fun setupCalendar() {
@@ -107,18 +106,18 @@ class CalendarActivity :
     }
 
     private fun setupCalendarView() {
-        binding.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
-        binding.compactcalendarView.setShouldDrawDaysHeader(true)
-        binding.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
-        binding.compactcalendarView.setFirstDayOfWeek(Constants.FIRST_DAY_OF_WEEK)
-        binding.compactcalendarView.setListener(object :
+        binding.appBar.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
+        binding.appBar.compactcalendarView.setShouldDrawDaysHeader(true)
+        binding.appBar.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
+        binding.appBar.compactcalendarView.setFirstDayOfWeek(Constants.FIRST_DAY_OF_WEEK)
+        binding.appBar.compactcalendarView.setListener(object :
             CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
-                binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
 
                 val dateTypeYearMonth = firstDayOfNewMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().yearMonth
                 val startOfMonth = AppUtils.startOfMonth(dateTypeYearMonth)
@@ -151,8 +150,8 @@ class CalendarActivity :
     }
 
     private fun setCurrentDate(date: Date) {
-        binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
-        binding.compactcalendarView.setCurrentDate(date)
+        binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
+        binding.appBar.compactcalendarView.setCurrentDate(date)
     }
 
     override fun onItemClick(date: Date) {

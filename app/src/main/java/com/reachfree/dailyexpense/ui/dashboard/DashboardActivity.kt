@@ -3,7 +3,6 @@ package com.reachfree.dailyexpense.ui.dashboard
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -13,8 +12,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.google.android.material.navigation.NavigationView
 import com.reachfree.dailyexpense.R
@@ -46,17 +48,16 @@ import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.PAYMENT
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
-import com.reachfree.dailyexpense.util.PreferenceHelper.get
 import com.reachfree.dailyexpense.util.SessionManager
 import com.reachfree.dailyexpense.util.extension.runDelayed
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class DashboardActivity :
@@ -123,10 +124,6 @@ class DashboardActivity :
                 Constants.currencySymbol = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
                 viewModel.dateForMonthly.value = listOf(currentStartDate, currentEndDate)
                 viewModel.dateForRecent.value = listOf(currentRecentStartDate, currentRecentEndDate)
-//                viewModel.getAllTransactionsByDate(currentStartDate, currentEndDate)
-//                viewModel.getRecentTransactionsByDate(currentRecentStartDate, currentRecentEndDate)
-            } else if (PREF_APP_THEME == key) {
-
             }
     }
 
@@ -154,14 +151,14 @@ class DashboardActivity :
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
+        setSupportActionBar(binding.appBar.toolbar)
     }
 
     private fun setupNavigation() {
         val toggle = object : ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
-            binding.toolbar,
+            binding.appBar.toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         ) {
@@ -177,18 +174,18 @@ class DashboardActivity :
     }
 
     private fun setupCalendarView() {
-        binding.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
-        binding.compactcalendarView.setShouldDrawDaysHeader(true)
-        binding.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
-        binding.compactcalendarView.setFirstDayOfWeek(FIRST_DAY_OF_WEEK)
-        binding.compactcalendarView.setListener(object :
+        binding.appBar.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
+        binding.appBar.compactcalendarView.setShouldDrawDaysHeader(true)
+        binding.appBar.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
+        binding.appBar.compactcalendarView.setFirstDayOfWeek(FIRST_DAY_OF_WEEK)
+        binding.appBar.compactcalendarView.setListener(object :
             CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
-                binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
                 setupNewCalendarView(firstDayOfNewMonth)
             }
         })
@@ -284,11 +281,11 @@ class DashboardActivity :
     }
 
     private fun setupViewHandler() {
-        binding.datePickerButton.setOnSingleClickListener {
+        binding.appBar.datePickerButton.setOnSingleClickListener {
             val rotation = if (isExpanded) 0f else 180f
-            ViewCompat.animate(binding.datePickerArrow).rotation(rotation).start()
+            ViewCompat.animate(binding.appBar.datePickerArrow).rotation(rotation).start()
             isExpanded = !isExpanded
-            binding.appBar.setExpanded(isExpanded, true)
+            binding.appBar.appBar.setExpanded(isExpanded, true)
         }
 
         binding.addNewTransaction.setOnSingleClickListener {
@@ -402,20 +399,69 @@ class DashboardActivity :
                 animateTextViewAmount(txtCashAmount, ANIMATION_DURATION, START_VALUE, cashAmount.toInt())
             }
 
-            var creditPercent = 0
-            val totalPayment = creditAmount.add(cashAmount)
+            setupPaymentBarChart(creditAmount, cashAmount)
+        }
+    }
 
-            if (totalPayment > BigDecimal(0)) {
-                creditPercent = calculatePercentage(creditAmount, totalPayment)
+    private fun setupPaymentBarChart(creditAmount: BigDecimal, cashAmount: BigDecimal) {
+        val barEntries = ArrayList<BarEntry>()
+        val barColors = ArrayList<Int>()
+
+        val creditPercent: Int
+        var cashPercent = 0
+        val totalPayment = creditAmount.add(cashAmount)
+
+        if (totalPayment > BigDecimal(0)) {
+            creditPercent = calculatePercentage(creditAmount, totalPayment)
+            cashPercent = 100 - creditPercent
+
+            barColors.clear()
+            barColors.add(ContextCompat.getColor(this, R.color.orange))
+            barColors.add(ContextCompat.getColor(this, R.color.red))
+        } else {
+            creditPercent = 100
+            barColors.clear()
+            barColors.add(ContextCompat.getColor(this, R.color.gray))
+            barColors.add(ContextCompat.getColor(this, R.color.gray))
+        }
+
+        barEntries.add(BarEntry(0f, floatArrayOf(creditPercent.toFloat(), cashPercent.toFloat())))
+
+
+
+        val barDataSet = BarDataSet(barEntries, "Payment").apply {
+            setDrawValues(false)
+            colors = barColors
+        }
+
+        val barData = BarData(barDataSet).apply {
+            barWidth = 20f
+        }
+
+        with(binding.paymentSummaryLayout.barChartPaymentSummary) {
+            xAxis.apply {
+                isEnabled = false
+                spaceMin = 0f
+            }
+            axisLeft.apply {
+                setDrawGridLines(false)
+                isEnabled = false
+                axisMinimum = 0f
+                axisMaximum = 100f
+            }
+            axisRight.apply {
+                setDrawGridLines(false)
+                isEnabled = false
             }
 
-            with(binding.paymentSummaryLayout) {
-                animateProgressbar(progressbarPayment, creditPercent)
-                progressbarPayment.progressTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.orange))
-                progressbarPayment.progressBackgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, R.color.red))
-            }
+            description.isEnabled = false
+            legend.isEnabled = false
+            setScaleEnabled(false)
+
+            data = barData
+
+            animateY(1000, Easing.EaseInOutQuad)
+            invalidate()
         }
     }
 
@@ -457,8 +503,8 @@ class DashboardActivity :
     }
 
     private fun setCurrentDate(date: Date) {
-        binding.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
-        binding.compactcalendarView.setCurrentDate(date)
+        binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
+        binding.appBar.compactcalendarView.setCurrentDate(date)
     }
 
     override fun onBackPressed() {

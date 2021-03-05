@@ -34,7 +34,7 @@
                     android:id="@+id/imgCategoryIcon"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
-                    android:src="@drawable/ic_bus"
+                    android:src="@drawable/sub_category_transportation_bus"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/shape_icon_bg_circle"
                     android:padding="12dp"
