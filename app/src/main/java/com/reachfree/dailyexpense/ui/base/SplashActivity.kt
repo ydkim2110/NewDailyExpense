@@ -19,11 +19,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val format = NumberFormat.getCurrencyInstance()
-        format.currency = Currency.getInstance(com.reachfree.dailyexpense.data.model.Currency.HUF.code)
-
-        Timber.d("result ${format.format(3000L)}")
-
         if (!sessionManager.getIsFirstLaunch()) {
             SetupActivity.start(this)
         } else {

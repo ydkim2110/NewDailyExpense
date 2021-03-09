@@ -15,6 +15,9 @@ import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
+import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
 
@@ -38,14 +41,15 @@ class TGListAdapter(
                     val expenseCategory = AppUtils.getExpenseCategory(transaction.categoryId)
                     val expenseSubCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
-                    imgIcon.setImageResource(expenseSubCategory.iconResId)
-                    imgIcon.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(root.context, expenseCategory.backgroundColor))
+                    imgIcon.load(expenseSubCategory.iconResId)
+                    imgIcon.changeBackgroundTintColor(expenseCategory.backgroundColor)
+
                     txtDescription.text = transaction.description
                     txtCategory.setText(expenseCategory.visibleNameResId)
                     txtSubCategory.setText(expenseSubCategory.visibleNameResId)
 
-                    //TODO: 화폐단위
-                    txtAmount.text = AppUtils.changeAmountByCurrency(transaction.amount ?: BigDecimal(0))
+                    txtAmount.text = transaction.amount?.let { changeAmountByCurrency(it) }
+                        ?: changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorExpense))
 
                     viewPatternColor.visibility = View.VISIBLE
@@ -65,14 +69,15 @@ class TGListAdapter(
                 else if (transaction.type == INCOME.ordinal) {
                     val incomeCategory = AppUtils.getIncomeCategory(transaction.categoryId)
 
-                    imgIcon.setImageResource(incomeCategory.iconResId)
-                    imgIcon.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(root.context, incomeCategory.backgroundColor))
+                    imgIcon.load(incomeCategory.iconResId)
+                    imgIcon.changeBackgroundTintColor(incomeCategory.backgroundColor)
+
                     txtDescription.text = transaction.description
                     txtCategory.setText(incomeCategory.visibleNameResId)
                     txtSubCategory.visibility = View.INVISIBLE
 
-                    //TODO: 화폐단위
-                    txtAmount.text = AppUtils.changeAmountByCurrency(transaction.amount ?: BigDecimal(0))
+                    txtAmount.text = transaction.amount?.let { changeAmountByCurrency(it) }
+                        ?: changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorIncome))
                 }
 

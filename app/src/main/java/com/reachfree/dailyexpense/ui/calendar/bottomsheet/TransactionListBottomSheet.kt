@@ -13,9 +13,14 @@ import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseBottomSheetDialogFragment
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants.TYPE
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
+import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.getQuantityString
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
 
@@ -57,9 +62,10 @@ class TransactionListBottomSheet(
     private fun setupView() {
         binding.txtSelectedDate.text = AppUtils.addTransactionDateFormat.format(date)
 
-        val startOfDay = AppUtils.calculateStartOfDay(AppUtils.convertDateToLocalDate(date)).toMillis()!!
-        val endOfDay = AppUtils.calculateEndOfDay(AppUtils.convertDateToLocalDate(date)).toMillis()!!
-        viewModel.date.value = listOf(startOfDay, endOfDay)
+        viewModel.date.value = listOf(
+            AppUtils.calculateStartOfDay(AppUtils.convertDateToLocalDate(date)).toMillis()!!,
+            AppUtils.calculateEndOfDay(AppUtils.convertDateToLocalDate(date)).toMillis()!!
+        )
     }
 
     private fun setupRecyclerView() {
@@ -78,25 +84,27 @@ class TransactionListBottomSheet(
     private fun subscribeToObserver() {
         viewModel.transactionList.observe(this) { response ->
             response?.let {
-                binding.txtTotalAmountTitle.text = "총 (${response.count()})건"
+                binding.txtTotalAmountTitle.text = requireContext().getQuantityString(
+                    response.count(),
+                    R.plurals.number_of_transaction_count,
+                    R.string.text_transaction_count_zero
+                )
 
                 val expenseTotal = response
-                    .filter { it.type == TYPE.EXPENSE.ordinal }
+                    .filter { it.type == EXPENSE.ordinal }
                     .sumOf { it.amount!! }
 
                 val incomeTotal = response
-                    .filter { it.type == TYPE.INCOME.ordinal }
+                    .filter { it.type == INCOME.ordinal }
                     .sumOf { it.amount!! }
 
-                var totalAmount = BigDecimal(0)
-                totalAmount = if (expenseTotal > incomeTotal) {
+                val totalAmount = if (expenseTotal > incomeTotal) {
                     expenseTotal.minus(incomeTotal)
                 } else {
                     incomeTotal.minus(expenseTotal)
                 }
 
-                //TODO: 화폐단위
-                binding.txtTotalAmount.text = "${AppUtils.insertComma(totalAmount)}원"
+                binding.txtTotalAmount.text = CurrencyUtils.changeAmountByCurrency(totalAmount)
             }
 
             transactionAdapter = TransactionListBottomSheetAdapter()
@@ -105,11 +113,11 @@ class TransactionListBottomSheet(
 
             transactionAdapter.setOnItemClickListener { transaction ->
                 when (transaction.type) {
-                    TYPE.EXPENSE.ordinal -> {
+                    EXPENSE.ordinal -> {
                         val addExpenseFragment = AddExpenseFragment.newInstance(transaction)
                         addExpenseFragment.show(childFragmentManager, null)
                     }
-                    TYPE.INCOME.ordinal -> {
+                    INCOME.ordinal -> {
                         val addIncomeFragment = AddIncomeFragment.newInstance(transaction)
                         addIncomeFragment.show(childFragmentManager, null)
                     }

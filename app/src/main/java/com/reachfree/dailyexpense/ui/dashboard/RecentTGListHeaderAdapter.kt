@@ -65,12 +65,12 @@ class RecentTGListHeaderAdapter(
                 }
 
                 //TODO: 화폐단위
-                txtTotalAmountByDate.text = AppUtils.changeAmountByCurrency(total)
+                txtTotalAmountByDate.text = CurrencyUtils.changeAmountByCurrency(total)
 
                 recyclerRecentTransaction.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(root.context)
-                    val listAdapter = RecentTGListAdapter(sessionManager, listener)
+                    val listAdapter = RecentTGListAdapter(listener)
                     adapter = listAdapter
                     listAdapter.submitList(transactionGroup.transactionList)
                 }

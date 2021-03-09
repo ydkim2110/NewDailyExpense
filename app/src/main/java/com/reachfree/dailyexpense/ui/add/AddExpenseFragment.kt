@@ -18,35 +18,32 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.AddExpenseFragmentBinding
 import com.reachfree.dailyexpense.ui.add.bottomsheet.AddCategoryBottomSheet
 import com.reachfree.dailyexpense.ui.add.bottomsheet.AddSubCategoryBottomSheet
-import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
+import com.reachfree.dailyexpense.util.*
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.PAYMENT
 import com.reachfree.dailyexpense.util.Constants.Status
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE_EXPENSE
-import com.reachfree.dailyexpense.util.SessionManager
 import com.reachfree.dailyexpense.util.extension.runDelayed
+import com.reachfree.dailyexpense.util.extension.setColorFilter
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
-import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.math.BigDecimal
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class AddExpenseFragment : DialogFragment() {
+class AddExpenseFragment : BaseDialogFragment<AddExpenseFragmentBinding>() {
 
     @Inject lateinit var sessionManager: SessionManager
 
-    private var _binding: AddExpenseFragmentBinding? = null
-    private val binding  get() = _binding!!
-
     private val viewModel: AddTransactionViewModel by viewModels()
-
     private val addCategoryBottomSheet: AddCategoryBottomSheet by lazy {
         AddCategoryBottomSheet(TYPE_EXPENSE)
     }
@@ -70,6 +67,10 @@ class AddExpenseFragment : DialogFragment() {
     private val dropDownIcon
         get() = ResourcesCompat.getDrawable(resources, R.drawable.ic_arrow_drop_down, null)
 
+    var decimals = true
+    var current = ""
+    var separator = ","
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
@@ -87,13 +88,13 @@ class AddExpenseFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = AddExpenseFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun getDialogFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): AddExpenseFragmentBinding {
+        return AddExpenseFragmentBinding.inflate(inflater, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -103,7 +104,6 @@ class AddExpenseFragment : DialogFragment() {
         setupViewHandler()
         subscribeToObserver()
     }
-
 
     private fun setupToolbar() {
         binding.appBar.txtToolbarTitle.text = getString(R.string.toolbar_title_add_expense)
@@ -133,10 +133,8 @@ class AddExpenseFragment : DialogFragment() {
         binding.txtDatePicked.text = AppUtils.addTransactionDateFormat.format(passedDate)
         binding.btnPaymentToggleGroup.check(binding.btnCredit.id)
 
-        val categoryIcon = ResourcesCompat.getDrawable(resources, R.drawable.category_food_drink, null)
-        val subCategoryIcon = ResourcesCompat.getDrawable(resources, R.drawable.sub_category_food_drinks_eating_out, null)
-        binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(categoryIcon, null, dropDownIcon, null)
-        binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(subCategoryIcon, null, dropDownIcon, null)
+        changeColorCategory(AppUtils.getExpenseCategory(Constants.FOOD_DRINKS))
+        changeColorSubCategory(AppUtils.getExpenseSubCategory(Constants.EATING_OUT))
     }
 
     private fun setupViewHandler() {
@@ -160,25 +158,46 @@ class AddExpenseFragment : DialogFragment() {
             }
 
             override fun afterTextChanged(number: Editable?) {
-                binding.edtAmount.removeTextChangedListener(this)
+                if (number.toString() != current) {
+                    binding.edtAmount.removeTextChangedListener(this)
 
-                try {
-                    var givenNumber = number.toString()
-                    val longValue: Long
-                    if (givenNumber.contains(",")) {
-                        givenNumber = givenNumber.replace(",".toRegex(), "")
+                    val cleanString: String =
+                        number.toString().replace("[$,.]".toRegex(), "").replace("".toRegex(), "")
+                            .replace("\\s+".toRegex(), "")
+
+                    if (cleanString.isNotEmpty()) {
+                        try {
+                            val parsed: Double
+                            val parsedInt: Int
+                            val formatted: String
+
+                            when (Constants.currentCurrency.decimalPoint) {
+                                2 -> {
+                                    parsed = cleanString.toDouble()
+                                    formatted = DecimalFormat("#,##0.00").format((parsed/100))
+                                }
+                                else -> {
+                                    parsedInt = cleanString.toInt()
+                                    formatted = DecimalFormat("#,###").format(parsedInt)
+                                }
+                            }
+
+                            current = formatted
+
+                            if (separator != "," && !decimals) {
+                                binding.edtAmount.setText(formatted.replace(",".toRegex(), separator))
+                            } else {
+                                binding.edtAmount.setText(formatted)
+                            }
+
+                            binding.edtAmount.setSelection(formatted.length)
+                        } catch (e: java.lang.NumberFormatException) {
+
+                        }
                     }
-                    longValue = givenNumber.toLong()
-                    val formatter = DecimalFormat("#,###,###.##")
-                    val formattedString = formatter.format(longValue)
-                    binding.edtAmount.setText(formattedString)
-                    binding.edtAmount.setSelection(binding.edtAmount.text.length)
-                } catch (e: NumberFormatException) {
 
-                } catch (e: Exception) {
-
+                    binding.edtAmount.addTextChangedListener(this)
                 }
-                binding.edtAmount.addTextChangedListener(this)
             }
         })
 
@@ -202,10 +221,8 @@ class AddExpenseFragment : DialogFragment() {
                 selectedSubCategory = subCategory.firstOrNull()?.id ?: category.id
                 binding.btnSubCategory.text = resources.getString(nameResId)
 
-                val categoryIcon = ResourcesCompat.getDrawable(resources, category.iconResId, null)
-                val subCategoryIcon = ResourcesCompat.getDrawable(resources, subCategory.firstOrNull()!!.iconResId, null)
-                binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(categoryIcon, null, dropDownIcon, null)
-                binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(subCategoryIcon, null, dropDownIcon, null)
+                changeColorCategory(category)
+                changeColorSubCategory(subCategory.first())
             }
         })
 
@@ -226,8 +243,7 @@ class AddExpenseFragment : DialogFragment() {
                 override fun onSelectedSubCategory(subCategory: SubCategory) {
                     selectedSubCategory = subCategory.id
                     binding.btnSubCategory.text = resources.getString(subCategory.visibleNameResId)
-                    val subCategoryIcon = ResourcesCompat.getDrawable(resources, subCategory.iconResId, null)
-                    binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(subCategoryIcon, null, dropDownIcon, null)
+                    changeColorSubCategory(subCategory)
                 }
             })
         }
@@ -273,6 +289,46 @@ class AddExpenseFragment : DialogFragment() {
 
     }
 
+    private fun changeColorCategory(category: Category) {
+        val categoryIcon = ResourcesCompat.getDrawable(resources, category.iconResId, null)
+
+        categoryIcon?.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                category.backgroundColor
+            )
+        )
+
+        binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(
+            categoryIcon,
+            null,
+            dropDownIcon,
+            null
+        )
+    }
+
+    private fun changeColorSubCategory(subCategory: SubCategory) {
+        val subCategoryIcon = ResourcesCompat.getDrawable(
+            resources,
+            subCategory.iconResId,
+            null
+        )
+
+        subCategoryIcon?.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                subCategory.backgroundColor
+            )
+        )
+
+        binding.btnSubCategory.setCompoundDrawablesWithIntrinsicBounds(
+            subCategoryIcon,
+            null,
+            dropDownIcon,
+            null
+        )
+    }
+
     private fun subscribeToObserver() {
         viewModel.transaction.observe(viewLifecycleOwner) { result ->
             when (result.status) {
@@ -285,19 +341,30 @@ class AddExpenseFragment : DialogFragment() {
                         val passedSubCategory = AppUtils.getExpenseSubCategory(it.subCategoryId)
                         binding.btnDelete.visibility = View.VISIBLE
                         binding.edtAmount.setText(it.amount?.let { amount ->
-                            AppUtils.insertComma(
-                                amount
-                            )
+                            when (Constants.currentCurrency.decimalPoint) {
+                                2 -> {
+                                    CurrencyUtils.edtAmountTextWithSecondDigit(amount)
+                                }
+                                else -> {
+                                    CurrencyUtils.edtAmountTextWithZeroDigit(amount)
+                                }
+                            }
                         })
                         binding.edtDescription.setText(it.description)
                         binding.txtDatePicked.text =
                             AppUtils.addTransactionDateFormat.format(it.registerDate)
+
                         binding.btnCategory.text = requireContext().resources.getString(
                             passedCategory.visibleNameResId
                         )
                         binding.btnSubCategory.text = requireContext().resources.getString(
                             passedSubCategory.visibleNameResId
                         )
+
+                        changeColorCategory(passedCategory)
+                        changeColorSubCategory(passedSubCategory)
+
+
                         when (it.payment) {
                             0 -> binding.btnPaymentToggleGroup.check(binding.btnCredit.id)
                             1 -> binding.btnPaymentToggleGroup.check(binding.btnCash.id)
@@ -346,23 +413,18 @@ class AddExpenseFragment : DialogFragment() {
         if (!AppUtils.validated(binding.edtAmount, binding.edtDescription)) return
 
         val descriptionValue = binding.edtDescription.text.toString().trim()
-        var amountValue = 0L
+        var amountValue = BigDecimal(0)
 
-        //TODO: 소숫점 입력
         try {
-            var givenNumber = binding.edtAmount.text.toString()
-
-            if (givenNumber.contains(",")) {
-                givenNumber = givenNumber.replace(",".toRegex(), "")
-            }
-            amountValue = givenNumber.toLong()
+            amountValue = binding.edtAmount.text.toString().trim().replace("[$,]".toRegex(), "")
+                .replace(Constants.currentCurrency.symbol, "").toBigDecimal()
         } catch (e: NumberFormatException) {
             Timber.d("ERROR: $e")
         } catch (e: Exception) {
             Timber.d("ERROR: $e")
         }
 
-        if (amountValue <= 0L) {
+        if (amountValue <= BigDecimal(0)) {
             binding.edtAmount.error = getString(R.string.text_must_be_greater_than_zero)
             return
         }
@@ -370,8 +432,8 @@ class AddExpenseFragment : DialogFragment() {
         if (passedTransaction == null) {
             val transaction = TransactionEntity().apply {
                 description = descriptionValue
-                amount = BigDecimal(amountValue)
-                type = Constants.TYPE.EXPENSE.ordinal
+                amount = amountValue
+                type = EXPENSE.ordinal
                 payment = selectedPayment
                 pattern = selectedPattern
                 categoryId = selectedCategory
@@ -382,7 +444,7 @@ class AddExpenseFragment : DialogFragment() {
         } else {
             val transaction = passedTransaction?.apply {
                 description = descriptionValue
-                amount = BigDecimal(amountValue)
+                amount = amountValue
                 payment = selectedPayment
                 pattern = selectedPattern
                 categoryId = selectedCategory
@@ -449,11 +511,6 @@ class AddExpenseFragment : DialogFragment() {
         binding.chipPickDate.chipStrokeColor = chipStrokeColor
 
         selectedPattern = pattern
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun dateSet(year: Int, month: Int, dayOfMonth: Int) {

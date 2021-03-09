@@ -98,7 +98,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
-                                    android:text="Left To Spend"
+                                    android:text="@string/text_left_to_spend"
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -107,7 +107,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"
-                                    android:text="$323"
+                                    tools:text="$ 323"
                                     app:layout_constraintTop_toBottomOf="@+id/txtLeftToSpendTitle"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent" />
@@ -201,6 +201,8 @@
                         android:paddingBottom="8dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
                         app:layout_constraintTop_toBottomOf="@+id/txtTitle"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />

@@ -1,11 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DailyExpense</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="dashboard">홈</string>
     <string name="transaction">거래</string>
-    <string name="budget">예산</string>
+    <string name="expense_budget">예산</string>
     <string name="calendar">달력</string>
     <string name="settings">설정</string>
     <string name="expense">지출</string>
@@ -33,7 +33,7 @@
     <string name="text_get_started">시작하기!</string>
     <string name="text_show_details">전체보기</string>
     <string name="text_all">전체</string>
-    <string name="text_add">Add</string>
+    <string name="text_add">등록</string>
     <string name="text_add_transaction">내역 추가하기</string>
     <string name="text_amount">금액</string>
     <string name="text_description">제목</string>
@@ -41,7 +41,7 @@
     <string name="text_category">분류</string>
     <string name="text_sub_category">소분류</string>
     <string name="text_date">날짜</string>
-    <string name="text_hint_zero_amount">0원</string>
+    <string name="text_hint_zero_amount">0</string>
     <string name="text_credit_card">카드</string>
     <string name="text_cash">현금</string>
 
@@ -296,5 +296,28 @@
     <string name="dialog_delete_description_number">Delete?</string>
     <string name="dialog_delete_positive">OK</string>
     <string name="dialog_delete_negative">No</string>
+    <string name="options">옵션</string>
+    <string name="group_by_category">분류별:</string>
+    <string name="group_by_transaction">거래별:</string>
+    <string name="toolbar_title_total_amount">전체 금액</string>
+    <string name="toolbar_title_payment">카드/현금</string>
+    <string name="btn_create_budget">예산 만들기</string>
+    <string name="text_budget_left">남은예산: %s</string>
+    <string name="text_budget_out_of_budgeted">전체 예산 %s 중</string>
+    <string name="text_budget_you_spent_this_month">"이번달에 %s을 사용했습니다."</string>
+    <string name="text_budget_amount_per_day">"%s/일"</string>
+    <string name="text_budget">예산</string>
+    <string name="text_spent">사용금액</string>
+    <string name="text_left_to_spend">남은금액</string>
+    <string name="toolbar_title_create_budget">예산 만들기</string>
 
+    <plurals name="number_of_transaction_count" tools:ignore="UnusedQuantity">
+        <item quantity="one">총 %d건</item>
+        <item quantity="other">총 %d건</item>
+    </plurals>
+    <string name="text_transaction_count_zero">거래 내역이 없습니다.</string>
+    <string name="toolbar_title_settings">설정</string>
+    <string name="others">기타</string>
+    <string name="add_transaction">추가</string>
+    <string name="text_payment">지불방식</string>
 </resources>

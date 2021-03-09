@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import com.bumptech.glide.Glide
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.OnboardDetailFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseFragment
+import com.reachfree.dailyexpense.util.extension.load
 
 class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
 
@@ -47,7 +49,7 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         if (position != -1) {
-            binding.imageViewIllustration.setImageResource(illustrationArray[position])
+            binding.imageViewIllustration.load(illustrationArray[position])
             if (position == 0) {
                 val spannable = SpannableString(stringArray[position])
 

@@ -13,7 +13,7 @@
         />
     <item
         android:id="@+id/budgetFragment"
-        android:title="@string/budget"
+        android:title="@string/expense_budget"
         android:icon="@drawable/ic_card"
         />
     <item

@@ -33,6 +33,7 @@ import com.reachfree.dailyexpense.util.Constants.SortType
 import com.reachfree.dailyexpense.util.Constants.Status
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -70,7 +71,7 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         filterTransactionArray = resources.getStringArray(R.array.filter_transaction_options)
 
         binding.txtViewNoItem.text = getString(R.string.text_no_transaction)
-        binding.imgNoItem.setImageResource(R.drawable.avatar)
+        binding.imgNoItem.load(R.drawable.avatar)
 
         setCurrentDate(Date())
         binding.appBar.datePickerButton.setOnClickListener {
@@ -376,7 +377,7 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 binding.layoutWeekSummary.txtMonthlySumAmount,
                 ANIMATION_DURATION,
                 START_VALUE,
-                expenses.toInt()
+                expenses
             )
 
             val normalExpense = data
@@ -396,19 +397,19 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 binding.layoutWeekSummary.txtNormalAmount,
                 ANIMATION_DURATION,
                 0,
-                normalExpense.toInt()
+                normalExpense
             )
             AppUtils.animateTextViewAmount(
                 binding.layoutWeekSummary.txtWasteAmount,
                 ANIMATION_DURATION,
                 0,
-                wasteExpense.toInt()
+                wasteExpense
             )
             AppUtils.animateTextViewAmount(
                 binding.layoutWeekSummary.txtInvestAmount,
                 ANIMATION_DURATION,
                 0,
-                investExpense.toInt()
+                investExpense
             )
 
             setupProgressbar(normalExpense, wasteExpense, investExpense)
@@ -429,13 +430,13 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 binding.incomeExpenseLayout.txtIncomeAmount,
                 ANIMATION_DURATION,
                 0,
-                incomes.toInt()
+                incomes
             )
             AppUtils.animateTextViewAmount(
                 binding.incomeExpenseLayout.txtExpenseAmount,
                 ANIMATION_DURATION,
                 0,
-                expenses.toInt()
+                expenses
             )
         }
     }

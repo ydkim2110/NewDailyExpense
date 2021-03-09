@@ -29,6 +29,7 @@ import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants.SortType
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.CurrencyUtils
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -99,7 +100,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
     }
 
     private fun setupToolbar() {
-        binding.appBar.txtToolbarTitle.text = "Total Amount"
+        binding.appBar.txtToolbarTitle.text = getString(R.string.toolbar_title_total_amount)
         binding.appBar.btnBack.setOnSingleClickListener { dismiss() }
     }
 
@@ -314,7 +315,11 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
             valueTextSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return AppUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    return if (value == 0f) {
+                        ""
+                    } else {
+                        CurrencyUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    }
                 }
             }
         }
@@ -325,7 +330,11 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
             valueTextSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return AppUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    return if (value == 0f) {
+                        ""
+                    } else {
+                        CurrencyUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    }
                 }
             }
         }

@@ -45,31 +45,101 @@
     <color name="dividerColor">#1F000000</color>
 
     <color name="tabColor">#E17055</color>
-    
-    <color name="category_food_drink">@color/md_green_700</color>
-    <color name="sub_category_breakfast">@color/md_green_500</color>
-    <color name="sub_category_lunch">@color/md_green_400</color>
-    <color name="sub_category_dinner">@color/md_green_300</color>
-    <color name="sub_category_grocery">@color/md_green_200</color>
-    <color name="sub_category_snack">@color/md_green_100</color>
-    <color name="sub_category_coffee_beverage">@color/md_green_600</color>
-    <color name="sub_category_other">@color/md_blue_300</color>
 
-    <color name="category_utility">#56BDE6</color>
-    <color name="category_shopping">#FF805D</color>
-    <color name="category_personal_care">#AF805D</color>
-    <color name="category_communication">#4E51BF</color>
-    <color name="category_household">#00796b</color>
-    <color name="category_education">#61C589</color>
-    <color name="category_entertainment">#FFCC7B</color>
-    <color name="category_healthcare">#564AA5</color>
+    <!-- Food & Drinks -->
+    <color name="category_food_drink">#0F9D58</color>
+    <color name="sub_category_food_drinks_eating_out">#0F9D58</color>
+    <color name="sub_category_food_drinks_grocery">#0F9D58</color>
+    <color name="sub_category_food_drinks_snack">#0F9D58</color>
+    <color name="sub_category_food_drinks_coffee">#0F9D58</color>
+    <color name="sub_category_food_drinks_beverage">#0F9D58</color>
+
+    <color name="category_shopping">#FFA727</color>
+    <color name="sub_category_shopping_clothing">#FFA727</color>
+    <color name="sub_category_shopping_shoes">#FFA727</color>
+    <color name="sub_category_shopping_accessory">#FFA727</color>
+
+    <color name="category_personal_care">#5E97F6</color>
+    <color name="sub_category_personal_care_haircut">#5E97F6</color>
+    <color name="sub_category_personal_care_beauty">#5E97F6</color>
+    <color name="sub_category_personal_care_cosmetics">#5E97F6</color>
+    <color name="sub_category_personal_care_gym">#5E97F6</color>
+    <color name="sub_category_personal_care_massage_spa">#5E97F6</color>
+
+    <color name="category_transportation">#258982</color>
+    <color name="sub_category_transportation_metro">#258982</color>
+    <color name="sub_category_transportation_bus">#258982</color>
+    <color name="sub_category_transportation_taxi">#258982</color>
+    <color name="sub_category_transportation_car_gasfuel">#258982</color>
+
+    <color name="category_communication">#F15B8D</color>
+    <color name="sub_category_communication_mobile">#F15B8D</color>
+    <color name="sub_category_communication_internet_tv">#F15B8D</color>
+    <color name="sub_category_subscriptions">#F15B8D</color>
+
+    <color name="category_entertainment">#FFA727</color>
+    <color name="sub_category_entertainment_movie">#FFA727</color>
+    <color name="sub_category_entertainment_performance">#FFA727</color>
+    <color name="sub_category_entertainment_game">#FFA727</color>
+    <color name="sub_category_entertainment_hobbies">#FFA727</color>
+
+    <color name="category_household">#72B70F</color>
+    <color name="sub_category_household_home_appliances">#72B70F</color>
+    <color name="sub_category_household_furniture_decor">#72B70F</color>
+    <color name="sub_category_household_kitchen">#72B70F</color>
+    <color name="sub_category_household_cleaning_supplies">#72B70F</color>
+    <color name="sub_category_household_laundry_mending">#72B70F</color>
+
+    <color name="category_utility">#01B1AF</color>
+    <color name="sub_category_utility_house_rent">#01B1AF</color>
+    <color name="sub_category_utility_maintenance_fee">#01B1AF</color>
+    <color name="sub_category_utility_electric">#01B1AF</color>
+    <color name="sub_category_utility_water">#01B1AF</color>
+    <color name="sub_caetgory_utility_gas">#01B1AF</color>
+
+    <color name="category_healthcare">#783BE5</color>
+    <color name="sub_category_health_care_hospital">#783BE5</color>
+    <color name="sub_category_health_care_medicine">#783BE5</color>
+    <color name="sub_category_health_care_vitamin">#783BE5</color>
+
+    <color name="category_education">#2EC7DC</color>
+    <color name="sub_category_education_tuition">#2EC7DC</color>
+    <color name="sub_category_education_book">#2EC7DC</color>
+    <color name="sub_category_edu_subscriptions">#2EC7DC</color>
+
+    <color name="category_travel">#FC4A1A</color>
+    <color name="sub_category_travel_accommodation">#FC4A1A</color>
+    <color name="sub_category_travel_transportation">#FC4A1A</color>
+    <color name="sub_category_travel_food">#FC4A1A</color>
+    <color name="sub_category_travel_activity">#FC4A1A</color>
+
     <color name="category_gifts_donation">#99DE9F</color>
-    <color name="category_transportation">#253864</color>
-    <color name="category_travel">#FF8C3E</color>
-    <color name="category_pet">#EE13DF</color>
+    <color name="sub_category_gifts_donation_gift">#99DE9F</color>
+    <color name="sub_category_gifts_donation_weddings">#99DE9F</color>
+    <color name="sub_category_gifts_donation_condolatory">#99DE9F</color>
+    <color name="sub_category_gifts_donation_donation">#99DE9F</color>
+
+    <color name="category_pet">#CDB997</color>
+    <color name="sub_category_pet_food">#CDB997</color>
+    <color name="sub_category_pet_snack">#CDB997</color>
+    <color name="sub_category_pet_toys">#CDB997</color>
+    <color name="sub_category_pet_vet_visit">#CDB997</color>
+
     <color name="category_kids">#10AF23</color>
-    <color name="category_insurance">#AA88EE</color>
+    <color name="sub_category_kids_school_fee">#10AF23</color>
+    <color name="sub_category_kids_school_supplies">#10AF23</color>
+    <color name="sub_category_kids_toys">#10AF23</color>
+    <color name="sub_category_kids_allowances">#10AF23</color>
+    <color name="sub_category_kids_diapers">#10AF23</color>
+
+    <color name="category_insurance">#A33FFE</color>
+    <color name="sub_category_insurance_life">#A33FFE</color>
+    <color name="sub_category_insurance_medical">#A33FFE</color>
+    <color name="sub_category_insurance_fire">#A33FFE</color>
+    <color name="sub_category_insurance_savings">#A33FFE</color>
+
     <color name="category_tax">#B12341</color>
+
     <color name="category_other_expense">#4E7D96</color>
 
     <color name="category_salary">#C7DB95</color>

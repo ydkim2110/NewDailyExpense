@@ -16,6 +16,8 @@ import com.reachfree.dailyexpense.databinding.ItemTransactionDateBinding
 import com.reachfree.dailyexpense.ui.transaction.TransactionGroup
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.changeTintColor
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
 import kotlin.math.exp
@@ -55,15 +57,14 @@ class PatternDetailAdapter : ListAdapter<ExpenseByCategory, PatternDetailAdapter
 
                 txtCategoryName.setText(category.visibleNameResId)
 
-                progressbarCategory.progressTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, category.backgroundColor))
+                progressbarCategory.changeTintColor(category.backgroundColor)
 
-                //TODO: 화폐단위
                 expenseByCategory.sumByCategory?.let {
                     val percent = it.divide(total, 2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal(100))
 
-                    txtCategoryPercent.text = "${percent.toInt()}%"
-                    txtTotalExpenseAmount.text = "${AppUtils.insertComma(it)}원"
+                    val txtCategoryPercentValue = "${percent.toInt()}%"
+                    txtCategoryPercent.text = txtCategoryPercentValue
+                    txtTotalExpenseAmount.text = CurrencyUtils.changeAmountByCurrency(it)
 
                     progressbarCategory.max = amount.toInt()
                     AppUtils.animateProgressbar(progressbarCategory, it.toInt())

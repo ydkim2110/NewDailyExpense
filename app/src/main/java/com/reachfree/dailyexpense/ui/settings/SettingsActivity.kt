@@ -25,7 +25,7 @@ class SettingsActivity : BaseActivity<SettingsActivityBinding>({ SettingsActivit
         supportActionBar?.setDisplayShowHomeEnabled(true)
         binding.toolbar.setNavigationIcon(R.drawable.ic_close)
         binding.toolbar.setNavigationOnClickListener { onBackPressed() }
-        binding.toolbarTitle.text = "Settings"
+        binding.toolbarTitle.text = getString(R.string.toolbar_title_settings)
     }
 
     companion object {

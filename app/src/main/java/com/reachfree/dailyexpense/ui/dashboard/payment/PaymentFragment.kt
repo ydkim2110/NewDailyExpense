@@ -24,14 +24,12 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.PaymentFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
-import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountFragment
 import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PAYMENT.CASH
 import com.reachfree.dailyexpense.util.Constants.PAYMENT.CREDIT
 import com.reachfree.dailyexpense.util.Constants.SortType
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
-import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.CurrencyUtils
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -103,7 +101,7 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
     }
 
     private fun setupToolbar() {
-        binding.appBar.txtToolbarTitle.text = "Payment"
+        binding.appBar.txtToolbarTitle.text = getString(R.string.toolbar_title_payment)
         binding.appBar.btnBack.setOnSingleClickListener { dismiss() }
     }
 
@@ -321,7 +319,11 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
             valueTextSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return AppUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    return if (value == 0f) {
+                        ""
+                    } else {
+                        CurrencyUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    }
                 }
             }
         }
@@ -332,7 +334,11 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
             valueTextSize = 12f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return AppUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    return if (value == 0f) {
+                        ""
+                    } else {
+                        CurrencyUtils.changeAmountByCurrency(BigDecimal(value.toString()))
+                    }
                 }
             }
         }

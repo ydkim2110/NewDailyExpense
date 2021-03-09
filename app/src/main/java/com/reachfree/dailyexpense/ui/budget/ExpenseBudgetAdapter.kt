@@ -7,13 +7,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.ExpenseByCategoryWithBudget
-import com.reachfree.dailyexpense.databinding.*
+import com.reachfree.dailyexpense.databinding.ItemExpenseBudgetBinding
 import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.ANIMATION_DURATION
-import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
-import timber.log.Timber
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
+import com.reachfree.dailyexpense.util.extension.*
 import java.math.BigDecimal
 
 /**
@@ -36,19 +36,16 @@ class ExpenseBudgetAdapter(
             val leftToSpendAmount = spentAmount?.let { budgetedAmount?.minus(it) }
 
             with(binding) {
-                imgCategoryIcon.setImageResource(category.iconResId)
-                imgCategoryIcon.imageTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, category.backgroundColor))
+                imgCategoryIcon.load(category.iconResId)
+                imgCategoryIcon.changeImageTintColor(category.backgroundColor)
 
                 txtCategoryName.setText(category.visibleNameResId)
 
-                progressbarCategory.progressTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, category.backgroundColor))
+                progressbarCategory.changeTintColor(category.backgroundColor)
 
                 spentAmount?.let {
-                    //TODO: 단위
-                    val amountPerDay = "${AppUtils.changeAmountByCurrency(AppUtils.divideBigDecimal(it, BigDecimal(daysOfMonth)))}/day"
-                    txtAmountPerDay.text = amountPerDay
+                    txtAmountPerDay.text = root.resources.getString(R.string.text_budget_amount_per_day,
+                        changeAmountByCurrency(AppUtils.divideBigDecimal(it, BigDecimal(daysOfMonth))))
 
                     if (budgetedAmount!! > BigDecimal(0)) {
                         AppUtils.animateTextViewPercent(
@@ -60,19 +57,19 @@ class ExpenseBudgetAdapter(
                     }
 
                     progressbarCategory.max = expenseByCategory.budgetAmount!!.toInt()
-                    AppUtils.animateProgressbar(progressbarCategory, it.toInt())
+                    progressbarCategory.animateProgressbar(it.toInt())
                 }
 
-                val spentAmountText = spentAmount?.let { AppUtils.changeAmountByCurrency(it) }
-                    ?: AppUtils.changeAmountByCurrency(BigDecimal(0))
+                val spentAmountText = spentAmount?.let { changeAmountByCurrency(it) }
+                    ?: changeAmountByCurrency(BigDecimal(0))
                 txtExpenseAmount.text = spentAmountText
 
-                val budgetedAmountText = budgetedAmount?.let { AppUtils.changeAmountByCurrency(it) }
-                    ?: AppUtils.changeAmountByCurrency(BigDecimal(0))
+                val budgetedAmountText = budgetedAmount?.let { changeAmountByCurrency(it) }
+                    ?: changeAmountByCurrency(BigDecimal(0))
                 txtBudgetAmount.text = budgetedAmountText
 
-                val leftToSpendAmountText = leftToSpendAmount?.let { AppUtils.changeAmountByCurrency(it) }
-                    ?: AppUtils.changeAmountByCurrency(BigDecimal(0))
+                val leftToSpendAmountText = leftToSpendAmount?.let { changeAmountByCurrency(it) }
+                    ?: changeAmountByCurrency(BigDecimal(0))
                 txtLeftToSpendAmount.text = leftToSpendAmountText
             }
 

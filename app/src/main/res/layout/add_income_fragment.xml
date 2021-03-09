@@ -26,53 +26,45 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="60dp">
-
-                <TextView
-                    android:id="@+id/txtAmountTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/text_amount"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorTextPrimary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="120dp" />
+                android:padding="16dp">
 
                 <EditText
                     android:id="@+id/edtAmount"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
-                    android:hint="0원"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="64dp"
+                    android:background="@drawable/bg_gra_quepal"
+                    android:hint="@string/text_hint_zero_amount"
+                    android:textColorHint="@color/white"
+                    android:textSize="32sp"
+                    android:textColor="@color/white"
                     android:inputType="numberDecimal"
                     android:gravity="right"
-                    android:background="@null"
-                    app:layout_constraintStart_toEndOf="@+id/guidelineAmount"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RtlHardcoded,RtlSymmetry"
+                    tools:targetApi="m"
+                    android:importantForAutofill="no" />
+
+                <TextView
+                    android:id="@+id/txtCurrency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    tools:text="$"
+                    android:textSize="32sp"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/edtAmount"
+                    app:layout_constraintTop_toTopOf="@+id/edtAmount"
+                    app:layout_constraintBottom_toBottomOf="@+id/edtAmount"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:background="@color/dividerColor" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -103,9 +95,10 @@
                     android:id="@+id/edtDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="16dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
+                    android:paddingEnd="4dp"
                     android:hint="@string/text_description"
                     android:inputType="text"
                     android:gravity="right"
@@ -114,7 +107,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:ignore="RtlHardcoded" />
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -156,7 +149,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    tools:text="Food/Drink"
+                    android:layout_marginStart="32dp"
+                    tools:text="Salary"
                     android:textSize="16sp"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorTextPrimary"
@@ -205,15 +199,17 @@
                     android:id="@+id/txtDatePicked"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="16dp"
                     android:paddingTop="12dp"
                     android:paddingBottom="4dp"
                     android:textSize="16sp"
+                    android:paddingEnd="4dp"
                     android:textAlignment="textEnd"
                     app:layout_constraintStart_toEndOf="@+id/guidelineDate"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="RtlSymmetry" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -25,6 +25,10 @@ class MyApp : Application() {
         Timber.plant(Timber.DebugTree())
         Constants.currencySymbol = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
 
+        Currency.fromCode(sessionManager.getCurrencyCode())?.let {
+            Constants.currentCurrency = it
+        }
+
         AppCompatDelegate.setDefaultNightMode(sessionManager.getUserTheme())
     }
 

@@ -11,6 +11,10 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemCalendarDayBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
+import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import timber.log.Timber
 import java.math.BigDecimal
@@ -86,20 +90,21 @@ class CalendarAdapter(
                 val eventCalendar = Calendar.getInstance()
                 val expenseTotal = ArrayList<BigDecimal>()
                 val incomeTotal = ArrayList<BigDecimal>()
+
                 for (i in transactionList.indices) {
                     eventCalendar.time = Date(transactionList[i].registerDate)
                     if (dayNo == eventCalendar.get(Calendar.DAY_OF_MONTH)
                         && displayMonth == eventCalendar.get(Calendar.MONTH) + 1
                         && displayYear == eventCalendar.get(Calendar.YEAR)) {
 
-                        if (transactionList[i].type == Constants.TYPE.EXPENSE.ordinal) {
+                        if (transactionList[i].type == EXPENSE.ordinal) {
                             expenseTotal.add(transactionList[i].amount!!)
 
-                            txtExpenseAmount.text = AppUtils.insertComma(expenseTotal.sumOf { it })
-                        } else if (transactionList[i].type == Constants.TYPE.INCOME.ordinal) {
+                            txtExpenseAmount.text = changeAmountByCurrency(expenseTotal.sumOf { it })
+                        } else if (transactionList[i].type == INCOME.ordinal) {
                             incomeTotal.add(transactionList[i].amount!!)
 
-                            txtIncomeAmount.text = AppUtils.insertComma(incomeTotal.sumOf { it })
+                            txtIncomeAmount.text = changeAmountByCurrency(incomeTotal.sumOf { it })
                         }
                     }
                 }

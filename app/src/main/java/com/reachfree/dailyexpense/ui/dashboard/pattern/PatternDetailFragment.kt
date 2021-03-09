@@ -33,6 +33,8 @@ import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.Status.*
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -54,8 +56,6 @@ class PatternDetailFragment : BaseDialogFragment<PatternDetailFragmentBinding>()
     private var expensePatternType = Constants.EXPENSE_PATTERN_TOTAL
     private lateinit var currentDate: Date
 
-    private var moneyUnit = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
@@ -63,11 +63,8 @@ class PatternDetailFragment : BaseDialogFragment<PatternDetailFragmentBinding>()
         expensePatternType = requireArguments().getInt(PATTERN, Constants.EXPENSE_PATTERN_TOTAL)
         currentDate = Date(requireArguments().getLong(DATE, Date().time))
 
-        val dateTypeYearMonth = AppUtils.convertDateToYearMonth(currentDate)
-        startOfMonth = AppUtils.startOfMonth(dateTypeYearMonth)
-        endOfMonth = AppUtils.endOfMonth(dateTypeYearMonth)
-
-        moneyUnit = requireContext().resources.getString(R.string.money_unit)
+        startOfMonth = AppUtils.startOfMonth(AppUtils.convertDateToYearMonth(currentDate))
+        endOfMonth = AppUtils.endOfMonth(AppUtils.convertDateToYearMonth(currentDate))
     }
 
     override fun getDialogFragmentBinding(
@@ -87,7 +84,7 @@ class PatternDetailFragment : BaseDialogFragment<PatternDetailFragmentBinding>()
 
     private fun setupView() {
         binding.txtViewNoItem.text = requireContext().resources.getString(R.string.text_no_transaction)
-        binding.imgNoItem.setImageResource(R.drawable.avatar)
+        binding.imgNoItem.load(R.drawable.avatar)
 
         binding.recyclerCategory.apply {
             setHasFixedSize(true)
@@ -216,8 +213,7 @@ class PatternDetailFragment : BaseDialogFragment<PatternDetailFragmentBinding>()
 
         val ssb = SpannableStringBuilder(dateString)
             .append("\n")
-            .append(AppUtils.insertComma(data!!.sumOf { it.sumByCategory!! }))
-            .append(moneyUnit)
+            .append(CurrencyUtils.changeAmountByCurrency(data!!.sumOf { it.sumByCategory!! }))
 
         ssb.setSpan(StyleSpan(Typeface.BOLD), 0, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         ssb.setSpan(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)),
@@ -253,7 +249,6 @@ class PatternDetailFragment : BaseDialogFragment<PatternDetailFragmentBinding>()
             centerText = ssb
             animateY(ANIMATION_DURATION, Easing.EaseInOutQuad)
 
-//            marker = CustomMarkerView(data, requireContext(), R.layout.piechart_marker_view)
             invalidate()
         }
 

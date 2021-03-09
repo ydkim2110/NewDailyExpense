@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DailyExpense</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="dashboard">Dashboard</string>
     <string name="transaction">Transaction</string>
-    <string name="budget">Budget</string>
+    <string name="expense_budget">Expense Budget</string>
     <string name="calendar">Calendar</string>
     <string name="settings">Settings</string>
     <string name="expense">Expense</string>
@@ -42,7 +42,7 @@
     <string name="text_category">Category</string>
     <string name="text_sub_category">SubCategory</string>
     <string name="text_date">Date</string>
-    <string name="text_hint_zero_amount">0</string>
+    <string name="text_hint_zero_amount">0.00</string>
     <string name="text_credit_card">Credit</string>
     <string name="text_cash">Cash</string>
     <string name="this_field_is_required">This field is required.</string>
@@ -295,6 +295,28 @@
     <string name="dialog_delete_description_number">Delete?</string>
     <string name="dialog_delete_positive">OK</string>
     <string name="dialog_delete_negative">No</string>
+    <string name="options">Options</string>
+    <string name="group_by_category">Group By Category:</string>
+    <string name="group_by_transaction">Group By Transaction:</string>
+    <string name="toolbar_title_total_amount">Total Amount</string>
+    <string name="toolbar_title_payment">Credit/Cash</string>
+    <string name="btn_create_budget">Create Budget</string>
+    <string name="text_budget_left">%s left</string>
+    <string name="text_budget_out_of_budgeted">out of %s budgeted</string>
+    <string name="text_budget_you_spent_this_month">"You spent %s this month."</string>
+    <string name="text_budget_amount_per_day">"%s/day"</string>
+    <string name="text_budget">Budget</string>
+    <string name="text_spent">Spent</string>
+    <string name="text_left_to_spend">Left to Spend</string>
+    <string name="toolbar_title_create_budget">Create Budget</string>
 
-
+    <plurals name="number_of_transaction_count">
+        <item quantity="one">%d Transaction</item>
+        <item quantity="other">%d Transactions</item>
+    </plurals>
+    <string name="text_transaction_count_zero">No Transaction</string>
+    <string name="toolbar_title_settings">Settings</string>
+    <string name="others">Others</string>
+    <string name="add_transaction">Add Transaction</string>
+    <string name="text_payment">Payment</string>
 </resources>

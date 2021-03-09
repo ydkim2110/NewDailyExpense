@@ -26,12 +26,15 @@ import com.reachfree.dailyexpense.databinding.ExpenseBudgetDetailFragmentBinding
 import com.reachfree.dailyexpense.ui.add.AddExpenseFragment
 import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
-import com.reachfree.dailyexpense.ui.dashboard.pattern.PatternDetailFragment
 import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.AppUtils.changeAmountByCurrency
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
+import com.reachfree.dailyexpense.util.extension.animateProgressbar
+import com.reachfree.dailyexpense.util.extension.changeTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
@@ -92,11 +95,11 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
     private fun setupToolbar() {
         binding.appBar.txtToolbarTitle.text = resources.getString(category.visibleNameResId)
         binding.appBar.btnAction.visibility = View.VISIBLE
-        binding.appBar.btnAction.setImageResource(R.drawable.ic_delete)
+        binding.appBar.btnAction.load(R.drawable.ic_delete)
     }
 
     private fun setupView() {
-        binding.imgCategoryIcon.setImageResource(category.iconResId)
+        binding.imgCategoryIcon.load(category.iconResId)
     }
 
     private fun setupRecyclerView() {
@@ -145,22 +148,23 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
                 var leftBudgetPercent = 0
 
                 if (budgetedAmount > BigDecimal(0)) {
-                    leftBudgetPercent = if (leftAmount >= BigDecimal(0)) {
-                        AppUtils.calculatePercentage(leftAmount, budgetedAmount)
+                    leftBudgetPercent = if (spentAmount >= BigDecimal(0)) {
+                        AppUtils.calculatePercentage(spentAmount, budgetedAmount)
                     } else {
                         100
                     }
                 }
 
-                binding.progressbarBudget.progressTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), category.backgroundColor))
+                binding.progressbarBudget.changeTintColor(category.backgroundColor)
 
                 binding.txtBudgetedAmount.text = changeAmountByCurrency(budgetedAmount)
                 binding.txtLeftToSpendAmount.text = changeAmountByCurrency(leftAmount)
-                AppUtils.animateProgressbar(binding.progressbarBudget, leftBudgetPercent)
 
-                val budgetCommentText = "You spent ${changeAmountByCurrency(spentAmount)} this month."
-                binding.txtBudgetComment.text = budgetCommentText
+                binding.progressbarBudget.animateProgressbar(leftBudgetPercent)
+
+                binding.txtBudgetComment.text = requireContext().resources.getString(
+                    R.string.text_budget_you_spent_this_month,
+                    changeAmountByCurrency(spentAmount))
             }
         }
 
@@ -249,7 +253,11 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
             valueTextSize = 14f
             valueFormatter = object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
-                    return changeAmountByCurrency(BigDecimal(value.toString()))
+                    return if (value == 0f) {
+                        ""
+                    } else {
+                        changeAmountByCurrency(BigDecimal(value.toString()))
+                    }
                 }
             }
             colors = barColors

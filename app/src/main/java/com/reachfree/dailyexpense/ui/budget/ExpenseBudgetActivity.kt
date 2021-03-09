@@ -3,19 +3,13 @@ package com.reachfree.dailyexpense.ui.budget
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import com.google.android.material.button.MaterialButton
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.ExpenseBudgetActivityBinding
 import com.reachfree.dailyexpense.ui.base.BaseActivity
@@ -23,14 +17,14 @@ import com.reachfree.dailyexpense.ui.budget.create.CreateBudgetFragment
 import com.reachfree.dailyexpense.ui.budget.detail.ExpenseBudgetDetailFragment
 import com.reachfree.dailyexpense.ui.dashboard.DashboardActivity
 import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.AppUtils.changeAmountByCurrency
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
-import com.reachfree.dailyexpense.util.Constants.Status
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
+import com.reachfree.dailyexpense.util.extension.animateProgressbar
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
-import java.text.DecimalFormat
 import java.time.YearMonth
 import java.util.*
 
@@ -54,8 +48,7 @@ class ExpenseBudgetActivity :
         hideContentLayout()
 
         binding.txtViewNoItem.text = getString(R.string.text_no_transaction)
-        binding.imgNoItem.setImageResource(R.drawable.avatar)
-
+        binding.imgNoItem.load(R.drawable.avatar)
 
         val startOfMonth = AppUtils.startOfMonth(YearMonth.now())
         val endOfMonth = AppUtils.endOfMonth(YearMonth.now())
@@ -144,7 +137,7 @@ class ExpenseBudgetActivity :
             var leftBudgetPercent = 0
 
             if (budgetedAmount > BigDecimal(0)) {
-                leftBudgetPercent = AppUtils.calculatePercentage(leftAmount, budgetedAmount)
+                leftBudgetPercent = AppUtils.calculatePercentage(spentAmount, budgetedAmount)
 
                 AppUtils.animateTextViewPercent(
                     binding.expenseBudgetSummaryLayout.txtLeftToSpendPercent,
@@ -162,14 +155,11 @@ class ExpenseBudgetActivity :
             }
 
             with(binding.expenseBudgetSummaryLayout) {
-                val leftToSpendText = "${changeAmountByCurrency(leftAmount)} Left"
-                val budgetedAmountText = "out of ${changeAmountByCurrency(budgetedAmount)} Budgeted"
-                val budgetCommentText = "You spent ${changeAmountByCurrency(spentAmount)} this month."
-                txtLeftToSpendAmount.text = leftToSpendText
-                txtBudgetedAmount.text = budgetedAmountText
-                txtBudgetComment.text = budgetCommentText
+                txtLeftToSpendAmount.text = resources.getString(R.string.text_budget_left, changeAmountByCurrency(leftAmount))
+                txtBudgetedAmount.text = resources.getString(R.string.text_budget_out_of_budgeted, changeAmountByCurrency(budgetedAmount))
+                txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month, changeAmountByCurrency(spentAmount))
 
-                AppUtils.animateProgressbar(progressbarBudget, leftBudgetPercent)
+                progressbarBudget.animateProgressbar(leftBudgetPercent)
             }
             expenseBudgetAdapter = ExpenseBudgetAdapter(daysOfMonth)
             binding.recyclerBudget.adapter = expenseBudgetAdapter

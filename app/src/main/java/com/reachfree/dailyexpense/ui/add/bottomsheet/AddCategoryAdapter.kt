@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.reachfree.dailyexpense.data.model.Category
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemAddCategoryBinding
+import com.reachfree.dailyexpense.util.extension.changeImageTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 
 /**
@@ -25,9 +27,8 @@ class AddCategoryAdapter : ListAdapter<Category, AddCategoryAdapter.MyViewHolder
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(category: Category) {
             with(binding) {
-                imgIcon.setImageResource(category.iconResId)
-                imgIcon.imageTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, category.backgroundColor))
+                imgIcon.load(category.iconResId)
+                imgIcon.changeImageTintColor(category.backgroundColor)
 
                 txtCategoryName.text = root.resources.getString(category.visibleNameResId)
 

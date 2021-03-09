@@ -11,6 +11,8 @@ import com.reachfree.dailyexpense.data.model.Category
 import com.reachfree.dailyexpense.data.model.SubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemAddCategoryBinding
+import com.reachfree.dailyexpense.util.extension.changeImageTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 
 /**
@@ -26,9 +28,8 @@ class AddSubCategoryAdapter : ListAdapter<SubCategory, AddSubCategoryAdapter.MyV
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(subCategory: SubCategory) {
             with(binding) {
-                imgIcon.setImageResource(subCategory.iconResId)
-                imgIcon.imageTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, subCategory.backgroundColor))
+                imgIcon.load(subCategory.iconResId)
+                imgIcon.changeImageTintColor(subCategory.backgroundColor)
 
                 txtCategoryName.text = root.resources.getString(subCategory.visibleNameResId)
 

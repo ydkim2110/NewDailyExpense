@@ -61,7 +61,7 @@ class CreateBudgetFragment : BaseDialogFragment<CreateBudgetFragmentBinding>() {
     }
 
     private fun setupToolbar() {
-        binding.appBar.txtToolbarTitle.text = "Create Budget"
+        binding.appBar.txtToolbarTitle.text = getString(R.string.toolbar_title_create_budget)
         binding.appBar.btnBack.setOnSingleClickListener { dismiss() }
     }
 

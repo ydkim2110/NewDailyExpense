@@ -14,8 +14,12 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.CurrencyUtils
 import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
+import java.math.BigDecimal
 
 /**
  * DailyExpense
@@ -24,7 +28,6 @@ import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
  * Time: 오후 9:13
  */
 class RecentTGListAdapter(
-    sessionManager: SessionManager,
     private val listener: RecentTGListHeaderAdapter.OnItemClickListener
 ) : ListAdapter<TransactionEntity, RecentTGListAdapter.MyViewHolder>(DiffUtils()) {
 
@@ -38,8 +41,8 @@ class RecentTGListAdapter(
                     val expenseCategory = AppUtils.getExpenseCategory(transaction.categoryId)
                     val expenseSubCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
-                    imgIcon.setImageResource(expenseSubCategory.iconResId)
-                    imgIcon.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(root.context, expenseCategory.backgroundColor))
+                    imgIcon.load(expenseSubCategory.iconResId)
+                    imgIcon.changeBackgroundTintColor(expenseCategory.backgroundColor)
 
                     viewPatternColor.visibility = View.VISIBLE
 
@@ -54,30 +57,27 @@ class RecentTGListAdapter(
                             viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_invest)
                         }
                     }
+
                     txtDescription.text = transaction.description
                     txtCategory.setText(expenseCategory.visibleNameResId)
                     txtSubCategory.setText(expenseSubCategory.visibleNameResId)
 
-                    //TODO: 화폐단위
-                    transaction.amount?.let {
-                        txtAmount.text = AppUtils.changeAmountByCurrency(it)
-                    }
+                    txtAmount.text = transaction.amount?.let { CurrencyUtils.changeAmountByCurrency(it) }
+                        ?: CurrencyUtils.changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorExpense))
                 }
                 else if (transaction.type == Constants.TYPE.INCOME.ordinal) {
                     val incomeCategory = AppUtils.getIncomeCategory(transaction.categoryId)
 
-                    imgIcon.setImageResource(incomeCategory.iconResId)
-                    imgIcon.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(root.context, incomeCategory.backgroundColor))
+                    imgIcon.load(incomeCategory.iconResId)
+                    imgIcon.changeBackgroundTintColor(incomeCategory.backgroundColor)
 
                     txtDescription.text = transaction.description
                     txtCategory.setText(incomeCategory.visibleNameResId)
                     txtSubCategory.visibility = View.INVISIBLE
 
-                    //TODO: 화폐단위
-                    transaction.amount?.let {
-                        txtAmount.text = AppUtils.changeAmountByCurrency(it)
-                    }
+                    txtAmount.text = transaction.amount?.let { CurrencyUtils.changeAmountByCurrency(it) }
+                        ?: CurrencyUtils.changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorIncome))
                 }
 

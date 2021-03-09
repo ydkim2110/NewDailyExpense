@@ -15,6 +15,9 @@ import com.reachfree.dailyexpense.databinding.ItemExpenseBudgetBinding
 import com.reachfree.dailyexpense.databinding.ItemTransactionRowBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.changeImageTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
 import java.util.*
@@ -33,12 +36,12 @@ class CreateBudgetAdapter
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(createBudget: CreateBudgetModel) {
             with(binding) {
-                imgCategoryIcon.setImageResource(createBudget.category!!.iconResId)
-                imgCategoryIcon.imageTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, createBudget.category!!.backgroundColor))
+                imgCategoryIcon.load(createBudget.category!!.iconResId)
+                imgCategoryIcon.changeImageTintColor(createBudget.category!!.backgroundColor)
 
                 txtCategoryName.setText(createBudget.category!!.visibleNameResId)
-                txtBudgetedAmount.text = AppUtils.changeAmountByCurrency(createBudget.budgetedAmount ?: BigDecimal(0))
+                txtBudgetedAmount.text =
+                    CurrencyUtils.changeAmountByCurrency(createBudget.budgetedAmount ?: BigDecimal(0))
             }
 
             binding.root.setOnSingleClickListener {

@@ -12,6 +12,8 @@ import com.reachfree.dailyexpense.databinding.ItemCategoryListGroupHeaderBinding
 import com.reachfree.dailyexpense.ui.dashboard.RecentTGListAdapter
 import com.reachfree.dailyexpense.ui.transaction.TransactionGroup
 import com.reachfree.dailyexpense.util.AppUtils
+import com.reachfree.dailyexpense.util.extension.changeImageTintColor
+import com.reachfree.dailyexpense.util.extension.load
 
 /**
  * DailyExpense
@@ -31,9 +33,8 @@ class PatternCategoryListGroupHeaderAdapter(
             val subCategory = AppUtils.getExpenseSubCategory(transactionGroup.key)
 
             with(binding) {
-                imgIcon.setImageResource(subCategory.iconResId)
-                imgIcon.imageTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, subCategory.backgroundColor))
+                imgIcon.load(subCategory.iconResId)
+                imgIcon.changeImageTintColor(subCategory.backgroundColor)
 
                 txtSubcategoryName.text = root.resources.getString(subCategory.visibleNameResId)
 

@@ -12,6 +12,7 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionDateBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.CurrencyUtils
 import java.math.BigDecimal
 
 /**
@@ -47,8 +48,7 @@ class TGListHeaderAdapter(
                     txtTotalAmountByDate.setTextColor(ContextCompat.getColor(root.context, R.color.colorIncome))
                 }
 
-                //TODO: 화폐단위
-                txtTotalAmountByDate.text = AppUtils.changeAmountByCurrency(total)
+                txtTotalAmountByDate.text = CurrencyUtils.changeAmountByCurrency(total)
                 
                 txtDate.text = AppUtils.dayDateFormat.format(AppUtils.stringToDate(transactionGroup.key))
                 txtDayOfWeek.text = AppUtils.dayOfWeekDateFormat.format(AppUtils.stringToDate(transactionGroup.key))

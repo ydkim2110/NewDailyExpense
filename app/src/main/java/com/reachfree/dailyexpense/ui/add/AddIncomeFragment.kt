@@ -1,38 +1,47 @@
 package com.reachfree.dailyexpense.ui.add
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Category
+import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.AddIncomeFragmentBinding
 import com.reachfree.dailyexpense.ui.add.bottomsheet.AddCategoryBottomSheet
-import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
+import com.reachfree.dailyexpense.util.*
 import com.reachfree.dailyexpense.util.Constants.PATTERN
 import com.reachfree.dailyexpense.util.Constants.PAYMENT
 import com.reachfree.dailyexpense.util.Constants.TYPE
 import com.reachfree.dailyexpense.util.Constants.TYPE_INCOME
 import com.reachfree.dailyexpense.util.extension.runDelayed
+import com.reachfree.dailyexpense.util.extension.setColorFilter
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
-import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddIncomeFragment : DialogFragment() {
+class AddIncomeFragment : BaseDialogFragment<AddIncomeFragmentBinding>() {
 
-    private var _binding: AddIncomeFragmentBinding? = null
-    private val binding  get() = _binding!!
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     private val viewModel: AddTransactionViewModel by viewModels()
     private val addCategoryBottomSheet: AddCategoryBottomSheet by lazy {
@@ -51,6 +60,13 @@ class AddIncomeFragment : DialogFragment() {
     private var passedTransaction: TransactionEntity? = null
     private var passedDate: Long? = null
 
+    private val dropDownIcon
+        get() = ResourcesCompat.getDrawable(resources, R.drawable.ic_arrow_drop_down, null)
+
+    var decimals = true
+    var current = ""
+    var separator = ","
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
@@ -68,12 +84,11 @@ class AddIncomeFragment : DialogFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = AddIncomeFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun getDialogFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): AddIncomeFragmentBinding {
+        return AddIncomeFragmentBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,12 +114,26 @@ class AddIncomeFragment : DialogFragment() {
             binding.btnCategory.text = resources.getString(category.visibleNameResId)
         }
 
+        binding.txtCurrency.text = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
         binding.txtDatePicked.text = AppUtils.addTransactionDateFormat.format(passedDate)
+
+        val categoryIcon = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.category_salary,
+            null
+        )
+
+        categoryIcon?.setColorFilter(ContextCompat.getColor(requireContext(), R.color.category_salary))
+
+        binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(
+            categoryIcon,
+            null,
+            dropDownIcon,
+            null
+        )
     }
 
     private fun setupViewHandler() {
-
-
         binding.edtAmount.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -113,27 +142,46 @@ class AddIncomeFragment : DialogFragment() {
             }
 
             override fun afterTextChanged(number: Editable?) {
-                binding.edtAmount.removeTextChangedListener(this)
+                if (number.toString() != current) {
+                    binding.edtAmount.removeTextChangedListener(this)
 
-                try {
-                    var givenNumber = number.toString()
-                    val longValue: Long
-                    if (givenNumber.contains(",")) {
-                        givenNumber = givenNumber.replace(",".toRegex(), "")
+                    val cleanString: String =
+                        number.toString().replace("[$,.]".toRegex(), "").replace("".toRegex(), "")
+                            .replace("\\s+".toRegex(), "")
+
+                    if (cleanString.isNotEmpty()) {
+                        try {
+                            val parsed: Double
+                            val parsedInt: Int
+                            val formatted: String
+
+                            when (Constants.currentCurrency.decimalPoint) {
+                                2 -> {
+                                    parsed = cleanString.toDouble()
+                                    formatted = DecimalFormat("#,##0.00").format((parsed/100))
+                                }
+                                else -> {
+                                    parsedInt = cleanString.toInt()
+                                    formatted = DecimalFormat("#,###").format(parsedInt)
+                                }
+                            }
+
+                            current = formatted
+
+                            if (separator != "," && !decimals) {
+                                binding.edtAmount.setText(formatted.replace(",".toRegex(), separator))
+                            } else {
+                                binding.edtAmount.setText(formatted)
+                            }
+
+                            binding.edtAmount.setSelection(formatted.length)
+                        } catch (e: java.lang.NumberFormatException) {
+
+                        }
                     }
-                    longValue = givenNumber.toLong()
-                    val formatter = DecimalFormat("#,###,###")
-                    val formattedString = formatter.format(longValue)
-                    binding.edtAmount.setText(formattedString)
-                    binding.edtAmount.setSelection(binding.edtAmount.text.length)
 
-                } catch (e: NumberFormatException) {
-
-                } catch (e: Exception) {
-
+                    binding.edtAmount.addTextChangedListener(this)
                 }
-
-                binding.edtAmount.addTextChangedListener(this)
             }
         })
 
@@ -146,6 +194,15 @@ class AddIncomeFragment : DialogFragment() {
             override fun onSelectedCategory(category: Category) {
                 selectedCategory = category.id
                 binding.btnCategory.text = resources.getString(category.visibleNameResId)
+
+                val categoryIcon = ResourcesCompat.getDrawable(resources, category.iconResId, null)
+                categoryIcon?.setColorFilter(ContextCompat.getColor(requireContext(), category.backgroundColor))
+                binding.btnCategory.setCompoundDrawablesWithIntrinsicBounds(
+                    categoryIcon,
+                    null,
+                    dropDownIcon,
+                    null
+                )
             }
         })
 
@@ -186,21 +243,18 @@ class AddIncomeFragment : DialogFragment() {
         if (!AppUtils.validated(binding.edtAmount, binding.edtDescription)) return
 
         val descriptionValue = binding.edtDescription.text.toString().trim()
-        var amountValue = 0L
+        var amountValue = BigDecimal(0)
 
         try {
-            var givenNumber = binding.edtAmount.text.toString()
-            if (givenNumber.contains(",")) {
-                givenNumber = givenNumber.replace(",".toRegex(), "")
-            }
-            amountValue = givenNumber.toLong()
+            amountValue = binding.edtAmount.text.toString().trim().replace("[$,]".toRegex(), "")
+                .replace(Constants.currentCurrency.symbol, "").toBigDecimal()
         } catch (e: NumberFormatException) {
-
+            Timber.d("ERROR: $e")
         } catch (e: Exception) {
-
+            Timber.d("ERROR: $e")
         }
 
-        if (amountValue <= 0L) {
+        if (amountValue <= BigDecimal(0)) {
             binding.edtAmount.error = getString(R.string.text_must_be_greater_than_zero)
             return
         }
@@ -208,7 +262,7 @@ class AddIncomeFragment : DialogFragment() {
         if (passedTransaction == null) {
             val transaction = TransactionEntity().apply {
                 description = descriptionValue
-                amount = BigDecimal(amountValue)
+                amount = amountValue
                 type = TYPE.INCOME.ordinal
                 payment = PAYMENT.INCOME.ordinal
                 pattern = PATTERN.INCOME.ordinal
@@ -221,7 +275,7 @@ class AddIncomeFragment : DialogFragment() {
         } else {
             val transaction = passedTransaction?.apply {
                 description = descriptionValue
-                amount = BigDecimal(amountValue)
+                amount = amountValue
                 categoryId = selectedCategory
                 subCategoryId = selectedCategory
                 registerDate = selectedDate.time.time
@@ -245,7 +299,16 @@ class AddIncomeFragment : DialogFragment() {
                         val passedCategory = AppUtils.getIncomeCategory(it.categoryId)
 
                         binding.btnDelete.visibility = View.VISIBLE
-                        binding.edtAmount.setText(it.amount?.let { amount -> AppUtils.insertComma(amount) })
+                        binding.edtAmount.setText(it.amount?.let { amount ->
+                            when (Constants.currentCurrency.decimalPoint) {
+                                2 -> {
+                                    CurrencyUtils.edtAmountTextWithSecondDigit(amount)
+                                }
+                                else -> {
+                                    CurrencyUtils.edtAmountTextWithZeroDigit(amount)
+                                }
+                            }
+                        })
                         binding.edtDescription.setText(it.description)
                         binding.txtDatePicked.text = AppUtils.addTransactionDateFormat.format(it.registerDate)
                         binding.btnCategory.text = requireContext().resources.getString(passedCategory.visibleNameResId)

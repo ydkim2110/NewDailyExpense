@@ -1,15 +1,16 @@
 package com.reachfree.dailyexpense.ui.budget.detail
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionRowBinding
 import com.reachfree.dailyexpense.util.AppUtils
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
+import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
 import java.util.*
@@ -30,13 +31,12 @@ class ExpenseBudgetDetailAdapter
             val subCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
             with(binding) {
-                imgSubCategoryIcon.setImageResource(subCategory.iconResId)
-                imgSubCategoryIcon.backgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, subCategory.backgroundColor))
+                imgSubCategoryIcon.load(subCategory.iconResId)
+                imgSubCategoryIcon.changeBackgroundTintColor(subCategory.backgroundColor)
 
                 txtDescription.text = transaction.description
                 txtDate.text = AppUtils.defaultDateFormat.format(Date(transaction.registerDate))
-                txtAmount.text = AppUtils.changeAmountByCurrency(transaction.amount ?: BigDecimal(0))
+                txtAmount.text = changeAmountByCurrency(transaction.amount ?: BigDecimal(0))
             }
 
             binding.root.setOnSingleClickListener {

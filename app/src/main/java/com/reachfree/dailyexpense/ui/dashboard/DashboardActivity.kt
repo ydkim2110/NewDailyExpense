@@ -32,7 +32,6 @@ import com.reachfree.dailyexpense.ui.calendar.CalendarActivity
 import com.reachfree.dailyexpense.ui.dashboard.pattern.PatternDetailFragment
 import com.reachfree.dailyexpense.ui.dashboard.payment.PaymentFragment
 import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountFragment
-import com.reachfree.dailyexpense.ui.settings.PREF_APP_THEME
 import com.reachfree.dailyexpense.ui.settings.PREF_CURRENCY
 import com.reachfree.dailyexpense.ui.settings.SettingsActivity
 import com.reachfree.dailyexpense.ui.transaction.TransactionActivity
@@ -49,10 +48,12 @@ import com.reachfree.dailyexpense.util.Constants.PAYMENT
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.runDelayed
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
@@ -62,7 +63,6 @@ import kotlin.collections.ArrayList
 @AndroidEntryPoint
 class DashboardActivity :
     BaseActivity<DashboardActivityBinding>({ DashboardActivityBinding.inflate(it) }),
-    NavigationView.OnNavigationItemSelectedListener,
     RecentTGListHeaderAdapter.OnItemClickListener {
 
     @Inject lateinit var sessionManager: SessionManager
@@ -87,6 +87,10 @@ class DashboardActivity :
         super.onCreate(savedInstanceState)
         Constants.currencySymbol = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
 
+        Currency.fromCode(sessionManager.getCurrencyCode())?.let {
+            Constants.currentCurrency = it
+        }
+
         val startDate = LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT).minusDays(1).toMillis()!!
         val endDate = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).toMillis()!!
         currentRecentStartDate = startDate
@@ -103,7 +107,7 @@ class DashboardActivity :
         setCurrentDate(Date())
 
         binding.recentTransactionsLayout.txtNoItem.text = getString(R.string.text_no_transaction)
-        binding.recentTransactionsLayout.imgNoItem.setImageResource(R.drawable.avatar)
+        binding.recentTransactionsLayout.imgNoItem.load(R.drawable.avatar)
 
         setupToolbar()
         setupNavigation()
@@ -113,8 +117,6 @@ class DashboardActivity :
         setupSelectTypeListener()
         subscribeToObserver()
 
-        binding.navigationDrawer.setNavigationItemSelectedListener(this)
-
         sessionManager.getPrefs().registerOnSharedPreferenceChangeListener(sharedPrefListener)
     }
 
@@ -122,27 +124,13 @@ class DashboardActivity :
         SharedPreferences.OnSharedPreferenceChangeListener { sharedPref, key ->
             if (PREF_CURRENCY == key) {
                 Constants.currencySymbol = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
+                Currency.fromCode(sessionManager.getCurrencyCode())?.let {
+                    Constants.currentCurrency = it
+                }
+
                 viewModel.dateForMonthly.value = listOf(currentStartDate, currentEndDate)
                 viewModel.dateForRecent.value = listOf(currentRecentStartDate, currentRecentEndDate)
             }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.nav_transaction -> {
-                runAfterDrawerClose { TransactionActivity.start(this) }
-            }
-            R.id.nav_budget -> {
-                runAfterDrawerClose { ExpenseBudgetActivity.start(this) }
-            }
-            R.id.nav_calendar -> {
-                runAfterDrawerClose { CalendarActivity.start(this) }
-            }
-            R.id.nav_settings -> {
-                runAfterDrawerClose { SettingsActivity.start(this) }
-            }
-        }
-        return false
     }
 
     private fun runAfterDrawerClose(action: () -> Unit) {
@@ -152,6 +140,17 @@ class DashboardActivity :
 
     private fun setupToolbar() {
         setSupportActionBar(binding.appBar.toolbar)
+
+        binding.appBar.toolbar.setNavigationOnClickListener {
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        with(binding.includeDrawer) {
+            layoutTransaction.setOnSingleClickListener { runAfterDrawerClose { TransactionActivity.start(this@DashboardActivity) } }
+            layoutExpenseBudget.setOnSingleClickListener { runAfterDrawerClose { ExpenseBudgetActivity.start(this@DashboardActivity) } }
+            layoutCalendar.setOnSingleClickListener { runAfterDrawerClose { CalendarActivity.start(this@DashboardActivity) } }
+            layoutSettings.setOnSingleClickListener { runAfterDrawerClose { SettingsActivity.start(this@DashboardActivity) } }
+        }
     }
 
     private fun setupNavigation() {
@@ -348,11 +347,10 @@ class DashboardActivity :
                 .sumOf { it.amount!! }
 
             with(binding.totalAmountLayout) {
-                animateTextViewAmount(txtTotalAmount, ANIMATION_DURATION, START_VALUE, (incomes - expenses).toInt())
-                animateTextViewAmount(txtTotalIncome, ANIMATION_DURATION, START_VALUE, incomes.toInt())
-                animateTextViewAmount(txtTotalExpense, ANIMATION_DURATION, START_VALUE, expenses.toInt())
+                animateTextViewAmount(txtTotalAmount, ANIMATION_DURATION, START_VALUE, incomes.minus(expenses))
+                animateTextViewAmount(txtTotalIncome, ANIMATION_DURATION, START_VALUE, incomes)
+                animateTextViewAmount(txtTotalExpense, ANIMATION_DURATION, START_VALUE, expenses)
             }
-
         }
     }
 
@@ -372,9 +370,9 @@ class DashboardActivity :
                 .sumOf { it.amount!! }
 
             with(binding.expensePatternLayout) {
-                animateTextViewAmount(txtNormalSum, ANIMATION_DURATION, START_VALUE, normalExpense.toInt())
-                animateTextViewAmount(txtWasteSum, ANIMATION_DURATION, START_VALUE, wasteExpense.toInt())
-                animateTextViewAmount(txtInvestSum, ANIMATION_DURATION, START_VALUE, investExpense.toInt())
+                animateTextViewAmount(txtNormalSum, ANIMATION_DURATION, START_VALUE, normalExpense)
+                animateTextViewAmount(txtWasteSum, ANIMATION_DURATION, START_VALUE, wasteExpense)
+                animateTextViewAmount(txtInvestSum, ANIMATION_DURATION, START_VALUE, investExpense)
             }
 
 
@@ -395,8 +393,8 @@ class DashboardActivity :
                 .sumOf { it.amount!! }
 
             with(binding.paymentSummaryLayout) {
-                animateTextViewAmount(txtCreditAmount, ANIMATION_DURATION, START_VALUE, creditAmount.toInt())
-                animateTextViewAmount(txtCashAmount, ANIMATION_DURATION, START_VALUE, cashAmount.toInt())
+                animateTextViewAmount(txtCreditAmount, ANIMATION_DURATION, START_VALUE, creditAmount)
+                animateTextViewAmount(txtCashAmount, ANIMATION_DURATION, START_VALUE, cashAmount)
             }
 
             setupPaymentBarChart(creditAmount, cashAmount)

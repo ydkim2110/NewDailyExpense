@@ -117,16 +117,6 @@ object AppUtils {
         return numerator.divide(denominator, 2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal(100)).toInt()
     }
 
-    fun insertComma(amount: BigDecimal): String {
-        return DecimalFormat("#,###").format(amount)
-    }
-
-    fun changeAmountByCurrency(amount: BigDecimal): String {
-        val amountString = insertComma(amount)
-        val currencyUnit = Constants.currencySymbol
-        return "$currencyUnit $amountString"
-    }
-
     private fun changeNumberToComma(number: Int): String {
         return NumberFormat.getNumberInstance().format(number)
     }
@@ -143,14 +133,12 @@ object AppUtils {
         view: TextView,
         duration: Long,
         initialValue: Int,
-        finalValue: Int
+        finalValue: BigDecimal
     ) {
-        ValueAnimator.ofInt(initialValue, finalValue).apply {
+        ValueAnimator.ofInt(initialValue, finalValue.toInt()).apply {
             setDuration(duration)
             addUpdateListener {
-                view.text = StringBuilder(Constants.currencySymbol)
-                    .append(" ")
-                    .append(changeNumberToComma(it.animatedValue as Int))
+                view.text = CurrencyUtils.changeAmountByCurrency(finalValue)
             }
             start()
         }

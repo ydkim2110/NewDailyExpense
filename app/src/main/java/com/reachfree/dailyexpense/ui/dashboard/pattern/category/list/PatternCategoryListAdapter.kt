@@ -11,6 +11,8 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemExpenseByCategoryBinding
 import com.reachfree.dailyexpense.databinding.ItemPatternCategoryListBinding
 import com.reachfree.dailyexpense.util.AppUtils
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.changeTintColor
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import timber.log.Timber
 import java.math.BigDecimal
@@ -39,12 +41,10 @@ class PatternCategoryListAdapter(
 
                 txtSubcategoryName.text = root.resources.getString(subCategory.visibleNameResId)
 
-                progressbarCategory.progressTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(root.context, subCategory.backgroundColor))
+                progressbarCategory.changeTintColor(subCategory.backgroundColor)
 
-                //TODO: 화폐단위
                 transaction.amount?.let {
-                    txtTotalExpenseAmount.text = "${AppUtils.insertComma(transaction.amount!!)}원"
+                    txtTotalExpenseAmount.text = CurrencyUtils.changeAmountByCurrency(it)
 
                     progressbarCategory.max = amount.toInt()
                     AppUtils.animateProgressbar(progressbarCategory, it.toInt())

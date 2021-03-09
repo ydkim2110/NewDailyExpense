@@ -13,6 +13,9 @@ import com.reachfree.dailyexpense.databinding.ItemTransactionRowBinding
 import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountAdapter
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
 import java.util.*
@@ -32,24 +35,22 @@ class PaymentAdapter : ListAdapter<TransactionEntity, PaymentAdapter.MyViewHolde
                 if (transaction.type == Constants.TYPE.EXPENSE.ordinal) {
                     val subCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
-                    imgSubCategoryIcon.setImageResource(subCategory.iconResId)
-                    imgSubCategoryIcon.backgroundTintList =
-                        ColorStateList.valueOf(ContextCompat.getColor(root.context, subCategory.backgroundColor))
+                    imgSubCategoryIcon.load(subCategory.iconResId)
+                    imgSubCategoryIcon.changeBackgroundTintColor(subCategory.backgroundColor)
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorExpense))
 
                 } else if (transaction.type == Constants.TYPE.INCOME.ordinal) {
                     val category = AppUtils.getIncomeCategory(transaction.categoryId)
 
-                    imgSubCategoryIcon.setImageResource(category.iconResId)
-                    imgSubCategoryIcon.backgroundTintList =
-                        ColorStateList.valueOf(ContextCompat.getColor(root.context, category.backgroundColor))
+                    imgSubCategoryIcon.load(category.iconResId)
+                    imgSubCategoryIcon.changeBackgroundTintColor(category.backgroundColor)
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorIncome))
                 }
 
                 txtDescription.text = transaction.description
                 txtDate.text = AppUtils.defaultDateFormat.format(Date(transaction.registerDate))
                 txtAmount.text =
-                    AppUtils.changeAmountByCurrency(transaction.amount ?: BigDecimal(0))
+                    CurrencyUtils.changeAmountByCurrency(transaction.amount ?: BigDecimal(0))
             }
             binding.root.setOnSingleClickListener {
                 onItemClickListener?.let { it(transaction) }

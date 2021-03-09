@@ -77,7 +77,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Options"
+                                android:text="@string/options"
                                 android:textAllCaps="true"
                                 android:textColor="@color/colorTextPrimary"
                                 android:textSize="16sp"
@@ -124,7 +124,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="8dp"
                                     android:layout_toEndOf="@id/imgTransactionIcon"
-                                    android:text="Group By Transaction:"
+                                    android:text="@string/group_by_transaction"
                                     android:textSize="14sp"
                                     android:textColor="?android:textColorPrimary"
                                     />

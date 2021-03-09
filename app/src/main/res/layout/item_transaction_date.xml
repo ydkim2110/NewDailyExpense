@@ -35,7 +35,7 @@
                 tools:text="20" />
 
             <TextView
-                android:id="@+id/txtDayOfWeek"
+                android:id="@+id/txtMonthYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -45,12 +45,12 @@
                 tools:text="Month" />
 
             <TextView
-                android:id="@+id/txtMonthYear"
+                android:id="@+id/txtDayOfWeek"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txtDayOfWeek"
+                app:layout_constraintStart_toEndOf="@+id/txtMonthYear"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Year" />
 

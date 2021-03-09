@@ -13,6 +13,10 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
+import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
+import com.reachfree.dailyexpense.util.extension.load
 import java.math.BigDecimal
 
 /**
@@ -30,31 +34,34 @@ class DashboardTransactionAdapter : ListAdapter<TransactionEntity, DashboardTran
         fun bind(transaction: TransactionEntity) {
 
             with(binding) {
-                if (transaction.type == Constants.TYPE.EXPENSE.ordinal) {
+                if (transaction.type == EXPENSE.ordinal) {
                     val expenseCategory = AppUtils.getExpenseCategory(transaction.categoryId)
                     val expenseSubCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
-                    imgIcon.setImageResource(expenseSubCategory.iconResId)
-                    imgIcon.backgroundTintList = ColorStateList.valueOf(expenseCategory.backgroundColor)
+                    imgIcon.load(expenseSubCategory.iconResId)
+                    imgIcon.changeBackgroundTintColor(expenseCategory.backgroundColor)
+
                     txtDescription.text = transaction.description
                     txtCategory.setText(expenseCategory.visibleNameResId)
                     txtSubCategory.setText(expenseSubCategory.visibleNameResId)
 
-                    //TODO: 화폐단위
-                    txtAmount.text = "${AppUtils.insertComma(transaction.amount!!)}원"
+                    txtAmount.text = transaction.amount?.let { CurrencyUtils.changeAmountByCurrency(it) }
+                        ?: CurrencyUtils.changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorExpense))
                 }
                 else if (transaction.type == Constants.TYPE.INCOME.ordinal) {
                     val incomeCategory = AppUtils.getIncomeCategory(transaction.categoryId)
 
-                    imgIcon.setImageResource(incomeCategory.iconResId)
-                    imgIcon.backgroundTintList = ColorStateList.valueOf(incomeCategory.backgroundColor)
+                    imgIcon.load(incomeCategory.iconResId)
+                    imgIcon.changeBackgroundTintColor(incomeCategory.backgroundColor)
+
                     txtDescription.text = transaction.description
                     txtCategory.setText(incomeCategory.visibleNameResId)
                     txtSubCategory.visibility = View.INVISIBLE
 
-                    //TODO: 화폐단위
-                    txtAmount.text = "${AppUtils.insertComma(transaction.amount!!)}원"
+
+                    txtAmount.text = transaction.amount?.let { CurrencyUtils.changeAmountByCurrency(it) }
+                        ?: CurrencyUtils.changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorIncome))
                 }
 

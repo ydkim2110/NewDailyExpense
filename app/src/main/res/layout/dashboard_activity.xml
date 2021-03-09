@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="?colorSecondary"
-                android:text="Add Transaction"
+                android:text="@string/add_transaction"
                 android:textAppearance="?attr/textAppearanceButton"
                 app:icon="@drawable/ic_add"
                 app:cornerRadius="28dp"
@@ -84,15 +84,8 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:itemIconTint="@color/colorTextPrimary"
-        app:itemTextColor="@color/colorTextPrimary"
-        app:menu="@menu/navigation_menu" />
+    <include
+        android:id="@+id/includeDrawer"
+        layout="@layout/include_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

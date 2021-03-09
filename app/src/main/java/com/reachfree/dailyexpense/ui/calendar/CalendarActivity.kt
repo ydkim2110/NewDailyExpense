@@ -3,7 +3,10 @@ package com.reachfree.dailyexpense.ui.calendar
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.WindowInsets
 import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +20,7 @@ import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.SpacesItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.time.YearMonth
 import java.time.ZoneId
 import java.util.*
@@ -72,14 +76,25 @@ class CalendarActivity :
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val metrics = windowManager.currentWindowMetrics
+            val insets = metrics.windowInsets.getInsets(WindowInsets.Type.systemBars())
+            val height = metrics.bounds.height() - insets.bottom - insets.top
 
-        val display = windowManager.defaultDisplay
-        val height = display.height
-        val toolbarHeight = binding.appBar.toolbar.height
-        val rectangle = Rect()
-        val statusBarHeight = rectangle.top
-        val dayHeight = binding.dayOfWeekLayout.height
-        recyclerItemHeight = height - statusBarHeight - toolbarHeight - dayHeight
+            val toolbarHeight = binding.appBar.toolbar.height
+            val dayHeight = binding.dayOfWeekLayout.height
+            recyclerItemHeight = height - toolbarHeight - dayHeight
+        } else {
+            @Suppress("DEPRECATION")
+            val display = windowManager.defaultDisplay
+            @Suppress("DEPRECATION") val height = display.height
+            val toolbarHeight = binding.appBar.toolbar.height
+            val rectangle = Rect()
+            window.decorView.getWindowVisibleDisplayFrame(rectangle)
+            val statusBarHeight = rectangle.top
+            val dayHeight = binding.dayOfWeekLayout.height
+            recyclerItemHeight = height - statusBarHeight - toolbarHeight - dayHeight
+        }
 
         subscribeToObserver()
     }
