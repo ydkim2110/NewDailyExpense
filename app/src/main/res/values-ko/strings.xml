@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">DailyExpense</string>
+    <string name="app_name">LemonTree</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -304,7 +304,8 @@
     <string name="btn_create_budget">예산 만들기</string>
     <string name="text_budget_left">남은예산: %s</string>
     <string name="text_budget_out_of_budgeted">전체 예산 %s 중</string>
-    <string name="text_budget_you_spent_this_month">"이번달에 %s을 사용했습니다."</string>
+    <string name="text_budget_you_spent_this_month">&#128512; 이번달에 %s을 사용했습니다.</string>
+    <string name="text_budget_you_spent_this_month_exceed">&#128549; 이번달에 %s을 사용했습니다.</string>
     <string name="text_budget_amount_per_day">"%s/일"</string>
     <string name="text_budget">예산</string>
     <string name="text_spent">사용금액</string>
@@ -320,4 +321,5 @@
     <string name="others">기타</string>
     <string name="add_transaction">추가</string>
     <string name="text_payment">지불방식</string>
+    <string name="text_no_budget">No Budgets.</string>
 </resources>

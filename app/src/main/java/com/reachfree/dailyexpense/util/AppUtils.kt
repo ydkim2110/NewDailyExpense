@@ -138,7 +138,7 @@ object AppUtils {
         ValueAnimator.ofInt(initialValue, finalValue.toInt()).apply {
             setDuration(duration)
             addUpdateListener {
-                view.text = CurrencyUtils.changeAmountByCurrency(finalValue)
+                view.text = CurrencyUtils.changeAmountByCurrency(BigDecimal(it.animatedValue as Int))
             }
             start()
         }

@@ -198,7 +198,6 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerTransaction"
-                        android:paddingBottom="8dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:overScrollMode="never"
@@ -229,7 +228,7 @@
             android:id="@+id/imgNoItem"
             android:layout_width="86dp"
             android:layout_height="86dp"
-            tools:src="@drawable/avatar"
+            tools:src="@drawable/logo"
             android:contentDescription="@string/app_name" />
 
         <TextView

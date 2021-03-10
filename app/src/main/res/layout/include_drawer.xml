@@ -20,11 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_header"
             android:layout_width="match_parent"
-            android:layout_height="160dp" >
+            android:layout_height="wrap_content" >
 
             <include
+                android:id="@+id/layoutHeader"
                 layout="@layout/nav_header_main" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

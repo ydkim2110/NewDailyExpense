@@ -50,7 +50,7 @@ class DatabaseModule {
     fun provideLocalDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(context, LocalDatabase::class.java, LOCAL_DATABASE_NAME)
-        .addCallback(callback)
+//        .addCallback(callback)
         .build()
 
     @Singleton

@@ -10,21 +10,43 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyExpense">
-        <activity android:name=".ui.settings.SettingsActivity"></activity>
-        <activity android:name=".ui.budget.ExpenseBudgetActivity" />
-        <activity android:name=".ui.calendar.CalendarActivity" />
-        <activity android:name=".ui.setup.SetupActivity" />
+
         <activity
             android:name=".ui.base.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.transaction.TransactionActivity" />
-        <activity android:name=".ui.dashboard.DashboardActivity" />
+
+        <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.budget.ExpenseBudgetActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.calendar.CalendarActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.setup.SetupActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name=".ui.transaction.TransactionActivity"
+            android:screenOrientation="portrait"
+            />
+
         <activity android:name=".MainActivity" />
     </application>
 

@@ -18,7 +18,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import com.kizitonwose.calendarview.utils.yearMonth
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.TransactionActivityBinding
@@ -27,16 +26,16 @@ import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseActivity
 import com.reachfree.dailyexpense.ui.viewmodel.TransactionViewModel
 import com.reachfree.dailyexpense.util.AppUtils
+import com.reachfree.dailyexpense.util.AppUtils.calculatePercentage
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.SortType
-import com.reachfree.dailyexpense.util.Constants.Status
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.extension.animateProgressbar
 import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
@@ -70,19 +69,12 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         filterSortArray = resources.getStringArray(R.array.filter_sort_options)
         filterTransactionArray = resources.getStringArray(R.array.filter_transaction_options)
 
-        binding.txtViewNoItem.text = getString(R.string.text_no_transaction)
-        binding.imgNoItem.load(R.drawable.avatar)
-
-        setCurrentDate(Date())
-        binding.appBar.datePickerButton.setOnClickListener {
-            val rotation = if (isExpanded) 0f else 180f
-            ViewCompat.animate(binding.appBar.datePickerArrow).rotation(rotation).start()
-            isExpanded = !isExpanded
-            binding.appBar.appBar.setExpanded(isExpanded, true)
-        }
+        binding.noItemLayout.txtNoItem.text = getString(R.string.text_no_transaction)
+        binding.noItemLayout.imgNoItem.load(R.drawable.logo)
 
         setupToolbar()
         setupCalendarView()
+        setupOptions()
         subscribeToObserver()
 
         viewModel.getTransactionSortedBy(
@@ -91,7 +83,83 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
             endOfMonth,
             intArrayOf(EXPENSE.ordinal, INCOME.ordinal)
         )
+    }
 
+    private fun setupToolbar() {
+        setSupportActionBar(binding.appBar.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        binding.appBar.toolbar.setNavigationIcon(R.drawable.ic_close)
+        binding.appBar.toolbar.setNavigationOnClickListener { onBackPressed() }
+
+        binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(Date())
+        binding.appBar.compactcalendarView.setCurrentDate(Date())
+
+        binding.appBar.datePickerButton.setOnClickListener {
+            val rotation = if (isExpanded) 0f else 180f
+            ViewCompat.animate(binding.appBar.datePickerArrow).rotation(rotation).start()
+            isExpanded = !isExpanded
+            binding.appBar.appBar.setExpanded(isExpanded, true)
+        }
+    }
+
+    private fun setupCalendarView() {
+        binding.appBar.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
+        binding.appBar.compactcalendarView.setShouldDrawDaysHeader(true)
+        binding.appBar.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
+        binding.appBar.compactcalendarView.setFirstDayOfWeek(Constants.FIRST_DAY_OF_WEEK)
+        binding.appBar.compactcalendarView.setListener(object :
+            CompactCalendarView.CompactCalendarViewListener {
+            override fun onDayClick(dateClicked: Date?) {
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
+            }
+
+            override fun onMonthScroll(firstDayOfNewMonth: Date) {
+                if (binding.noItemLayout.noItemLayout.isVisible) {
+                    binding.noItemLayout.noItemLayout.isVisible = false
+                }
+                hideContentLayout()
+
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
+                setupNewCalendarView(firstDayOfNewMonth)
+            }
+        })
+    }
+
+    private fun setupNewCalendarView(firstDayOfNewMonth: Date) {
+        currentDate = AppUtils.defaultDateFormat.format(firstDayOfNewMonth)
+        startOfMonth = AppUtils.startOfMonth(AppUtils.convertDateToYearMonth(firstDayOfNewMonth))
+        endOfMonth = AppUtils.endOfMonth(AppUtils.convertDateToYearMonth(firstDayOfNewMonth))
+
+        when (beforeSelectedTransactionIndex) {
+            0 -> {
+                viewModel.getTransactionSortedBy(
+                    SortType.AMOUNT,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(EXPENSE.ordinal)
+                )
+            }
+            1 -> {
+                viewModel.getTransactionSortedBy(
+                    SortType.AMOUNT,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(INCOME.ordinal)
+                )
+            }
+            else -> {
+                viewModel.getTransactionSortedBy(
+                    SortType.AMOUNT,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(EXPENSE.ordinal, INCOME.ordinal)
+                )
+            }
+        }
+    }
+
+    private fun setupOptions() {
         binding.relativeLayoutOptionsFragment.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         binding.txtSwitcherSortBy.setFactory {
@@ -171,12 +239,9 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 true
             }
         }
-
     }
 
     private fun updateBySort(sortType: SortType) {
-        Timber.d("start ${AppUtils.dateFormat.format(startOfMonth)}")
-        Timber.d("end ${AppUtils.dateFormat.format(endOfMonth)}")
         when (beforeSelectedTransactionIndex) {
             0 -> {
                 viewModel.getTransactionSortedBy(
@@ -240,69 +305,6 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         }
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.appBar.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        binding.appBar.toolbar.setNavigationIcon(R.drawable.ic_close)
-        binding.appBar.toolbar.setNavigationOnClickListener { onBackPressed() }
-    }
-
-    private fun setupCalendarView() {
-        binding.appBar.compactcalendarView.setLocale(TimeZone.getDefault(), Locale.getDefault())
-        binding.appBar.compactcalendarView.setShouldDrawDaysHeader(true)
-        binding.appBar.compactcalendarView.setDayColumnNames(resources.getStringArray(R.array.day_of_week))
-        binding.appBar.compactcalendarView.setFirstDayOfWeek(Constants.FIRST_DAY_OF_WEEK)
-        binding.appBar.compactcalendarView.setListener(object :
-            CompactCalendarView.CompactCalendarViewListener {
-            override fun onDayClick(dateClicked: Date?) {
-                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
-            }
-
-            override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                if (binding.linearLayoutNoItem.isVisible) {
-                    binding.linearLayoutNoItem.isVisible = false
-                }
-                hideContentLayout()
-
-                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
-                setupNewCalendarView(firstDayOfNewMonth)
-            }
-        })
-    }
-
-    private fun setupNewCalendarView(firstDayOfNewMonth: Date) {
-        currentDate = AppUtils.defaultDateFormat.format(firstDayOfNewMonth)
-        startOfMonth = AppUtils.startOfMonth(AppUtils.convertDateToYearMonth(firstDayOfNewMonth))
-        endOfMonth = AppUtils.endOfMonth(AppUtils.convertDateToYearMonth(firstDayOfNewMonth))
-
-        when (beforeSelectedTransactionIndex) {
-            0 -> {
-                viewModel.getTransactionSortedBy(
-                    SortType.AMOUNT,
-                    startOfMonth,
-                    endOfMonth,
-                    intArrayOf(EXPENSE.ordinal)
-                )
-            }
-            1 -> {
-                viewModel.getTransactionSortedBy(                    SortType.AMOUNT,
-                    startOfMonth,
-                    endOfMonth,
-                    intArrayOf(INCOME.ordinal)
-                )
-            }
-            else -> {
-                viewModel.getTransactionSortedBy(
-                    SortType.AMOUNT,
-                    startOfMonth,
-                    endOfMonth,
-                    intArrayOf(EXPENSE.ordinal, INCOME.ordinal)
-                )
-            }
-        }
-    }
-
     private fun subscribeToObserver() {
         viewModel.subCategoryList.observe(this) { data ->
             setupTransactionSummaryLayout(data)
@@ -330,14 +332,14 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
             transactionAdapter.submitList(newList)
 
             if (newList.isEmpty()) {
-                if (binding.linearLayoutNoItem.isGone) {
-                    binding.linearLayoutNoItem.isVisible = true
+                if (binding.noItemLayout.noItemLayout.isGone) {
+                    binding.noItemLayout.noItemLayout.isVisible = true
                     binding.contentLayout.visibility = View.GONE
                     binding.progressBarWaiting.visibility = View.GONE
                 }
             } else {
-                if (binding.linearLayoutNoItem.isVisible) {
-                    binding.linearLayoutNoItem.isVisible = false
+                if (binding.noItemLayout.noItemLayout.isVisible) {
+                    binding.noItemLayout.noItemLayout.isVisible = false
                 }
                 showContentLayout()
             }
@@ -458,25 +460,20 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         wasteExpense: BigDecimal,
         investExpense: BigDecimal
     ) {
-        var normalPercent: Int = 0
-        var wastePercent: Int = 0
-        var investPercent: Int = 0
+        var normalPercent = 0
+        var wastePercent = 0
+        var investPercent = 0
         val totalExpense = normalExpense.add(wasteExpense).add(investExpense)
 
         if (totalExpense > BigDecimal(0)) {
-            normalPercent = normalExpense.divide(totalExpense, 2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal(100)).toInt()
-            wastePercent = wasteExpense.divide(totalExpense, 2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal(100)).toInt()
-            investPercent = investExpense.divide(totalExpense, 2, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal(100)).toInt()
+            normalPercent = calculatePercentage(normalExpense, totalExpense)
+            wastePercent = calculatePercentage(wasteExpense, totalExpense)
+            investPercent = calculatePercentage(investExpense, totalExpense)
         }
 
-        AppUtils.animateProgressbar(binding.layoutWeekSummary.normalProgressbar, normalPercent)
-        AppUtils.animateProgressbar(binding.layoutWeekSummary.wasteProgressbar, wastePercent)
-        AppUtils.animateProgressbar(binding.layoutWeekSummary.investProgressbar, investPercent)
-    }
-
-    private fun setCurrentDate(date: Date) {
-        binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(date)
-        binding.appBar.compactcalendarView.setCurrentDate(date)
+        binding.layoutWeekSummary.normalProgressbar.animateProgressbar(normalPercent)
+        binding.layoutWeekSummary.wasteProgressbar.animateProgressbar(wastePercent)
+        binding.layoutWeekSummary.investProgressbar.animateProgressbar(investPercent)
     }
 
     companion object {

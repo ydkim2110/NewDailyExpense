@@ -162,9 +162,11 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
 
                 binding.progressbarBudget.animateProgressbar(leftBudgetPercent)
 
-                binding.txtBudgetComment.text = requireContext().resources.getString(
-                    R.string.text_budget_you_spent_this_month,
-                    changeAmountByCurrency(spentAmount))
+                if (spentAmount > budgetedAmount) {
+                    binding.txtBudgetComment.text = requireContext().resources.getString(R.string.text_budget_you_spent_this_month_exceed, changeAmountByCurrency(spentAmount))
+                } else {
+                    binding.txtBudgetComment.text = requireContext().resources.getString(R.string.text_budget_you_spent_this_month, changeAmountByCurrency(spentAmount))
+                }
             }
         }
 
@@ -227,17 +229,14 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
             setDrawGridLines(false)
         }
         binding.barChartExpenseBudget.axisLeft.apply {
-            axisLineColor = Color.WHITE
-            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            setDrawGridLines(false)
             isEnabled = false
         }
         binding.barChartExpenseBudget.axisRight.apply {
-            axisLineColor = Color.WHITE
-            textColor = ContextCompat.getColor(requireContext(), R.color.colorTextPrimary)
-            setDrawGridLines(false)
             isEnabled = false
         }
+
+        binding.barChartExpenseBudget.axisLeft.axisMinimum = 0f
+
         binding.barChartExpenseBudget.apply {
             description.text = "Expense Budget"
             description.isEnabled = false

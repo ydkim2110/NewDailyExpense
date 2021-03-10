@@ -84,7 +84,7 @@ class PatternDetailFragment : BaseDialogFragment<PatternDetailFragmentBinding>()
 
     private fun setupView() {
         binding.txtViewNoItem.text = requireContext().resources.getString(R.string.text_no_transaction)
-        binding.imgNoItem.load(R.drawable.avatar)
+        binding.imgNoItem.load(R.drawable.logo)
 
         binding.recyclerCategory.apply {
             setHasFixedSize(true)

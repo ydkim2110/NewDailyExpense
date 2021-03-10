@@ -206,15 +206,40 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:minHeight="220dp">
+
+                    <TextView
+                        android:id="@+id/txtTitle"
+                        style="@style/TextCardTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingStart="16dp"
+                        android:text="@string/transaction"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="RtlSymmetry" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerTransaction"
-                        android:overScrollMode="never"
-                        android:clipToPadding="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:overScrollMode="never"
+                        android:clipToPadding="false"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtNoTransactionItem"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_no_transaction"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
@@ -241,7 +266,7 @@
             android:id="@+id/imgNoItem"
             android:layout_width="86dp"
             android:layout_height="86dp"
-            tools:src="@drawable/avatar"
+            tools:src="@drawable/logo"
             android:contentDescription="@string/app_name" />
 
         <TextView

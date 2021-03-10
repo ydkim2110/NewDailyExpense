@@ -57,32 +57,18 @@
                         android:overScrollMode="never" />
 
                     <LinearLayout
-                        android:id="@+id/linearLayoutNoItem"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="64dp"
-                        android:gravity="center"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/vertical_margin_half"
+                        android:layout_marginHorizontal="@dimen/horizontal_margin"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="UseCompoundDrawables">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:id="@+id/imgNoItem"
-                            android:layout_width="86dp"
-                            android:layout_height="86dp"
-                            tools:src="@drawable/avatar"
-                            android:contentDescription="@string/app_name" />
-
-                        <TextView
-                            android:id="@+id/txtViewNoItem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textSize="16sp" />
+                        <include
+                            android:id="@+id/noItemLayout"
+                            layout="@layout/no_item_layout" />
 
                     </LinearLayout>
 

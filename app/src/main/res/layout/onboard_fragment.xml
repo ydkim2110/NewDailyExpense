@@ -30,7 +30,6 @@
         android:layout_alignParentBottom="true"
         android:text="@string/text_get_started"
         android:textSize="18sp"
-        android:textColor="@color/colorTextPrimary"
-        />
+        android:textColor="@color/colorTextPrimary" />
 
 </RelativeLayout>

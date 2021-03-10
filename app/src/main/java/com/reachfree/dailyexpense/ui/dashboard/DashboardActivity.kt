@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -18,7 +17,6 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import com.google.android.material.navigation.NavigationView
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
@@ -53,7 +51,6 @@ import com.reachfree.dailyexpense.util.extension.runDelayed
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
@@ -106,8 +103,8 @@ class DashboardActivity :
 
         setCurrentDate(Date())
 
-        binding.recentTransactionsLayout.txtNoItem.text = getString(R.string.text_no_transaction)
-        binding.recentTransactionsLayout.imgNoItem.load(R.drawable.avatar)
+        binding.recentTransactionsLayout.noItemLayout.txtNoItem.text = getString(R.string.text_no_transaction)
+        binding.recentTransactionsLayout.noItemLayout.imgNoItem.load(R.drawable.logo)
 
         setupToolbar()
         setupNavigation()
@@ -151,6 +148,9 @@ class DashboardActivity :
             layoutCalendar.setOnSingleClickListener { runAfterDrawerClose { CalendarActivity.start(this@DashboardActivity) } }
             layoutSettings.setOnSingleClickListener { runAfterDrawerClose { SettingsActivity.start(this@DashboardActivity) } }
         }
+
+        binding.includeDrawer.layoutHeader.txtNickname.text = sessionManager.getUser().nickname
+        binding.includeDrawer.layoutHeader.txtFullName.text = sessionManager.getUser().fullName
     }
 
     private fun setupNavigation() {
@@ -249,10 +249,10 @@ class DashboardActivity :
         viewModel.recentTransaction.observe(this) { result ->
             if (result.isEmpty()) {
                 binding.recentTransactionsLayout.recyclerRecentTransaction.visibility = View.GONE
-                binding.recentTransactionsLayout.noItemLayout.visibility = View.VISIBLE
+                binding.recentTransactionsLayout.noItemLayout.noItemLayout.visibility = View.VISIBLE
             } else {
                 binding.recentTransactionsLayout.recyclerRecentTransaction.visibility = View.VISIBLE
-                binding.recentTransactionsLayout.noItemLayout.visibility = View.GONE
+                binding.recentTransactionsLayout.noItemLayout.noItemLayout.visibility = View.GONE
             }
 
             val groupTransactions = AppUtils.groupingTransactionByDate(result)
@@ -374,7 +374,6 @@ class DashboardActivity :
                 animateTextViewAmount(txtWasteSum, ANIMATION_DURATION, START_VALUE, wasteExpense)
                 animateTextViewAmount(txtInvestSum, ANIMATION_DURATION, START_VALUE, investExpense)
             }
-
 
             setupProgressbar(normalExpense, wasteExpense, investExpense)
         }

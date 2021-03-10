@@ -23,6 +23,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.TotalAmountFragmentBinding
+import com.reachfree.dailyexpense.ui.add.AddExpenseFragment
+import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
 import com.reachfree.dailyexpense.ui.budget.detail.ExpenseBudgetDetailFragment
 import com.reachfree.dailyexpense.util.AppUtils
@@ -108,6 +110,19 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
         binding.recyclerTransaction.apply {
             setHasFixedSize(false)
             layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        totalAmountAdapter.setOnItemClickListener { transaction ->
+            when (transaction.type) {
+                EXPENSE.ordinal -> {
+                    val addExpenseFragment = AddExpenseFragment.newInstance(transaction)
+                    addExpenseFragment.show(childFragmentManager, null)
+                }
+                INCOME.ordinal -> {
+                    val addIncomeFragment = AddIncomeFragment.newInstance(transaction)
+                    addIncomeFragment.show(childFragmentManager, null)
+                }
+            }
         }
     }
 
@@ -244,6 +259,11 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
             setupBarChart(result)
         }
         viewModel.transactionListByType.observe(this) { result ->
+            if (result.isEmpty()) {
+                binding.txtNoTransactionItem.visibility = View.VISIBLE
+            } else {
+                binding.txtNoTransactionItem.visibility = View.GONE
+            }
             binding.recyclerTransaction.adapter = totalAmountAdapter
             totalAmountAdapter.submitList(result)
         }

@@ -23,8 +23,11 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.PaymentFragmentBinding
+import com.reachfree.dailyexpense.ui.add.AddExpenseFragment
+import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
 import com.reachfree.dailyexpense.util.AppUtils
+import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PAYMENT.CASH
 import com.reachfree.dailyexpense.util.Constants.PAYMENT.CREDIT
 import com.reachfree.dailyexpense.util.Constants.SortType
@@ -109,6 +112,15 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
         binding.recyclerTransaction.apply {
             setHasFixedSize(false)
             layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        paymentAdapter.setOnItemClickListener { transaction ->
+            when (transaction.type) {
+                EXPENSE.ordinal -> {
+                    val addExpenseFragment = AddExpenseFragment.newInstance(transaction)
+                    addExpenseFragment.show(childFragmentManager, null)
+                }
+            }
         }
     }
 

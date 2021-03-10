@@ -396,7 +396,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp">
 
                 <TextView
                     android:id="@+id/txtDateTitle"
@@ -423,8 +424,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="4dp"
                     android:paddingEnd="4dp"
                     android:textAlignment="textEnd"
                     android:textSize="16sp"

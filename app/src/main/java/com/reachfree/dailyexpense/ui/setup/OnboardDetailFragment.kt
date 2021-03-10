@@ -22,15 +22,15 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
     private var position: Int = -1
 
     private val illustrationArray = arrayOf(
-        R.drawable.school_setup_illustration_1,
-        R.drawable.school_setup_illustration_2,
-        R.drawable.school_setup_illustration_3
+        R.drawable.intro_1,
+        R.drawable.intro_2,
+        R.drawable.intro_3
     )
 
     private val stringArray = arrayOf(
-        "Add homeworks, exams, and tasks",
-        "Check your calendar",
-        "See your schedule for the day"
+        "Add your transaction by Normal, Waste, Invest",
+        "Create budget for saving",
+        "Manage your financial transactions"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +59,7 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
                             requireContext(),
                             R.color.colorNormalExpense
                         )
-                    ), 4, 14, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    ), 23, 30, Spannable.SPAN_INCLUSIVE_INCLUSIVE
                 )
                 spannable.setSpan(
                     ForegroundColorSpan(
@@ -67,7 +67,7 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
                             requireContext(),
                             R.color.colorWasteExpense
                         )
-                    ), 15, 21, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    ), 31, 37, Spannable.SPAN_INCLUSIVE_INCLUSIVE
                 )
 
                 spannable.setSpan(
@@ -76,7 +76,7 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
                             requireContext(),
                             R.color.colorInvestExpense
                         )
-                    ), 26, 31, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    ), 38, 45, Spannable.SPAN_INCLUSIVE_INCLUSIVE
                 )
 
                 binding.textViewMessage.setText(spannable, TextView.BufferType.SPANNABLE)

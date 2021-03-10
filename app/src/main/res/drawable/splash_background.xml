@@ -5,7 +5,7 @@
         android:drawable="@android:color/white" />
 
     <item
-        android:drawable="@drawable/sub_category_transportation_bus"
+        android:drawable="@drawable/logo"
         android:gravity="center" />
 
 </layer-list>

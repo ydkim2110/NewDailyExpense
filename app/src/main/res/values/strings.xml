@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DailyExpense</string>
+    <string name="app_name">LemonTree</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -310,7 +310,8 @@
 
     <string name="text_budget_left">%s left</string>
     <string name="text_budget_out_of_budgeted">out of %s budgeted</string>
-    <string name="text_budget_you_spent_this_month">"You spent %s this month."</string>
+    <string name="text_budget_you_spent_this_month">&#128512; You spent %s this month.</string>
+    <string name="text_budget_you_spent_this_month_exceed">&#128549; You spent %s this month.</string>
     <string name="text_budget_amount_per_day">"%s/day"</string>
     <string name="text_budget">Budget</string>
     <string name="text_spent">Spent</string>
@@ -326,4 +327,5 @@
     <string name="others">Others</string>
     <string name="add_transaction">Add Transaction</string>
     <string name="text_payment">Payment</string>
+    <string name="text_no_budget">No Budgets.</string>
 </resources>

@@ -47,8 +47,8 @@ class ExpenseBudgetActivity :
 
         hideContentLayout()
 
-        binding.txtViewNoItem.text = getString(R.string.text_no_transaction)
-        binding.imgNoItem.load(R.drawable.avatar)
+        binding.noItemLayout.txtNoItem.text = getString(R.string.text_no_budget)
+        binding.noItemLayout.imgNoItem.load(R.drawable.logo)
 
         val startOfMonth = AppUtils.startOfMonth(YearMonth.now())
         val endOfMonth = AppUtils.endOfMonth(YearMonth.now())
@@ -96,8 +96,8 @@ class ExpenseBudgetActivity :
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                if (binding.linearLayoutNoItem.isVisible) {
-                    binding.linearLayoutNoItem.isVisible = false
+                if (binding.noItemLayout.noItemLayout.isVisible) {
+                    binding.noItemLayout.noItemLayout.isVisible = false
                 }
                 hideContentLayout()
                 binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
@@ -157,7 +157,12 @@ class ExpenseBudgetActivity :
             with(binding.expenseBudgetSummaryLayout) {
                 txtLeftToSpendAmount.text = resources.getString(R.string.text_budget_left, changeAmountByCurrency(leftAmount))
                 txtBudgetedAmount.text = resources.getString(R.string.text_budget_out_of_budgeted, changeAmountByCurrency(budgetedAmount))
-                txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month, changeAmountByCurrency(spentAmount))
+
+                if (spentAmount > budgetedAmount) {
+                    txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month_exceed, changeAmountByCurrency(spentAmount))
+                } else {
+                    txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month, changeAmountByCurrency(spentAmount))
+                }
 
                 progressbarBudget.animateProgressbar(leftBudgetPercent)
             }
@@ -170,14 +175,14 @@ class ExpenseBudgetActivity :
             }
 
             if (data.isEmpty()) {
-                if (binding.linearLayoutNoItem.isGone) {
-                    binding.linearLayoutNoItem.isVisible = true
+                if (binding.noItemLayout.noItemLayout.isGone) {
+                    binding.noItemLayout.noItemLayout.isVisible = true
                     binding.contentLayout.visibility = View.VISIBLE
                     binding.progressBarWaiting.visibility = View.GONE
                 }
             } else {
-                if (binding.linearLayoutNoItem.isVisible) {
-                    binding.linearLayoutNoItem.isVisible = false
+                if (binding.noItemLayout.noItemLayout.isVisible) {
+                    binding.noItemLayout.noItemLayout.isVisible = false
                 }
                 showContentLayout()
             }

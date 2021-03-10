@@ -6,7 +6,7 @@
     android:id="@+id/recentTransactionsLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/vertical_margin_half"
+    android:layout_marginTop="@dimen/vertical_margin"
     android:layout_marginHorizontal="@dimen/horizontal_margin">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,42 +20,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <include
         android:id="@+id/noItemLayout"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="@dimen/vertical_margin_half"
-        android:layout_marginBottom="@dimen/vertical_margin"
-        android:backgroundTint="@color/colorCardBackground"
-        app:cardCornerRadius="12dp"
+        layout="@layout/no_item_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:id="@+id/imgNoItem"
-                android:layout_width="86dp"
-                android:layout_height="86dp"
-                tools:src="@drawable/avatar"
-                android:contentDescription="@string/app_name" />
-
-            <TextView
-                android:id="@+id/txtNoItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
