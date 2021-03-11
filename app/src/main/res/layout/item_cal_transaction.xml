@@ -41,6 +41,18 @@
         app:layout_constraintStart_toEndOf="@+id/imgIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <View
+        android:id="@+id/viewPatternColor"
+        android:visibility="gone"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_pattern_normal"
+        app:layout_constraintTop_toTopOf="@+id/txtDescription"
+        app:layout_constraintStart_toEndOf="@+id/txtDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDescription" />
+
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="wrap_content"

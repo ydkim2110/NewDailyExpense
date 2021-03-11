@@ -24,9 +24,9 @@ class SplashActivity :
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
-            delay(500)
+            delay(200)
             binding.motionLayout.transitionToEnd()
-            delay(700)
+            delay(500)
             if (!sessionManager.getIsFirstLaunch()) {
                 SetupActivity.start(this@SplashActivity)
             } else {

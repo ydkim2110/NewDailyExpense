@@ -74,15 +74,6 @@
             app:layout_constraintTop_toTopOf="@+id/txtCategoryName"
             tools:text="100,000원" />
 
-        <TextView
-            android:id="@+id/txtSubcategoryName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="버스"
-            app:layout_constraintBottom_toBottomOf="@+id/txtCategoryName"
-            app:layout_constraintStart_toEndOf="@+id/txtCategoryName"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

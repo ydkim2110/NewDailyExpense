@@ -2,6 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <Preference
+        android:key="PROFILE"
+        android:title="Profile"
+        android:summary="Edit your profile"
+        android:icon="@drawable/ic_profile"
+        android:defaultValue="true" />
+
+    <Preference
         android:key="CURRENCY"
         android:title="Currency"
         android:summary="KRW"
@@ -17,5 +24,12 @@
         android:entryValues="@array/app_theme_values"
         android:dialogTitle="App Theme"
         android:defaultValue="0" />
+
+    <Preference
+        android:key="BACKUP"
+        android:title="Back up"
+        android:summary="Back up your database"
+        android:icon="@drawable/ic_backup"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

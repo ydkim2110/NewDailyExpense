@@ -16,6 +16,8 @@ import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.databinding.OnboardDetailFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseFragment
 import com.reachfree.dailyexpense.util.extension.load
+import timber.log.Timber
+import java.util.*
 
 class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
 
@@ -25,12 +27,6 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
         R.drawable.intro_1,
         R.drawable.intro_2,
         R.drawable.intro_3
-    )
-
-    private val stringArray = arrayOf(
-        "Add your transaction by Normal, Waste, Invest",
-        "Create budget for saving",
-        "Manage your financial transactions"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,42 +44,91 @@ class OnboardDetailFragment : BaseFragment<OnboardDetailFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (position != -1) {
-            binding.imageViewIllustration.load(illustrationArray[position])
-            if (position == 0) {
-                val spannable = SpannableString(stringArray[position])
+        val stringArray = arrayOf(
+            getString(R.string.text_intro_1),
+            getString(R.string.text_intro_2),
+            getString(R.string.text_intro_3)
+        )
 
-                spannable.setSpan(
-                    ForegroundColorSpan(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.colorNormalExpense
-                        )
-                    ), 23, 30, Spannable.SPAN_INCLUSIVE_INCLUSIVE
-                )
-                spannable.setSpan(
-                    ForegroundColorSpan(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.colorWasteExpense
-                        )
-                    ), 31, 37, Spannable.SPAN_INCLUSIVE_INCLUSIVE
-                )
+        val text = Locale.getDefault().language
 
-                spannable.setSpan(
-                    ForegroundColorSpan(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.colorInvestExpense
-                        )
-                    ), 38, 45, Spannable.SPAN_INCLUSIVE_INCLUSIVE
-                )
+        if (Locale.getDefault().language == Locale.KOREA.language) {
+            if (position != -1) {
+                binding.imageViewIllustration.load(illustrationArray[position])
+                if (position == 0) {
+                    val spannable = SpannableString(stringArray[position])
 
-                binding.textViewMessage.setText(spannable, TextView.BufferType.SPANNABLE)
-            } else {
-                binding.textViewMessage.text = stringArray[position]
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorNormalExpense
+                            )
+                        ), 0, 5, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorWasteExpense
+                            )
+                        ), 6, 10, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorInvestExpense
+                            )
+                        ), 11, 15, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+
+                    binding.textViewMessage.setText(spannable, TextView.BufferType.SPANNABLE)
+                } else {
+                    binding.textViewMessage.text = stringArray[position]
+                }
+            }
+        } else {
+            if (position != -1) {
+                binding.imageViewIllustration.load(illustrationArray[position])
+                if (position == 0) {
+                    val spannable = SpannableString(stringArray[position])
+
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorNormalExpense
+                            )
+                        ), 23, 30, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorWasteExpense
+                            )
+                        ), 31, 37, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+
+                    spannable.setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.colorInvestExpense
+                            )
+                        ), 38, 45, Spannable.SPAN_INCLUSIVE_INCLUSIVE
+                    )
+
+                    binding.textViewMessage.setText(spannable, TextView.BufferType.SPANNABLE)
+                } else {
+                    binding.textViewMessage.text = stringArray[position]
+                }
             }
         }
+
+
     }
 
     companion object {

@@ -48,10 +48,9 @@ class SetupActivity : BaseActivity<SetupActivityBinding>({ SetupActivityBinding.
         replaceFragment(DefaultSettingFragment.newInstance())
     }
 
-    override fun onDefaultSettingDone(nickname: String, fullName: String, currency: Currency) {
-        //TODO: Save Default Setting
+    override fun onDefaultSettingDone(nickname: String, currency: Currency) {
         sessionManager.saveCurrencyCode(currency.code)
-        sessionManager.saveUser(User(nickname, fullName))
+        sessionManager.saveUser(User(nickname))
         sessionManager.saveIsFirstLaunch(true)
         replaceFragment(OnboardFragment.newInstance())
     }

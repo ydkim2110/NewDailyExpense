@@ -2,6 +2,7 @@ package com.reachfree.dailyexpense.ui.dashboard.payment
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -13,6 +14,8 @@ import com.reachfree.dailyexpense.databinding.ItemTransactionRowBinding
 import com.reachfree.dailyexpense.ui.dashboard.total.TotalAmountAdapter
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
+import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.CurrencyUtils
 import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
 import com.reachfree.dailyexpense.util.extension.load
@@ -32,14 +35,23 @@ class PaymentAdapter : ListAdapter<TransactionEntity, PaymentAdapter.MyViewHolde
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: TransactionEntity) {
             with(binding) {
-                if (transaction.type == Constants.TYPE.EXPENSE.ordinal) {
+                if (transaction.type == EXPENSE.ordinal) {
                     val subCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
                     imgSubCategoryIcon.load(subCategory.iconResId)
                     imgSubCategoryIcon.changeBackgroundTintColor(subCategory.backgroundColor)
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorExpense))
 
-                } else if (transaction.type == Constants.TYPE.INCOME.ordinal) {
+                    viewPaymentColor.visibility = View.VISIBLE
+                    when(transaction.payment) {
+                        Constants.PAYMENT.CREDIT.ordinal -> {
+                            viewPaymentColor.setBackgroundResource(R.drawable.bg_payment_credit)
+                        }
+                        Constants.PAYMENT.CASH.ordinal -> {
+                            viewPaymentColor.setBackgroundResource(R.drawable.bg_payment_cash)
+                        }
+                    }
+                } else if (transaction.type == INCOME.ordinal) {
                     val category = AppUtils.getIncomeCategory(transaction.categoryId)
 
                     imgSubCategoryIcon.load(category.iconResId)

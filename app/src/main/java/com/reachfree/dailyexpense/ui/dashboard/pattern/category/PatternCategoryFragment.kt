@@ -27,6 +27,11 @@ class PatternCategoryFragment : BaseDialogFragment<PatternCategoryFragmentBindin
     private var categoryId = FOOD_DRINKS
     private lateinit var currentDate: Date
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog?.window?.attributes?.windowAnimations = R.style.DialogAnimationLeftAndRight
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)

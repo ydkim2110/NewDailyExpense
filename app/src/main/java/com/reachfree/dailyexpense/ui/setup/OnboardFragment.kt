@@ -70,9 +70,9 @@ class OnboardFragment : BaseFragment<OnboardFragmentBinding>() {
 
     private fun updateButtonText(currentPosition: Int) {
         if (currentPosition == 2) {
-            binding.btnDoneSkip.text = "Done"
+            binding.btnDoneSkip.text = getString(R.string.text_done)
         } else {
-            binding.btnDoneSkip.text = "Skip"
+            binding.btnDoneSkip.text = getString(R.string.text_skip)
         }
     }
 

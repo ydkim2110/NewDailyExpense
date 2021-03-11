@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/includeDrawer"
     android:layout_width="300dp"
     android:layout_height="match_parent"
@@ -31,7 +30,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:background="@drawable/divider"
             android:contentDescription="@string/app_name" />
 
@@ -137,7 +136,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:background="@drawable/divider"
             android:contentDescription="@string/app_name" />
 
@@ -149,6 +148,66 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/colorTextPrimary"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_rate_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/imgAppRatingIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="6dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_star"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:theme="@style/NavigationSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/text_app_rating"
+                app:layout_constraintStart_toEndOf="@+id/imgAppRatingIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgAppRatingIcon"
+                app:layout_constraintBottom_toBottomOf="@+id/imgAppRatingIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_send_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/imgSendEmailIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:padding="6dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_send"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:theme="@style/NavigationSubTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/text_send_feedback"
+                app:layout_constraintStart_toEndOf="@+id/imgSendEmailIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgSendEmailIcon"
+                app:layout_constraintBottom_toBottomOf="@+id/imgSendEmailIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutSettings"
@@ -179,13 +238,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/imgSettingsIcon" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/divider"
-            android:contentDescription="@string/app_name" />
 
     </LinearLayout>
 

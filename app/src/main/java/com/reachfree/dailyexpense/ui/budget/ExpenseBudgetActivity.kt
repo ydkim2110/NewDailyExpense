@@ -158,10 +158,16 @@ class ExpenseBudgetActivity :
                 txtLeftToSpendAmount.text = resources.getString(R.string.text_budget_left, changeAmountByCurrency(leftAmount))
                 txtBudgetedAmount.text = resources.getString(R.string.text_budget_out_of_budgeted, changeAmountByCurrency(budgetedAmount))
 
-                if (spentAmount > budgetedAmount) {
-                    txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month_exceed, changeAmountByCurrency(spentAmount))
-                } else {
-                    txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month, changeAmountByCurrency(spentAmount))
+                when {
+                    budgetedAmount == BigDecimal(0) -> {
+                        txtBudgetComment.text = ""
+                    }
+                    spentAmount > budgetedAmount -> {
+                        txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month_exceed, changeAmountByCurrency(spentAmount))
+                    }
+                    else -> {
+                        txtBudgetComment.text = resources.getString(R.string.text_budget_you_spent_this_month, changeAmountByCurrency(spentAmount))
+                    }
                 }
 
                 progressbarBudget.animateProgressbar(leftBudgetPercent)

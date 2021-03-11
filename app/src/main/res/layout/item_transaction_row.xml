@@ -49,6 +49,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="교통" />
 
+        <View
+            android:id="@+id/viewPaymentColor"
+            android:visibility="gone"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_payment_credit"
+            app:layout_constraintTop_toTopOf="@+id/txtDescription"
+            app:layout_constraintStart_toEndOf="@+id/txtDescription"
+            app:layout_constraintBottom_toBottomOf="@+id/txtDescription" />
+
         <TextView
             android:id="@+id/txtDate"
             android:layout_width="wrap_content"

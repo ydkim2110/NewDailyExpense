@@ -93,8 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/text_budget"
-                android:textColor="@color/colorTextPrimary"
                 android:textSize="16sp"
+                android:textColor="@color/colorTextSecondary"
                 app:layout_constraintStart_toEndOf="@+id/progressbarCategory"
                 app:layout_constraintTop_toTopOf="@+id/progressbarCategory" />
 
@@ -104,8 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/text_spent"
-                android:textColor="@color/colorTextPrimary"
                 android:textSize="16sp"
+                android:textColor="@color/colorTextSecondary"
                 app:layout_constraintTop_toBottomOf="@+id/txtBudgetTitle"
                 app:layout_constraintStart_toEndOf="@+id/progressbarCategory" />
 
@@ -117,8 +117,9 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/text_left_to_spend"
-                android:textColor="@color/colorTextPrimary"
                 android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
                 app:layout_constraintStart_toEndOf="@+id/progressbarCategory"
                 app:layout_constraintBottom_toBottomOf="@+id/progressbarCategory" />
 
@@ -160,8 +161,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="320,000원"
+                tools:text="320,000원"
                 android:textSize="14sp"
+                android:textColor="@color/colorTextSecondary"
                 app:layout_constraintBottom_toBottomOf="@+id/txtExpenseTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtExpenseTitle" />
@@ -171,8 +173,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="1,320,000원"
+                tools:text="1,320,000원"
                 android:textSize="14sp"
+                android:textColor="@color/colorTextSecondary"
                 app:layout_constraintBottom_toBottomOf="@+id/txtBudgetTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtBudgetTitle" />
@@ -182,11 +185,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="320,000원"
-                android:textSize="14sp"
+                tools:text="320,000원"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorTextPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/txtLeftToSpendTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtLeftToSpendTitle" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

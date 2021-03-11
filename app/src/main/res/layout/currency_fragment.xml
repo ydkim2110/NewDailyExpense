@@ -17,11 +17,13 @@
         android:layout_marginEnd="16dp"
         android:padding="12dp"
         android:background="@null"
-        android:hint="Search Currency"
+        android:hint="@string/text_hint_search_currency"
+        android:inputType="text"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBar" />
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        android:importantForAutofill="no" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCurrency"

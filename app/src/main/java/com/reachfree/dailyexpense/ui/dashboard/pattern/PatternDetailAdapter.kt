@@ -56,6 +56,7 @@ class PatternDetailAdapter : ListAdapter<ExpenseByCategory, PatternDetailAdapter
                     ColorStateList.valueOf(ContextCompat.getColor(root.context, category.backgroundColor))
 
                 txtCategoryName.setText(category.visibleNameResId)
+                txtCount.text = "(${expenseByCategory.countByCategory})"
 
                 progressbarCategory.changeTintColor(category.backgroundColor)
 

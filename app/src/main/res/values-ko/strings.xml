@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">LemonTree</string>
+    <string name="app_name">레몬트리</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -96,11 +96,13 @@
     </string-array>
 
     <string-array name="filter_total_amount_options">
+        <item>전체</item>
         <item>수입</item>
         <item>지출</item>
     </string-array>
 
     <string-array name="filter_payment_options">
+        <item>전체</item>
         <item>카드</item>
         <item>현금</item>
     </string-array>
@@ -291,7 +293,6 @@
 
     <string name="sub_category_other">기타</string>
 
-
     <string name="dialog_delete_title">delete</string>
     <string name="dialog_delete_description_number">Delete?</string>
     <string name="dialog_delete_positive">OK</string>
@@ -322,4 +323,28 @@
     <string name="add_transaction">추가</string>
     <string name="text_payment">지불방식</string>
     <string name="text_no_budget">No Budgets.</string>
+    <string name="text_hint_search_currency">찾기</string>
+    <string name="toolbar_title_currency">통화 설정하기</string>
+    <string name="toolbar_title_profile">프로파일</string>
+    <string name="text_save">저장</string>
+    <string name="text_cancel">취소</string>
+    <string name="dialog_text_set_budget">예산 설정</string>
+
+    <!-- SetupActivity -->
+    <string name="text_start_making_your_economic_life_more_organized">레몬트리와 함께\n효율적인 경제생활의 시작!&#128512;</string>
+    <string name="text_enter_your_information">아래 정보를 입력해주세요.</string>
+    <string name="text_nickname">닉네임</string>
+    <string name="text_skip">Skip</string>
+    <string name="text_done">Done</string>
+    <string name="text_intro_1">정상소비, 과소비,\n투자소비로\n소비를 분리하세요.</string>
+    <string name="text_intro_2">예산을 등록해\n절약을 해보세요.</string>
+    <string name="text_intro_3">다양한 통계를 통해\n지출을 관리하세요.</string>
+    <string name="text_send_feedback">의견 보내기</string>
+    <string name="text_send_feedback_subject">[레몬트리] 의견 보내기</string>
+    <string name="text_choose_application">사용할 애플리케이션</string>
+    <string name="text_dialog_update_title">앱 업데이트</string>
+    <string name="text_dialog_update_message">앱 업데이트가 완료되었습니다. 새로운 기능을 사용하기 위해 재시작 버튼을 눌러주세요.</string>
+    <string name="text_dialog_update_restart">재시작</string>
+    <string name="text_app_rating">앱 평가하기</string>
+
 </resources>

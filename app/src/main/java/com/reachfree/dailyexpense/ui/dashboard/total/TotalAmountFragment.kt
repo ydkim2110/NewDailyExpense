@@ -80,7 +80,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
             SortType.AMOUNT,
             startOfMonth,
             endOfMonth,
-            intArrayOf(INCOME.ordinal)
+            intArrayOf(INCOME.ordinal, EXPENSE.ordinal)
         )
     }
 
@@ -210,7 +210,7 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
 
     private fun updateBySort(sortType: SortType) {
         when (beforeSelectedTransactionIndex) {
-            0 -> {
+            1 -> {
                 viewModel.getTransactionSortedBy(
                     sortType,
                     startOfMonth,
@@ -218,12 +218,20 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
                     intArrayOf(EXPENSE.ordinal)
                 )
             }
-            else -> {
+            0 -> {
                 viewModel.getTransactionSortedBy(
                     sortType,
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(INCOME.ordinal)
+                )
+            }
+            else -> {
+                viewModel.getTransactionSortedBy(
+                    sortType,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(INCOME.ordinal, EXPENSE.ordinal)
                 )
             }
         }
@@ -231,24 +239,34 @@ class TotalAmountFragment : BaseDialogFragment<TotalAmountFragmentBinding>() {
 
     private fun updateByTransaction() {
         when {
-            selectedTransactionIndex > 0 -> {
+            selectedTransactionIndex > 1 -> {
                 beforeSelectedTransactionIndex = selectedTransactionIndex
                 selectedTransactionIndex = 0
                 viewModel.getTransactionSortedBy(
                     SortType.AMOUNT,
                     startOfMonth,
                     endOfMonth,
-                    intArrayOf(INCOME.ordinal)
+                    intArrayOf(INCOME.ordinal, EXPENSE.ordinal)
                 )
             }
-            else -> {
+            selectedTransactionIndex > 0 -> {
                 beforeSelectedTransactionIndex = selectedTransactionIndex
-                selectedTransactionIndex ++
+                selectedTransactionIndex++
                 viewModel.getTransactionSortedBy(
                     SortType.AMOUNT,
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(EXPENSE.ordinal)
+                )
+            }
+            else -> {
+                beforeSelectedTransactionIndex = selectedTransactionIndex
+                selectedTransactionIndex++
+                viewModel.getTransactionSortedBy(
+                    SortType.AMOUNT,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(INCOME.ordinal)
                 )
             }
         }

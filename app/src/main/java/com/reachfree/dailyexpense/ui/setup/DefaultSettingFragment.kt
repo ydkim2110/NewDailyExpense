@@ -62,7 +62,6 @@ class DefaultSettingFragment : BaseFragment<DefaultSettingFragmentBinding>() {
             currency?.let {
                 onDefaultSettingDoneClicked.onDefaultSettingDone(
                     binding.textFieldNickname.editText?.text.toString().trim(),
-                    binding.textFieldFullName.editText?.text.toString().trim(),
                     it
                 )
             }
@@ -71,22 +70,16 @@ class DefaultSettingFragment : BaseFragment<DefaultSettingFragmentBinding>() {
 
     private fun isValidate(): Boolean {
         val isNicknameEmpty = binding.textFieldNickname.editText?.text.toString().trim().isEmpty()
-        val isFullNameEmpty = binding.textFieldFullName.editText?.text.toString().trim().isEmpty()
         if (isNicknameEmpty) {
             binding.textFieldNickname.error = getString(R.string.this_field_is_required)
         } else {
             binding.textFieldNickname.error = null
         }
-        if (isFullNameEmpty) {
-            binding.textFieldFullName.error = getString(R.string.this_field_is_required)
-        } else {
-            binding.textFieldFullName.error = null
-        }
-        return !(isNicknameEmpty || isFullNameEmpty)
+        return !(isNicknameEmpty)
     }
 
     interface OnDefaultSettingDoneClicked {
-        fun onDefaultSettingDone(nickname: String, fullName: String, currency: Currency)
+        fun onDefaultSettingDone(nickname: String, currency: Currency)
     }
 
     companion object {

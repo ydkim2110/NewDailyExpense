@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -17,6 +18,15 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.tasks.Task
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
@@ -35,22 +45,20 @@ import com.reachfree.dailyexpense.ui.settings.SettingsActivity
 import com.reachfree.dailyexpense.ui.transaction.TransactionActivity
 import com.reachfree.dailyexpense.ui.transaction.TransactionGroup
 import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.AppUtils.animateProgressbar
-import com.reachfree.dailyexpense.util.AppUtils.animateTextViewAmount
-import com.reachfree.dailyexpense.util.AppUtils.animateTextViewPercent
 import com.reachfree.dailyexpense.util.AppUtils.calculatePercentage
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.FIRST_DAY_OF_WEEK
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.PAYMENT
+import com.reachfree.dailyexpense.util.Constants.PREF_KEY_FULLNAME
+import com.reachfree.dailyexpense.util.Constants.PREF_KEY_NICKNAME
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.SessionManager
-import com.reachfree.dailyexpense.util.extension.load
-import com.reachfree.dailyexpense.util.extension.runDelayed
-import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
+import com.reachfree.dailyexpense.util.extension.*
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
@@ -71,6 +79,9 @@ class DashboardActivity :
         SelectTypeBottomSheet()
     }
 
+    private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
+    private lateinit var updateListener: InstallStateUpdatedListener
+
     private var doubleBackToExit = false
     private var isExpanded = false
     private var currentDate = Date()
@@ -82,6 +93,8 @@ class DashboardActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkForUpdates()
+
         Constants.currencySymbol = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
 
         Currency.fromCode(sessionManager.getCurrencyCode())?.let {
@@ -117,6 +130,86 @@ class DashboardActivity :
         sessionManager.getPrefs().registerOnSharedPreferenceChangeListener(sharedPrefListener)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
+            if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                appUpdateManager.startUpdateFlowForResult(
+                    info,
+                    AppUpdateType.IMMEDIATE,
+                    this,
+                    REQUEST_CODE_UPDATE
+                )
+            }
+        }
+    }
+
+    private fun checkForUpdates() {
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { handleUpdate(appUpdateManager, appUpdateInfoTask) }
+    }
+
+    private fun handleUpdate(
+        manager: AppUpdateManager,
+        info: Task<AppUpdateInfo>
+    ) {
+        if (APP_UPDATE_TYPE_SUPPORTED == AppUpdateType.IMMEDIATE) {
+            handleImmediateUpdate(info)
+        } else if (APP_UPDATE_TYPE_SUPPORTED == AppUpdateType.FLEXIBLE) {
+            handleFlexibleUpdate(info)
+        }
+    }
+
+    private fun handleImmediateUpdate(info: Task<AppUpdateInfo>) {
+        if(info.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+            info.result.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+            appUpdateManager.startUpdateFlowForResult(info.result, AppUpdateType.IMMEDIATE, this, REQUEST_CODE_UPDATE)
+        }
+    }
+
+    private fun handleFlexibleUpdate(info: Task<AppUpdateInfo>) {
+        if ((info.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE ||
+                    info.result.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) &&
+            info.result.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+            setUpdateAction(info)
+        }
+    }
+
+    private fun setUpdateAction(info: Task<AppUpdateInfo>) {
+        updateListener = InstallStateUpdatedListener {
+            when (it.installStatus()) {
+                InstallStatus.DOWNLOADED -> {
+                    launchRestartDialog(appUpdateManager)
+                }
+            }
+        }
+    }
+
+    private fun launchRestartDialog(manager: AppUpdateManager) {
+        val builder = AlertDialog.Builder(this,
+            R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background)
+
+        builder.setTitle(getString(R.string.text_dialog_update_title))
+        builder.setMessage(getString(R.string.text_dialog_update_message))
+
+        builder.setPositiveButton(getString(R.string.text_dialog_update_restart)) { dialog, _ ->
+            manager.completeUpdate()
+            dialog.dismiss()
+        }
+
+        val alertDialog = builder.create()
+
+        alertDialog.setOnShowListener {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setBackgroundResource(android.R.color.transparent)
+        }
+
+        alertDialog.show()
+    }
+
     private val sharedPrefListener =
         SharedPreferences.OnSharedPreferenceChangeListener { sharedPref, key ->
             if (PREF_CURRENCY == key) {
@@ -127,6 +220,8 @@ class DashboardActivity :
 
                 viewModel.dateForMonthly.value = listOf(currentStartDate, currentEndDate)
                 viewModel.dateForRecent.value = listOf(currentRecentStartDate, currentRecentEndDate)
+            } else if (PREF_KEY_NICKNAME == key || PREF_KEY_FULLNAME == key) {
+                binding.includeDrawer.layoutHeader.txtNickname.text = sessionManager.getUser().nickname
             }
     }
 
@@ -146,11 +241,39 @@ class DashboardActivity :
             layoutTransaction.setOnSingleClickListener { runAfterDrawerClose { TransactionActivity.start(this@DashboardActivity) } }
             layoutExpenseBudget.setOnSingleClickListener { runAfterDrawerClose { ExpenseBudgetActivity.start(this@DashboardActivity) } }
             layoutCalendar.setOnSingleClickListener { runAfterDrawerClose { CalendarActivity.start(this@DashboardActivity) } }
+            layoutRateApp.setOnSingleClickListener { runAfterDrawerClose { showRateApp() } }
+            layoutSendFeedback.setOnSingleClickListener { runAfterDrawerClose { showSendFeedback() } }
             layoutSettings.setOnSingleClickListener { runAfterDrawerClose { SettingsActivity.start(this@DashboardActivity) } }
         }
 
         binding.includeDrawer.layoutHeader.txtNickname.text = sessionManager.getUser().nickname
-        binding.includeDrawer.layoutHeader.txtFullName.text = sessionManager.getUser().fullName
+    }
+
+    private fun showRateApp() {
+        val reviewManager = ReviewManagerFactory.create(this)
+        val requestReviewFlow = reviewManager.requestReviewFlow()
+
+        requestReviewFlow.addOnCompleteListener { req ->
+            if (req.isSuccessful) {
+                val reviewInfo = req.result
+                val flow = reviewManager.launchReviewFlow(this, reviewInfo)
+                flow.addOnCompleteListener {
+
+                }
+            } else {
+
+            }
+        }
+    }
+
+    private fun showSendFeedback() {
+        var intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("ydkim2110@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.text_send_feedback_subject))
+        }
+        intent = Intent.createChooser(intent, getString(R.string.text_choose_application))
+        startActivity(intent)
     }
 
     private fun setupNavigation() {
@@ -180,11 +303,14 @@ class DashboardActivity :
         binding.appBar.compactcalendarView.setListener(object :
             CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date?) {
-                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(dateClicked)
+                binding.appBar.toolbarTitle.text =
+                    AppUtils.yearMonthDateFormat.format(dateClicked!!)
+                Timber.d("date ${AppUtils.defaultDateFormat.format(dateClicked)}")
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
+                binding.appBar.toolbarTitle.text =
+                    AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
                 setupNewCalendarView(firstDayOfNewMonth)
             }
         })
@@ -303,18 +429,20 @@ class DashboardActivity :
                 show(supportFragmentManager, PaymentFragment.TAG)
             }
         }
-        
-        binding.expensePatternLayout.btnTotalList.setOnSingleClickListener {
-            showPatternDetailFragment(Constants.EXPENSE_PATTERN_TOTAL)
-        }
-        binding.expensePatternLayout.progressbarNormal.setOnSingleClickListener {
-            showPatternDetailFragment(Constants.EXPENSE_PATTERN_NORMAL)
-        }
-        binding.expensePatternLayout.progressbarWaste.setOnSingleClickListener {
-            showPatternDetailFragment(Constants.EXPENSE_PATTERN_WASTE)
-        }
-        binding.expensePatternLayout.progressbarInvest.setOnSingleClickListener {
-            showPatternDetailFragment(Constants.EXPENSE_PATTERN_INVEST)
+
+        with(binding.expensePatternLayout) {
+            btnTotalList.setOnSingleClickListener {
+                showPatternDetailFragment(Constants.EXPENSE_PATTERN_TOTAL)
+            }
+            progressbarNormal.setOnSingleClickListener {
+                showPatternDetailFragment(Constants.EXPENSE_PATTERN_NORMAL)
+            }
+            progressbarWaste.setOnSingleClickListener {
+                showPatternDetailFragment(Constants.EXPENSE_PATTERN_WASTE)
+            }
+            progressbarInvest.setOnSingleClickListener {
+                showPatternDetailFragment(Constants.EXPENSE_PATTERN_INVEST)
+            }
         }
     }
 
@@ -347,9 +475,9 @@ class DashboardActivity :
                 .sumOf { it.amount!! }
 
             with(binding.totalAmountLayout) {
-                animateTextViewAmount(txtTotalAmount, ANIMATION_DURATION, START_VALUE, incomes.minus(expenses))
-                animateTextViewAmount(txtTotalIncome, ANIMATION_DURATION, START_VALUE, incomes)
-                animateTextViewAmount(txtTotalExpense, ANIMATION_DURATION, START_VALUE, expenses)
+                txtTotalAmount.animateAmount(incomes.minus(expenses))
+                txtTotalIncome.animateAmount(incomes)
+                txtTotalExpense.animateAmount(expenses)
             }
         }
     }
@@ -370,9 +498,9 @@ class DashboardActivity :
                 .sumOf { it.amount!! }
 
             with(binding.expensePatternLayout) {
-                animateTextViewAmount(txtNormalSum, ANIMATION_DURATION, START_VALUE, normalExpense)
-                animateTextViewAmount(txtWasteSum, ANIMATION_DURATION, START_VALUE, wasteExpense)
-                animateTextViewAmount(txtInvestSum, ANIMATION_DURATION, START_VALUE, investExpense)
+                txtNormalSum.animateAmount(normalExpense)
+                txtWasteSum.animateAmount(wasteExpense)
+                txtInvestSum.animateAmount(investExpense)
             }
 
             setupProgressbar(normalExpense, wasteExpense, investExpense)
@@ -392,8 +520,8 @@ class DashboardActivity :
                 .sumOf { it.amount!! }
 
             with(binding.paymentSummaryLayout) {
-                animateTextViewAmount(txtCreditAmount, ANIMATION_DURATION, START_VALUE, creditAmount)
-                animateTextViewAmount(txtCashAmount, ANIMATION_DURATION, START_VALUE, cashAmount)
+                txtCreditAmount.animateAmount(creditAmount)
+                txtCashAmount.animateAmount(cashAmount)
             }
 
             setupPaymentBarChart(creditAmount, cashAmount)
@@ -414,7 +542,7 @@ class DashboardActivity :
 
             barColors.clear()
             barColors.add(ContextCompat.getColor(this, R.color.orange))
-            barColors.add(ContextCompat.getColor(this, R.color.red))
+            barColors.add(ContextCompat.getColor(this, R.color.dark_red))
         } else {
             creditPercent = 100
             barColors.clear()
@@ -478,23 +606,23 @@ class DashboardActivity :
             investPercent = calculatePercentage(investExpense, totalExpense)
 
             with(binding.expensePatternLayout) {
-                animateTextViewPercent(txtNormalPercent, ANIMATION_DURATION, 0, normalPercent)
-                animateTextViewPercent(txtWastePercent, ANIMATION_DURATION, 0, wastePercent)
-                animateTextViewPercent(txtInsertPercent, ANIMATION_DURATION, 0, investPercent)
+                txtNormalPercent.animatePercent(normalPercent)
+                txtWastePercent.animatePercent(wastePercent)
+                txtInsertPercent.animatePercent(investPercent)
             }
         }
         else if (totalExpense == BigDecimal(0)) {
             with(binding.expensePatternLayout) {
-                animateTextViewPercent(txtNormalPercent, ANIMATION_DURATION, 0, 0)
-                animateTextViewPercent(txtWastePercent, ANIMATION_DURATION, 0, 0)
-                animateTextViewPercent(txtInsertPercent, ANIMATION_DURATION, 0, 0)
+                txtNormalPercent.animatePercent(0)
+                txtWastePercent.animatePercent(0)
+                txtInsertPercent.animatePercent(0)
             }
         }
 
         with(binding.expensePatternLayout) {
-            animateProgressbar(progressbarNormal, normalPercent)
-            animateProgressbar(progressbarWaste, wastePercent)
-            animateProgressbar(progressbarInvest, investPercent)
+            progressbarNormal.animateProgressbar(normalPercent)
+            progressbarWaste.animateProgressbar(wastePercent)
+            progressbarInvest.animateProgressbar(investPercent)
         }
 
     }
@@ -539,7 +667,9 @@ class DashboardActivity :
         const val TIME_EXIT_DELAY = 1500L
 
         const val ANIMATION_DURATION = 1000L
-        const val START_VALUE = 0
+
+        private const val APP_UPDATE_TYPE_SUPPORTED = AppUpdateType.IMMEDIATE
+        private const val REQUEST_CODE_UPDATE = 1212
 
         fun start(context: Context) {
             Intent(context, DashboardActivity::class.java).apply {

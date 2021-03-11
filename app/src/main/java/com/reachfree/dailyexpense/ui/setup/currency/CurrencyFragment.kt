@@ -55,7 +55,7 @@ class CurrencyFragment : BaseDialogFragment<CurrencyFragmentBinding>() {
             dismiss()
         }
 
-        binding.appBar.txtToolbarTitle.text = "Currency Selection"
+        binding.appBar.txtToolbarTitle.text = getString(R.string.toolbar_title_currency)
     }
 
     private fun setupRecyclerView() {

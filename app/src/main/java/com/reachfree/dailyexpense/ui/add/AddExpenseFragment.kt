@@ -1,5 +1,6 @@
 package com.reachfree.dailyexpense.ui.add
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -94,7 +95,6 @@ class AddExpenseFragment : BaseDialogFragment<AddExpenseFragmentBinding>() {
     ): AddExpenseFragmentBinding {
         return AddExpenseFragmentBinding.inflate(inflater, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

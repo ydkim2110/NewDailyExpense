@@ -9,7 +9,7 @@
         android:color="#ff4CAF50" />
     <stroke
         android:width="2dip"
-        android:color="#FFF" />
+        android:color="@color/colorBackgroundCircle" />
     <padding
         android:left="6dip"
         android:right="6dip"

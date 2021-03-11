@@ -20,10 +20,6 @@
         <item name="alertDialogTheme">@style/AlertDialogStyle</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background</item>
-    </style>
-
     <style name="NavigationTab" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabBackground">@color/colorTabBackground</item>
         <item name="tabSelectedTextColor">@color/tabColor</item>
@@ -33,7 +29,9 @@
     </style>
 
     <style name="NavigationTitle">
-        <item name="android:padding">8dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
@@ -44,10 +42,9 @@
     <style name="NavigationSubTitle">
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingEnd">8dp</item>
-        <item name="android:paddingTop">14dp</item>
-        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
 <!--        <item name="fontFamily">@font/ubuntu_medium</item>-->
         <item name="android:includeFontPadding">false</item>
@@ -66,6 +63,16 @@
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="DialogAnimationUpAndDown">
+        <item name="android:windowEnterAnimation">@anim/fade_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/fade_slide_down</item>
+    </style>
+
+    <style name="DialogAnimationLeftAndRight">
+        <item name="android:windowEnterAnimation">@anim/fade_slide_left</item>
+        <item name="android:windowExitAnimation">@anim/fade_slide_right</item>
     </style>
 
     <style name="AlertDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog">

@@ -96,11 +96,13 @@
     </string-array>
 
     <string-array name="filter_total_amount_options">
+        <item>Total</item>
         <item>Income</item>
         <item>Expense</item>
     </string-array>
 
     <string-array name="filter_payment_options">
+        <item>Total</item>
         <item>Credit</item>
         <item>Cash</item>
     </string-array>
@@ -328,4 +330,27 @@
     <string name="add_transaction">Add Transaction</string>
     <string name="text_payment">Payment</string>
     <string name="text_no_budget">No Budgets.</string>
+    <string name="text_hint_search_currency">Search Currency</string>
+    <string name="toolbar_title_currency">Add Currency</string>
+    <string name="toolbar_title_profile">Profile</string>
+    <string name="text_save">Save</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="dialog_text_set_budget">Set Budget</string>
+
+    <!-- SetupActivity -->
+    <string name="text_start_making_your_economic_life_more_organized">Start making your economic life\nmore organized.</string>
+    <string name="text_enter_your_information">Enter Your Information</string>
+    <string name="text_skip">Skip</string>
+    <string name="text_done">Done</string>
+    <string name="text_intro_1">Add your transaction by Normal, Waste, Invest</string>
+    <string name="text_intro_2">Create budget for saving</string>
+    <string name="text_intro_3">Manage your financial transactions</string>
+    <string name="text_nickname">Nickname</string>
+    <string name="text_send_feedback">Send Feedback</string>
+    <string name="text_send_feedback_subject">[LemonTree] Send Feedback</string>
+    <string name="text_choose_application">Choose Application</string>
+    <string name="text_dialog_update_title">App Update</string>
+    <string name="text_dialog_update_message">Update is completed. Please restart to use the new function.</string>
+    <string name="text_dialog_update_restart">Restart</string>
+    <string name="text_app_rating">Rate App</string>
 </resources>

@@ -46,8 +46,6 @@
             android:name=".ui.transaction.TransactionActivity"
             android:screenOrientation="portrait"
             />
-
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

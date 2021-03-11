@@ -62,7 +62,6 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
     private var selectedTransactionIndex = 0
     private var beforeSelectedTransactionIndex = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -83,7 +82,7 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
             startOfMonth,
             endOfMonth,
             intArrayOf(EXPENSE.ordinal),
-            intArrayOf(CREDIT.ordinal)
+            intArrayOf(CREDIT.ordinal, CASH.ordinal)
         )
     }
 
@@ -214,15 +213,25 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(EXPENSE.ordinal),
-                    intArrayOf(CASH.ordinal)
+                    intArrayOf(CREDIT.ordinal)
                 )
-            } else -> {
+            }
+            1 -> {
                 viewModel.getTransactionSortedBy(
                     sortType,
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(EXPENSE.ordinal),
-                    intArrayOf(CREDIT.ordinal)
+                    intArrayOf(CASH.ordinal)
+                )
+            }
+            else -> {
+                viewModel.getTransactionSortedBy(
+                    sortType,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(EXPENSE.ordinal),
+                    intArrayOf(CREDIT.ordinal, CASH.ordinal)
                 )
             }
         }
@@ -230,7 +239,7 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
 
     private fun updateByTransaction() {
         when {
-            selectedTransactionIndex > 0 -> {
+            selectedTransactionIndex > 1 -> {
                 beforeSelectedTransactionIndex = selectedTransactionIndex
                 selectedTransactionIndex = 0
                 viewModel.getTransactionSortedBy(
@@ -238,18 +247,29 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(EXPENSE.ordinal),
-                    intArrayOf(CREDIT.ordinal)
+                    intArrayOf(CREDIT.ordinal, CASH.ordinal)
                 )
             }
-            else -> {
+            selectedTransactionIndex > 0 -> {
                 beforeSelectedTransactionIndex = selectedTransactionIndex
-                selectedTransactionIndex ++
+                selectedTransactionIndex++
                 viewModel.getTransactionSortedBy(
                     SortType.AMOUNT,
                     startOfMonth,
                     endOfMonth,
                     intArrayOf(EXPENSE.ordinal),
                     intArrayOf(CASH.ordinal)
+                )
+            }
+            else -> {
+                beforeSelectedTransactionIndex = selectedTransactionIndex
+                selectedTransactionIndex++
+                viewModel.getTransactionSortedBy(
+                    SortType.AMOUNT,
+                    startOfMonth,
+                    endOfMonth,
+                    intArrayOf(EXPENSE.ordinal),
+                    intArrayOf(CREDIT.ordinal)
                 )
             }
         }
@@ -292,17 +312,17 @@ class PaymentFragment : BaseDialogFragment<PaymentFragmentBinding>() {
         val creditBarEntries = setDataToCalendar(labels, creditResult)
         val cashBarEntries = setDataToCalendar(labels, cashResult)
 
-        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_green_200))
-        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorIncome))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_orange_300))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_orange_300))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_orange_300))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_orange_300))
+        creditBarColors.add(ContextCompat.getColor(requireContext(), R.color.orange))
 
-        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_200))
-        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.colorExpense))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_500))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_500))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_500))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.md_red_500))
+        cashBarColors.add(ContextCompat.getColor(requireContext(), R.color.dark_red))
 
         binding.barChartPaymentAmount.axisLeft.apply { isEnabled = false }
         binding.barChartPaymentAmount.axisRight.apply { isEnabled = false }

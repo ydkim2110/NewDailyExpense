@@ -20,9 +20,10 @@
     <color name="colorProgressBarTintBackground">#EEEEEE</color>
     <color name="colorPieChartHoleBackground">#E6E6E6</color>
     <color name="colorTabBackground">#FFFFFF</color>
-    <color name="colorNavBackground">#FFFFFF</color>
+    <color name="colorNavBackground">#FEF06B</color>
     <color name="colorItemTransactionDateBackground">#DDDDDD</color>
     <color name="colorArrowIcon">#000000</color>
+    <color name="colorBackgroundCircle">#BDBDBD</color>
 
     <color name="colorExpense">#EE1111</color>
     <color name="colorIncome">#00A300</color>

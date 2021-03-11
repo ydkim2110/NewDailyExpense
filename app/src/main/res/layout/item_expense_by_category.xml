@@ -53,10 +53,11 @@
                 tools:text="교통" />
 
             <TextView
-                android:id="@+id/tv_budget_total_count"
+                android:id="@+id/txtCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                app:layout_constraintTop_toTopOf="@+id/txtCategoryName"
                 app:layout_constraintBottom_toBottomOf="@+id/txtCategoryName"
                 app:layout_constraintStart_toEndOf="@+id/txtCategoryName"
                 tools:text="(2건)" />

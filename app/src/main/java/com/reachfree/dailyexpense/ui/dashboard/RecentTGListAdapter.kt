@@ -14,6 +14,9 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.PATTERN.*
+import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
+import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.CurrencyUtils
 import com.reachfree.dailyexpense.util.SessionManager
 import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
@@ -37,7 +40,7 @@ class RecentTGListAdapter(
         fun bind(transaction: TransactionEntity) {
 
             with(binding) {
-                if (transaction.type == Constants.TYPE.EXPENSE.ordinal) {
+                if (transaction.type == EXPENSE.ordinal) {
                     val expenseCategory = AppUtils.getExpenseCategory(transaction.categoryId)
                     val expenseSubCategory = AppUtils.getExpenseSubCategory(transaction.subCategoryId)
 
@@ -47,13 +50,13 @@ class RecentTGListAdapter(
                     viewPatternColor.visibility = View.VISIBLE
 
                     when (transaction.pattern) {
-                        Constants.PATTERN.NORMAL.ordinal -> {
+                        NORMAL.ordinal -> {
                             viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_normal)
                         }
-                        Constants.PATTERN.WASTE.ordinal -> {
+                        WASTE.ordinal -> {
                             viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_waste)
                         }
-                        Constants.PATTERN.INVEST.ordinal -> {
+                        INVEST.ordinal -> {
                             viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_invest)
                         }
                     }
@@ -66,7 +69,7 @@ class RecentTGListAdapter(
                         ?: CurrencyUtils.changeAmountByCurrency(BigDecimal(0))
                     txtAmount.setTextColor(ContextCompat.getColor(root.context, R.color.colorExpense))
                 }
-                else if (transaction.type == Constants.TYPE.INCOME.ordinal) {
+                else if (transaction.type == INCOME.ordinal) {
                     val incomeCategory = AppUtils.getIncomeCategory(transaction.categoryId)
 
                     imgIcon.load(incomeCategory.iconResId)

@@ -50,12 +50,12 @@ class PatternCategoryGroupAdapter
                 imgCategoryIcon.changeBackgroundTintColor(subCategory.backgroundColor)
 
                 txtCategoryName.setText(subCategory.visibleNameResId)
+                txtCount.text = "(${subCategoryGroup.countBySubCategory})"
 
                 progressbarCategory.changeTintColor(subCategory.backgroundColor)
 
                 subCategoryGroup.sumBySubCategory?.let {
                     txtTotalExpenseAmount.text = CurrencyUtils.changeAmountByCurrency(it)
-
                     progressbarCategory.max = amount.toInt()
                     progressbarCategory.animateProgressbar(it.toInt())
                 }

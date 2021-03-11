@@ -1,6 +1,5 @@
 package com.reachfree.dailyexpense.util
 
-import android.R
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas

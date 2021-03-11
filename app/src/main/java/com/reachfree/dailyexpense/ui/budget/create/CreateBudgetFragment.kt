@@ -36,6 +36,10 @@ class CreateBudgetFragment : BaseDialogFragment<CreateBudgetFragmentBinding>() {
         CreateBudgetAdapter()
     }
 
+    var decimals = true
+    var current = ""
+    var separator = ","
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.FullScreenDialog)
@@ -103,7 +107,7 @@ class CreateBudgetFragment : BaseDialogFragment<CreateBudgetFragmentBinding>() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_budget_dialog, null)
         val builder = AlertDialog.Builder(requireContext())
             .setView(dialogView)
-            .setTitle("Set Budget")
+            .setTitle(getString(R.string.dialog_text_set_budget))
 
         val alertDialog = builder.show()
 
@@ -119,27 +123,46 @@ class CreateBudgetFragment : BaseDialogFragment<CreateBudgetFragmentBinding>() {
             }
 
             override fun afterTextChanged(number: Editable?) {
-                edtAmount.removeTextChangedListener(this)
+                if (number.toString() != current) {
+                    edtAmount.removeTextChangedListener(this)
 
-                try {
-                    var givenNumber = number.toString()
-                    var longValue = 0L
-                    if (givenNumber.contains(",")) {
-                        givenNumber = givenNumber.replace(",".toRegex(), "")
+                    val cleanString: String =
+                        number.toString().replace("[$,.]".toRegex(), "").replace("".toRegex(), "")
+                            .replace("\\s+".toRegex(), "")
+
+                    if (cleanString.isNotEmpty()) {
+                        try {
+                            val parsed: Double
+                            val parsedInt: Int
+                            val formatted: String
+
+                            when (Constants.currentCurrency.decimalPoint) {
+                                2 -> {
+                                    parsed = cleanString.toDouble()
+                                    formatted = DecimalFormat("#,##0.00").format((parsed/100))
+                                }
+                                else -> {
+                                    parsedInt = cleanString.toInt()
+                                    formatted = DecimalFormat("#,###").format(parsedInt)
+                                }
+                            }
+
+                            current = formatted
+
+                            if (separator != "," && !decimals) {
+                                edtAmount.setText(formatted.replace(",".toRegex(), separator))
+                            } else {
+                                edtAmount.setText(formatted)
+                            }
+
+                            edtAmount.setSelection(formatted.length)
+                        } catch (e: java.lang.NumberFormatException) {
+
+                        }
                     }
-                    longValue = givenNumber.toLong()
-                    val formatter = DecimalFormat("#,###,###")
-                    val formattedString = formatter.format(longValue)
-                    edtAmount.setText(formattedString)
-                    edtAmount.setSelection(edtAmount.text.length)
 
-                } catch (e: NumberFormatException) {
-
-                } catch (e: Exception) {
-
+                    edtAmount.addTextChangedListener(this)
                 }
-
-                edtAmount.addTextChangedListener(this)
             }
         })
 

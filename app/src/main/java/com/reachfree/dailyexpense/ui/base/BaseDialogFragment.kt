@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.reachfree.dailyexpense.R
 
 /**
  * DailyExpense
@@ -20,6 +18,11 @@ abstract class BaseDialogFragment<VB: ViewBinding>: DialogFragment() {
 
     private var _binding: VB? = null
     protected val binding get() = _binding!!
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        dialog?.window?.attributes?.windowAnimations = R.style.DialogAnimationUpAndDown
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

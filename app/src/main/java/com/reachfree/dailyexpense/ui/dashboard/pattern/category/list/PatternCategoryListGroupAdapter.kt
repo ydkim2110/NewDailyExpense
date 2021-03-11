@@ -7,6 +7,8 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemPatternCategoryListGroupBinding
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
+import com.reachfree.dailyexpense.util.extension.animateProgressbar
 import com.reachfree.dailyexpense.util.extension.changeTintColor
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import java.math.BigDecimal
@@ -33,15 +35,14 @@ class PatternCategoryListGroupAdapter(
             with(binding) {
                 txtDate.text = AppUtils.dayDateFormat.format(transaction.registerDate)
                 txtCategoryName.text = transaction.description
-                txtSubcategoryName.text = root.resources.getString(subCategory.visibleNameResId)
 
                 progressbarCategory.changeTintColor(subCategory.backgroundColor)
 
                 transaction.amount?.let {
-                    txtTotalExpenseAmount.text = CurrencyUtils.changeAmountByCurrency(it)
+                    txtTotalExpenseAmount.text = changeAmountByCurrency(it)
 
                     progressbarCategory.max = amount.toInt()
-                    AppUtils.animateProgressbar(progressbarCategory, it.toInt())
+                    progressbarCategory.animateProgressbar(it.toInt())
                 }
 
                 root.setOnSingleClickListener {

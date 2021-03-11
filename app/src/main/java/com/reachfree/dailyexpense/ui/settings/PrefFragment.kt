@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.DialogPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Currency
+import com.reachfree.dailyexpense.data.model.User
+import com.reachfree.dailyexpense.ui.settings.backup.BackupFragment
+import com.reachfree.dailyexpense.ui.settings.profile.ProfileFragment
 import com.reachfree.dailyexpense.ui.setup.currency.CurrencyFragment
 import com.reachfree.dailyexpense.util.Preferences.THEME_ARRAY
 import com.reachfree.dailyexpense.util.SessionManager
@@ -24,8 +25,10 @@ import javax.inject.Inject
  * Time: 오전 11:56
  */
 
+const val PREF_PROFILE = "PROFILE"
 const val PREF_CURRENCY = "CURRENCY"
 const val PREF_APP_THEME = "APP_THEME"
+const val PREF_BACKUP = "BACKUP"
 
 @AndroidEntryPoint
 class PrefFragment: PreferenceFragmentCompat() {
@@ -41,6 +44,37 @@ class PrefFragment: PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        setupProfilePreference()
+        setupCurrencyPreference()
+        setupAppThemePreference()
+        setupBackupPreference()
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    private fun setupProfilePreference() {
+        val profilePref = preferenceManager.findPreference<Preference>(PREF_PROFILE)
+        profilePref?.summary = sessionManager.getUser().nickname
+
+        profilePref?.setOnPreferenceClickListener { profile ->
+            val profileFragment = ProfileFragment.newInstance()
+            profileFragment.show(childFragmentManager, null)
+
+            childFragmentManager.setFragmentResultListener("profile", this) { key, bundle ->
+                val result = bundle.getParcelable<User>("data")
+
+                result?.let {
+                    profile.summary = it.nickname
+                    sessionManager.saveUser(it)
+                }
+            }
+
+            true
+        }
+    }
+
+    private fun setupCurrencyPreference() {
         val currencyPref = preferenceManager.findPreference<Preference>(PREF_CURRENCY)
         currencyPref?.summary = Currency.fromCode(sessionManager.getCurrencyCode())?.flag
 
@@ -58,7 +92,9 @@ class PrefFragment: PreferenceFragmentCompat() {
 
             true
         }
+    }
 
+    private fun setupAppThemePreference() {
         val appThemePref = preferenceManager.findPreference<Preference>(PREF_APP_THEME)
         val currentTheme = sessionManager.getUserTheme()
         val appTheme = THEME_ARRAY.first { it.modeNight == currentTheme }
@@ -71,9 +107,16 @@ class PrefFragment: PreferenceFragmentCompat() {
             preference.summary = getString(THEME_ARRAY.first { it.modeNight == sessionManager.getUserTheme() }.modeNameRes)
             true
         }
-
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    private fun setupBackupPreference() {
+        val backupPref = preferenceManager.findPreference<Preference>(PREF_BACKUP)
 
+        backupPref?.setOnPreferenceClickListener {
+            val backupFragment = BackupFragment.newInstance()
+            backupFragment.show(childFragmentManager, null)
+
+            true
+        }
+    }
 }

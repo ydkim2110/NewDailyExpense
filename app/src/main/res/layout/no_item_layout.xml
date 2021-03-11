@@ -7,7 +7,7 @@
     android:visibility="gone"
     app:cardCornerRadius="12dp"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="200dp"
     android:layout_marginBottom="@dimen/vertical_margin"
     android:backgroundTint="@color/colorCardBackground">
 
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/imgNoItem"
-            android:layout_width="86dp"
-            android:layout_height="86dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:contentDescription="@string/app_name"
             tools:src="@drawable/logo" />
 

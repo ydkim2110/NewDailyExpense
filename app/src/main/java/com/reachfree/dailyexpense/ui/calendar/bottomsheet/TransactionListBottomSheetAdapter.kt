@@ -45,6 +45,20 @@ class TransactionListBottomSheetAdapter :
                     imgIcon.load(expenseSubCategory.iconResId)
                     imgIcon.changeBackgroundTintColor(expenseCategory.backgroundColor)
 
+                    viewPatternColor.visibility = View.VISIBLE
+
+                    when (transaction.pattern) {
+                        Constants.PATTERN.NORMAL.ordinal -> {
+                            viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_normal)
+                        }
+                        Constants.PATTERN.WASTE.ordinal -> {
+                            viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_waste)
+                        }
+                        Constants.PATTERN.INVEST.ordinal -> {
+                            viewPatternColor.setBackgroundResource(R.drawable.bg_pattern_invest)
+                        }
+                    }
+
                     txtDescription.text = transaction.description
                     txtCategory.setText(expenseCategory.visibleNameResId)
                     txtSubCategory.setText(expenseSubCategory.visibleNameResId)

@@ -17,7 +17,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:paddingHorizontal="16dp">
 
         <LinearLayout
             android:id="@+id/infoLayout"
@@ -40,12 +42,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    tools:ignore="UseCompoundDrawables">
 
-                    <View
-                        android:layout_width="32dp"
-                        android:layout_height="8dp"
-                        android:background="@color/orange" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_card"
+                        android:contentDescription="@string/app_name"
+                        app:tint="@color/orange" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -59,6 +64,9 @@
                     android:id="@+id/txtCreditAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"
                     tools:text="$3,100" />
 
             </LinearLayout>
@@ -74,12 +82,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    tools:ignore="UseCompoundDrawables">
 
-                    <View
-                        android:layout_width="32dp"
-                        android:layout_height="8dp"
-                        android:background="@color/red" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_cash"
+                        android:contentDescription="@string/app_name"
+                        app:tint="@color/dark_red" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -93,6 +104,9 @@
                     android:id="@+id/txtCashAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorTextPrimary"
                     tools:text="$3,100" />
 
             </LinearLayout>
