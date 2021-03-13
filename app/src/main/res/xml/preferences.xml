@@ -3,21 +3,21 @@
 
     <Preference
         android:key="PROFILE"
-        android:title="Profile"
+        android:title="@string/text_profile"
         android:summary="Edit your profile"
         android:icon="@drawable/ic_profile"
         android:defaultValue="true" />
 
     <Preference
         android:key="CURRENCY"
-        android:title="Currency"
+        android:title="@string/text_currency"
         android:summary="KRW"
         android:icon="@drawable/ic_money"
         android:defaultValue="true" />
 
     <ListPreference
         android:key="APP_THEME"
-        android:title="App Theme"
+        android:title="@string/text_app_theme"
         android:summary="System Default"
         android:icon="@drawable/ic_brightness"
         android:entries="@array/app_theme"
@@ -27,8 +27,7 @@
 
     <Preference
         android:key="BACKUP"
-        android:title="Back up"
-        android:summary="Back up your database"
+        android:title="@string/toolbar_title_backup_and_restore"
         android:icon="@drawable/ic_backup"
         android:defaultValue="true" />
 

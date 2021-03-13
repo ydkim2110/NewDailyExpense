@@ -69,19 +69,16 @@
 
         <ImageView
             android:id="@+id/imgExpenseIcon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:padding="8dp"
-            android:background="@drawable/shape_icon_bg_circle"
+            android:layout_marginVertical="4dp"
+            android:src="@drawable/ic_expense"
+            android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/sub_category_transportation_bus"
             tools:ignore="VectorDrawableCompat"
-            app:tint="@color/white"
             android:contentDescription="@string/app_name" />
 
         <TextView
@@ -110,19 +107,16 @@
 
         <ImageView
             android:id="@+id/imgIncomeIcon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:padding="8dp"
-            android:background="@drawable/shape_icon_bg_circle"
+            android:layout_marginVertical="4dp"
+            android:src="@drawable/ic_income"
+            android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/sub_category_transportation_bus"
             tools:ignore="VectorDrawableCompat"
-            app:tint="@color/white"
             android:contentDescription="@string/app_name" />
 
         <TextView

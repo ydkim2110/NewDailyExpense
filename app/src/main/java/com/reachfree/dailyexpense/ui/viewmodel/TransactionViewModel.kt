@@ -116,4 +116,9 @@ class TransactionViewModel @Inject constructor(
         }
     }
 
+    fun checkpoint() {
+        viewModelScope.launch(dispatchers.io) {
+            repository.checkpoint()
+        }
+    }
 }

@@ -2,6 +2,7 @@ package com.reachfree.dailyexpense.util
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -9,10 +10,12 @@ import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.FragmentActivity
 import com.kizitonwose.calendarview.utils.yearMonth
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Category
@@ -231,5 +234,23 @@ object AppUtils {
             else -> {}
         }
 
+    }
+
+    fun hideKeyboard(activity: Activity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun showKeyboard(activity: Activity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.showSoftInput(view, 0)
     }
 }

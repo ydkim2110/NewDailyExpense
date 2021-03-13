@@ -1,6 +1,7 @@
 package com.reachfree.dailyexpense.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.reachfree.dailyexpense.data.Result
 import com.reachfree.dailyexpense.data.dao.TransactionDao
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
@@ -243,6 +244,10 @@ class TransactionRepositoryImpl @Inject constructor(
         endDate: Long
     ): LiveData<List<PaymentChartModel>> {
         return transactionDao.getAllTransactionByPaymentLiveData(startDate, endDate)
+    }
+
+    override suspend fun checkpoint(): Int {
+        return transactionDao.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
     }
 
 }

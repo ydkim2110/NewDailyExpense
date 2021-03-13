@@ -334,8 +334,8 @@
     <string name="text_start_making_your_economic_life_more_organized">레몬트리와 함께\n효율적인 경제생활의 시작!&#128512;</string>
     <string name="text_enter_your_information">아래 정보를 입력해주세요.</string>
     <string name="text_nickname">닉네임</string>
-    <string name="text_skip">Skip</string>
-    <string name="text_done">Done</string>
+    <string name="text_skip">건너뛰기</string>
+    <string name="text_done">완료</string>
     <string name="text_intro_1">정상소비, 과소비,\n투자소비로\n소비를 분리하세요.</string>
     <string name="text_intro_2">예산을 등록해\n절약을 해보세요.</string>
     <string name="text_intro_3">다양한 통계를 통해\n지출을 관리하세요.</string>
@@ -346,5 +346,35 @@
     <string name="text_dialog_update_message">앱 업데이트가 완료되었습니다. 새로운 기능을 사용하기 위해 재시작 버튼을 눌러주세요.</string>
     <string name="text_dialog_update_restart">재시작</string>
     <string name="text_app_rating">앱 평가하기</string>
+    <string name="text_error_while_performing_backup">데이터 백업중에 에러가 발생했습니다. 다시 시도해 주세요.</string>
+    <string name="text_backup_failed">데이터 백업 실패</string>
+    <string name="text_okay">확인</string>
+    <string name="text_error_while_performing_restore">데이터 복구중에 에러가 발생했습니다. 다시 시도해 주세요.</string>
+    <string name="text_restore_failed">데이터 복구 실패</string>
+    <string name="enter_password">패스워드를 입력하세요.</string>
+    <string name="text_backup_password">데이터 백업 패스워드</string>
+    <string name="text_backup">데이터 백업</string>
+    <string name="text_wrong_password">패스워드가 일치하지 않습니다.</string>
+    <string name="text_restore_successful_restart_app">데이터 복구가 성공했슶니다. 앱을 다시 시작합니다.</string>
+    <string name="text_restore_successful">데이터 복구가 성공했습니다.</string>
+    <string name="text_restart">재시작</string>
+    <string name="text_restore_cancelled">데이터 복구 취소</string>
+    <string name="text_enter_code_to_confirm_restore">데이터 복구를 위해서 아래 코드를 입력해주세요.</string>
+    <string name="text_confirm_restore">데이터 복구</string>
+    <string name="text_enter_code_here">코드를 입력하세요.</string>
+    <string name="text_codes_not_match">코드가 일치하지 않습니다. 다시 시도해 주세요.</string>
+    <string name="text_backup_created_successfully">데이터 백업이 성공했습니다.</string>
+    <string name="text_backup_successful">데이터 백업 성공</string>
+    <string name="toolbar_title_backup_and_restore">데이터 백업/복구</string>
+    <string name="text_dialog_backup_password">데이터 백업 패스워드</string>
+    <string name="text_app_theme">앱 테마</string>
+    <string name="text_create_backup">데이터 백업</string>
+    <string name="text_restore">데이터 복구</string>
+    <string name="text_profile">프로파일</string>
+    <string name="text_currency">통화</string>
+    <string name="text_you_will_need_this_password_when_restoring">데이터 복구시 입력한 패스워드가 필요합니다.</string>
+    <string name="text_enter_password">패스워드를 입력하세요.</string>
+    <string name="text_enable_password">패스워드 사용</string>
+    <string name="password_cannot_be_blank">공백을 사용할 수 없습니다.</string>
 
 </resources>

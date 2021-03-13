@@ -108,6 +108,8 @@ class AddIncomeFragment : BaseDialogFragment<AddIncomeFragmentBinding>() {
     }
 
     private fun setupView() {
+        binding.edtAmount.requestFocus()
+
         if (passedTransaction == null) {
             binding.chipGroupDate.check(R.id.chipToday)
             dateSet(selectedDate[Calendar.YEAR], selectedDate[Calendar.MONTH], selectedDate[Calendar.DAY_OF_MONTH])

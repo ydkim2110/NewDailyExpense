@@ -2,6 +2,7 @@ package com.reachfree.dailyexpense.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.reachfree.dailyexpense.data.model.ExpenseByCategory
 import com.reachfree.dailyexpense.data.model.ExpenseBySubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
@@ -394,4 +395,7 @@ interface TransactionDao {
         startDate: Long,
         endDate: Long
     ) : LiveData<List<PaymentChartModel>>
+
+    @RawQuery
+    fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery): Int
 }

@@ -32,6 +32,7 @@ object Constants {
     // Database
     const val LOCAL_DATABASE_NAME = "daily_expense"
     const val PERCENT_UNIT = "%"
+    const val PROFILE_JSON_FILE_NAME = "profile"
 
     const val TODAY = 0
     const val YESTERDAY = 1

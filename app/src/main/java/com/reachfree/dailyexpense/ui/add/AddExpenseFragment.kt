@@ -1,14 +1,15 @@
 package com.reachfree.dailyexpense.ui.add
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.reachfree.dailyexpense.R
@@ -29,6 +30,7 @@ import com.reachfree.dailyexpense.util.Constants.TYPE_EXPENSE
 import com.reachfree.dailyexpense.util.extension.runDelayed
 import com.reachfree.dailyexpense.util.extension.setColorFilter
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
+import com.reachfree.dailyexpense.util.extension.showSoftKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.math.BigDecimal
@@ -67,6 +69,7 @@ class AddExpenseFragment : BaseDialogFragment<AddExpenseFragmentBinding>() {
 
     private val dropDownIcon
         get() = ResourcesCompat.getDrawable(resources, R.drawable.ic_arrow_drop_down, null)
+
 
     var decimals = true
     var current = ""
@@ -108,11 +111,15 @@ class AddExpenseFragment : BaseDialogFragment<AddExpenseFragmentBinding>() {
     private fun setupToolbar() {
         binding.appBar.txtToolbarTitle.text = getString(R.string.toolbar_title_add_expense)
         binding.appBar.btnAction.visibility = View.VISIBLE
-        binding.appBar.btnBack.setOnSingleClickListener { dismiss() }
+        binding.appBar.btnBack.setOnSingleClickListener {
+            dismiss()
+        }
         binding.appBar.btnAction.setOnSingleClickListener { saveExpense() }
     }
 
     private fun setupView() {
+        binding.edtAmount.requestFocus()
+
         if (passedTransaction == null) {
             binding.chipGroupDate.check(R.id.chipToday)
             dateSet(

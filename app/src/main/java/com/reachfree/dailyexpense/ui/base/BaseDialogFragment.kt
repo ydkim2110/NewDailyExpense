@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import androidx.viewbinding.ViewBinding
 import com.reachfree.dailyexpense.R
@@ -30,6 +32,7 @@ abstract class BaseDialogFragment<VB: ViewBinding>: DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = getDialogFragmentBinding(inflater, container)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         return binding.root
     }
 

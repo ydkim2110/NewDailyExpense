@@ -167,4 +167,6 @@ interface TransactionRepository {
         startDate: Long,
         endDate: Long
     ): LiveData<List<PaymentChartModel>>
+
+    suspend fun checkpoint(): Int
 }
