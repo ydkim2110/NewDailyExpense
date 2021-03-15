@@ -355,8 +355,8 @@
     <string name="text_backup_password">데이터 백업 패스워드</string>
     <string name="text_backup">데이터 백업</string>
     <string name="text_wrong_password">패스워드가 일치하지 않습니다.</string>
-    <string name="text_restore_successful_restart_app">데이터 복구가 성공했슶니다. 앱을 다시 시작합니다.</string>
-    <string name="text_restore_successful">데이터 복구가 성공했습니다.</string>
+    <string name="text_restore_successful_restart_app">데이터 복구에 성공했습니다. 앱을 다시 시작합니다.</string>
+    <string name="text_restore_successful">데이터 복구에 성공했습니다.</string>
     <string name="text_restart">재시작</string>
     <string name="text_restore_cancelled">데이터 복구 취소</string>
     <string name="text_enter_code_to_confirm_restore">데이터 복구를 위해서 아래 코드를 입력해주세요.</string>

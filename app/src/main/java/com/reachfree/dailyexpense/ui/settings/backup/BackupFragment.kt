@@ -1,20 +1,17 @@
 package com.reachfree.dailyexpense.ui.settings.backup
 
 import android.app.Activity.RESULT_OK
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.LocalDatabase
@@ -36,7 +33,6 @@ import net.lingala.zip4j.model.ZipParameters
 import net.lingala.zip4j.model.enums.EncryptionMethod
 import org.apache.commons.io.FilenameUtils
 import org.json.JSONObject
-import timber.log.Timber
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,7 +41,10 @@ import kotlin.collections.HashMap
 import kotlin.system.exitProcess
 
 @AndroidEntryPoint
-class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
+class BackupFragment : BaseDialogFragment<BackupFragmentBinding>(),
+    BackupPasswordDialog.BackupPasswordResult, RestorePasswordDialog.RestorePasswordResult,
+    ConfirmationDialog.ConfirmationDialogResult,
+    DialogInterface.OnDismissListener {
 
     @Inject lateinit var sessionManager: SessionManager
     @Inject lateinit var database: LocalDatabase
@@ -54,6 +53,10 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
 
     private var password: String? = null
     private var isPasswordEnabled = false
+
+    private var toBeRestoredZipFileGlobal: File? = null
+    private var extractedFilesDirGlobal: File? = null
+    private var preparedZipFileGlobal: ZipFile? = null
 
     private lateinit var progressBarDialog: ProgressBarDialog
 
@@ -85,7 +88,10 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
 
     private fun setupViewHandler() {
         binding.btnCreateBackup.setOnSingleClickListener {
-            showBackupPasswordDialog()
+            val backupPasswordDialog = BackupPasswordDialog()
+            backupPasswordDialog.show(childFragmentManager, null)
+
+            backupPasswordDialog.setBackupPasswordResult(this)
         }
         binding.btnRestore.setOnSingleClickListener {
             showRestore()
@@ -111,6 +117,70 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
         }
     }
 
+    /**
+     * Back up
+     */
+    private fun backupLocal(data: Intent) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val uri = data.data!!
+            val pfd = requireContext().contentResolver.openFileDescriptor(uri, "w")
+            pfd?.use {
+                FileOutputStream(pfd.fileDescriptor).use {
+                    withContext(Dispatchers.Main) {
+                        viewModel.checkpoint()
+                    }
+                    val zipFile = getBackupZipFile()
+                    if (zipFile != null) {
+                        try {
+                            zipFile.inputStream().use { input -> input.copyTo(it) }
+                            withContext(Dispatchers.Main) {
+                                showBackupSuccessfulMessage()
+                            }
+                        } catch (e: Exception) {
+                            withContext(Dispatchers.Main) {
+                                showBackupFailedMessage()
+                            }
+                        } finally {
+                            if (zipFile.exists()) {
+                                zipFile.delete()
+                            }
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            showRestoreFailedMessage()
+                        }
+                    }
+                }
+            }
+
+            isPasswordEnabled = false
+            password = null
+        }
+    }
+
+    override fun onBackupPasswordFinished(isPasswordEnabled: Boolean, password: String?) {
+        this.isPasswordEnabled = isPasswordEnabled
+        this.password = password
+        pickDir()
+    }
+
+    private fun pickDir() {
+        val fileName = "LemonTree_" + SimpleDateFormat("yyMMddHHmmss",
+            Locale.getDefault()).format(Calendar.getInstance().timeInMillis)
+
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("application/zip")
+            .putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/zip"))
+            .putExtra(Intent.EXTRA_TITLE, fileName)
+
+        startActivityForResult(intent, BACKUP_REQUEST_CODE)
+    }
+
+
+    /**
+     * Restore up
+     */
     private fun showRestore() {
         val mimeTypes = arrayOf(
             "application/zip",
@@ -142,6 +212,7 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
                     var toBeRestoredZipFile: File? = null
                     var extractedFilesDir: File? = null
                     var delete = true
+
                     try {
                         val dataDir = requireNotNull(requireContext().filesDir.parentFile)
 
@@ -158,31 +229,22 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
 
                         val preparedZipFile = ZipFile(toBeRestoredZipFile.absolutePath)
 
+                        toBeRestoredZipFileGlobal = toBeRestoredZipFile
+                        extractedFilesDirGlobal = extractedFilesDir
+                        preparedZipFileGlobal = preparedZipFile
+
                         if (preparedZipFile.isEncrypted) {
                             delete = false
                             withContext(Dispatchers.Main) {
-                                showRestorePasswordDialog(
-                                    onSuccess = { pw ->
-                                        restoreWithPassword(pw, toBeRestoredZipFile, extractedFilesDir)
-                                    },
-                                    onCancel = {
-                                        deleteTempRestoreFiles(toBeRestoredZipFile, extractedFilesDir)
-                                        showRestoreCancelled()
-                                    }
-                                )
+                                val restorePasswordDialog = RestorePasswordDialog()
+                                restorePasswordDialog.show(childFragmentManager, null)
+
+                                restorePasswordDialog.setRestorePasswordResult(this@BackupFragment)
                             }
                         } else {
                             delete = false
                             withContext(Dispatchers.Main) {
-                                showConfirmRestoreDialog(
-                                    onSuccess = {
-                                        restoreWithoutPassword(preparedZipFile, toBeRestoredZipFile, extractedFilesDir)
-                                    },
-                                    onCancel = {
-                                        deleteTempRestoreFiles(toBeRestoredZipFile, extractedFilesDir)
-                                        showRestoreCancelled()
-                                    }
-                                )
+                                showConfirmRestoreDialog(false)
                             }
                         }
                     } catch (e: Exception) {
@@ -196,6 +258,54 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onSuccess(pw: String) {
+        restoreWithPassword(pw, toBeRestoredZipFileGlobal!!, extractedFilesDirGlobal!!)
+    }
+
+    override fun onCancel() {
+        deleteTempRestoreFiles(toBeRestoredZipFileGlobal!!, extractedFilesDirGlobal!!)
+        showRestoreCancelled()
+    }
+
+    private fun showConfirmRestoreDialog(withPassword: Boolean) {
+        val confirmationDialog = ConfirmationDialog.newInstance(withPassword)
+        confirmationDialog.show(childFragmentManager, null)
+
+        confirmationDialog.setBackupPasswordResult(this)
+
+        childFragmentManager.executePendingTransactions()
+        confirmationDialog.dialog?.setOnDismissListener {
+            dismiss()
+            hideProgressBar()
+        }
+    }
+
+    override fun onConfirmationDialogFinished(result: Int, withPassword: Boolean) {
+        if (result == CONFIRM) {
+            if (withPassword) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        restoreData(extractedFilesDirGlobal!!)
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            showRestoreFailedMessage()
+                        }
+                    } finally {
+                        deleteTempRestoreFiles(toBeRestoredZipFileGlobal!!, extractedFilesDirGlobal!!)
+                    }
+                    withContext(Dispatchers.Main) {
+                        showRestoreSuccessful()
+                    }
+                }
+            } else {
+                restoreWithoutPassword(preparedZipFileGlobal!!, toBeRestoredZipFileGlobal!!, extractedFilesDirGlobal!!)
+            }
+        } else if (result == CANCEL) {
+            deleteTempRestoreFiles(toBeRestoredZipFileGlobal!!, extractedFilesDirGlobal!!)
+            showRestoreCancelled()
         }
     }
 
@@ -223,65 +333,6 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
         }
     }
 
-    private fun showConfirmRestoreDialog(
-        onSuccess: () -> Unit,
-        onCancel: () -> Unit
-    ) {
-        showConfirmationDialog {
-            if (it == CONFIRM) {
-                onSuccess()
-            } else if (it == CANCEL) {
-                onCancel()
-            }
-        }
-    }
-
-    private fun showConfirmationDialog(onResult: (result: Int) -> Unit) {
-        val code = getRandom4DigitCode()
-        val view = LayoutInflater.from(requireContext())
-            .inflate(R.layout.layout_confirm_dialog, LinearLayout(requireContext()), false)
-        val editTextCode = view.findViewById<TextInputLayout>(R.id.editTextCode)
-        val editTextCodeEditText = editTextCode.editText
-        view.findViewById<TextView>(R.id.textViewCode).text = code.toString()
-
-        val dialog =
-            MaterialAlertDialogBuilder(requireContext()).setMessage(getString(R.string.text_enter_code_to_confirm_restore))
-                .setTitle(getString(R.string.text_confirm_restore))
-                .setView(view)
-                .setPositiveButton(
-                    getString(R.string.text_done), null
-                )
-                .setNeutralButton(
-                    getString(R.string.text_cancel)
-                ) { _, _ ->
-                    onResult(CANCEL)
-                }
-                .setOnCancelListener {
-                    onResult(CANCEL)
-                }
-                .create()
-
-        dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray))
-
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                if (editTextCodeEditText != null) {
-                    if (editTextCodeEditText.text.toString() == code.toString()) {
-                        onResult(CONFIRM)
-
-                        dialog.dismiss()
-                    } else {
-                        editTextCode.error = getString(R.string.text_codes_not_match)
-                    }
-                }
-            }
-        }
-        dialog.show()
-    }
-
     private fun getRandom4DigitCode(): Int {
         return ((Math.random() * 9000) + 1000).toInt()
     }
@@ -302,34 +353,7 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
                 zf.extractAll(extractedFilesDir.absolutePath)
                 delete = false
                 withContext(Dispatchers.Main) {
-                    showConfirmRestoreDialog(
-                        onSuccess = {
-                            lifecycleScope.launch(Dispatchers.IO) {
-                                try {
-                                    restoreData(extractedFilesDir)
-                                } catch (e: Exception) {
-                                    withContext(Dispatchers.Main) {
-                                        showRestoreFailedMessage()
-                                    }
-                                } finally {
-                                    deleteTempRestoreFiles(
-                                        toBeRestoredZipFile,
-                                        extractedFilesDir
-                                    )
-                                }
-                                withContext(Dispatchers.Main) {
-                                    showRestoreSuccessful()
-                                }
-                            }
-                        },
-                        onCancel = {
-                            deleteTempRestoreFiles(
-                                toBeRestoredZipFile,
-                                extractedFilesDir
-                            )
-                            showRestoreCancelled()
-                        }
-                    )
+                    showConfirmRestoreDialog(true)
                 }
             } catch (e: net.lingala.zip4j.exception.ZipException) {
                 withContext(Dispatchers.Main) {
@@ -439,101 +463,12 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
         hideProgressBar()
     }
 
-    private fun showRestorePasswordDialog(
-        onSuccess: (pw: String) -> Unit,
-        onCancel: () -> Unit
-    ) {
-        val dialogView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.layout_restore_password_dialog, LinearLayout(requireContext()), false)
-        val editTextPassword = dialogView.findViewById<TextInputLayout>(R.id.editTextPassword)
-        val editTextPasswordEditText = editTextPassword.editText
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setMessage(null)
-            .setTitle(getString(R.string.text_backup_password))
-            .setView(dialogView)
-            .setPositiveButton(
-                getString(R.string.text_backup), null
-            )
-            .setNeutralButton(
-                getString(R.string.text_cancel)
-            ) { _, _ ->
-                onCancel()
-            }
-            .setOnCancelListener {
-                onCancel()
-            }
-            .create()
-
-        dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray))
-
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                if (editTextPasswordEditText != null) {
-                    val error = validateBackupPasswordInput(editTextPasswordEditText.text.toString())
-                    editTextPassword.error = getStringError(error)
-
-                    if (error != null) {
-                        return@setOnClickListener
-                    }
-                    onSuccess(editTextPasswordEditText.text.toString())
-                    dialog.dismiss()
-                }
-            }
-        }
-
-        dialog.show()
-    }
-
     private fun deleteTempRestoreFiles(toBeRestoreZipFile: File?, extractedFilesDir: File?) {
         if (extractedFilesDir?.exists() == true) {
             extractedFilesDir.deleteRecursively()
         }
         if (toBeRestoreZipFile?.exists() == true) {
             toBeRestoreZipFile.delete()
-        }
-    }
-
-
-    private fun backupLocal(data: Intent) {
-        Timber.d("backupLocal")
-        lifecycleScope.launch(Dispatchers.IO) {
-            val uri = data.data!!
-            val pfd = requireContext().contentResolver.openFileDescriptor(uri, "w")
-            pfd?.use {
-                FileOutputStream(pfd.fileDescriptor).use {
-                    withContext(Dispatchers.Main) {
-                        viewModel.checkpoint()
-                    }
-                    val zipFile = getBackupZipFile()
-                    if (zipFile != null) {
-                        try {
-                            zipFile.inputStream().use { input -> input.copyTo(it) }
-                            withContext(Dispatchers.Main) {
-                                showBackupSuccessfulMessage()
-                            }
-                        } catch (e: Exception) {
-                            withContext(Dispatchers.Main) {
-                                showBackupFailedMessage()
-                            }
-                        } finally {
-                            if (zipFile.exists()) {
-                                zipFile.delete()
-                            }
-                        }
-                    } else {
-                        withContext(Dispatchers.Main) {
-                            showRestoreFailedMessage()
-                        }
-                    }
-                }
-            }
-
-            isPasswordEnabled = false
-            password = null
         }
     }
 
@@ -636,105 +571,7 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
         progressBarDialog.dismiss()
     }
 
-    private fun showBackupPasswordDialog() {
-        val view = LayoutInflater.from(requireContext())
-            .inflate(R.layout.layout_backup_password_dialog, LinearLayout(requireContext()), false)
-        val textInputLayoutPassword = view.findViewById<TextInputLayout>(R.id.editTextPassword)
-        val editTextPassword = textInputLayoutPassword.editText
-        val checkBoxEnablePassword = view.findViewById<CheckBox>(R.id.checkBoxEnablePassword)
-
-        checkBoxEnablePassword.setOnCheckedChangeListener { _, isChecked ->
-            textInputLayoutPassword.isErrorEnabled = false
-            textInputLayoutPassword?.error = null
-            textInputLayoutPassword?.isEnabled = isChecked
-        }
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setMessage(null)
-            .setTitle(getString(R.string.text_dialog_backup_password))
-            .setView(view)
-            .setPositiveButton(getString(R.string.text_backup), null)
-            .setNegativeButton(getString(R.string.text_cancel), null)
-            .create()
-
-        dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.darker_gray))
-
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                if (editTextPassword != null) {
-                    val error = if (checkBoxEnablePassword.isChecked) {
-                        validateBackupPasswordInput(editTextPassword.text.toString())
-                    } else {
-                        null
-                    }
-
-                    if (checkBoxEnablePassword.isChecked) {
-                        textInputLayoutPassword.isErrorEnabled = true
-                        textInputLayoutPassword.error = getStringError(error)
-                    }
-
-                    if (error != null) {
-                        return@setOnClickListener
-                    }
-
-                    isPasswordEnabled = checkBoxEnablePassword.isChecked
-                    password = if (isPasswordEnabled) editTextPassword.text.toString() else null
-                    dialog.dismiss()
-                    pickDir()
-                }
-            }
-        }
-
-        dialog.show()
-
-    }
-
-    private fun pickDir() {
-        val fileName = "LemonTree_" + SimpleDateFormat("yyMMddHHmmss",
-            Locale.getDefault()).format(Calendar.getInstance().timeInMillis)
-
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("application/zip")
-            .putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("application/zip"))
-            .putExtra(Intent.EXTRA_TITLE, fileName)
-
-        startActivityForResult(intent, BACKUP_REQUEST_CODE)
-    }
-
-    private fun validateBackupPasswordInput(password: String): Int? {
-        return if (password.isNotEmpty()) {
-            if (password.trim() == "") {
-                BLANK_PASSWORD
-            } else {
-                null
-            }
-        } else {
-            EMPTY_PASSWORD
-        }
-    }
-
-    private fun getStringError(error: Int?): CharSequence? {
-        return when (error) {
-            EMPTY_PASSWORD -> {
-                getString(R.string.this_field_is_required)
-            }
-            BLANK_PASSWORD -> {
-                getString(R.string.password_cannot_be_blank)
-            }
-            else -> {
-                null
-            }
-        }
-    }
-
     companion object {
-        private const val EMPTY_PASSWORD = 0
-        private const val BLANK_PASSWORD = 1
-
         private const val CONFIRM = 0
         private const val CANCEL = 1
 
@@ -743,5 +580,6 @@ class BackupFragment : BaseDialogFragment<BackupFragmentBinding>() {
 
         fun newInstance() = BackupFragment()
     }
+
 
 }
