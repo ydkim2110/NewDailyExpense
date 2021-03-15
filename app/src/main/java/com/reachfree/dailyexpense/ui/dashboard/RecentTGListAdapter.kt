@@ -1,6 +1,5 @@
 package com.reachfree.dailyexpense.ui.dashboard
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.reachfree.dailyexpense.R
-import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemTransactionBinding
 import com.reachfree.dailyexpense.util.AppUtils
-import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.CurrencyUtils
-import com.reachfree.dailyexpense.util.SessionManager
 import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
 import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener

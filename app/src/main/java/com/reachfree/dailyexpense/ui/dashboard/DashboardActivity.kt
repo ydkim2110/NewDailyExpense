@@ -31,6 +31,8 @@ import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.DashboardActivityBinding
+import com.reachfree.dailyexpense.manager.NotificationServiceManager
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.ui.add.AddExpenseFragment
 import com.reachfree.dailyexpense.ui.add.AddIncomeFragment
 import com.reachfree.dailyexpense.ui.base.BaseActivity
@@ -47,14 +49,15 @@ import com.reachfree.dailyexpense.ui.transaction.TransactionGroup
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.AppUtils.calculatePercentage
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.ACTION_SHOW_ADD_EXPENSE
 import com.reachfree.dailyexpense.util.Constants.FIRST_DAY_OF_WEEK
 import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.PAYMENT
+import com.reachfree.dailyexpense.util.Constants.PREF_KEY_EVERY_DAY_NOTIFICATION
 import com.reachfree.dailyexpense.util.Constants.PREF_KEY_FULLNAME
 import com.reachfree.dailyexpense.util.Constants.PREF_KEY_NICKNAME
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
-import com.reachfree.dailyexpense.util.SessionManager
 import com.reachfree.dailyexpense.util.extension.*
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.hilt.android.AndroidEntryPoint
@@ -126,13 +129,22 @@ class DashboardActivity :
         setupViewHandler()
         setupSelectTypeListener()
         subscribeToObserver()
+        setupEverydayNotification()
 
         sessionManager.getPrefs().registerOnSharedPreferenceChangeListener(sharedPrefListener)
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Timber.d("onNewIntent")
+
+        if (intent?.action == ACTION_SHOW_ADD_EXPENSE) {
+            AddExpenseFragment.newInstance().apply { show(supportFragmentManager, null) }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-
         appUpdateManager.appUpdateInfo.addOnSuccessListener { info ->
             if (info.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
                 appUpdateManager.startUpdateFlowForResult(
@@ -212,6 +224,7 @@ class DashboardActivity :
 
     private val sharedPrefListener =
         SharedPreferences.OnSharedPreferenceChangeListener { sharedPref, key ->
+            Timber.d("key $key")
             if (PREF_CURRENCY == key) {
                 Constants.currencySymbol = Currency.fromCode(sessionManager.getCurrencyCode())?.symbol ?: Currency.USD.symbol
                 Currency.fromCode(sessionManager.getCurrencyCode())?.let {
@@ -222,7 +235,19 @@ class DashboardActivity :
                 viewModel.dateForRecent.value = listOf(currentRecentStartDate, currentRecentEndDate)
             } else if (PREF_KEY_NICKNAME == key || PREF_KEY_FULLNAME == key) {
                 binding.includeDrawer.layoutHeader.txtNickname.text = sessionManager.getUser().nickname
+            } else if (PREF_KEY_EVERY_DAY_NOTIFICATION == key) {
+                setupEverydayNotification()
             }
+    }
+
+    private fun setupEverydayNotification() {
+        if (sessionManager.getEverydayNotification()) {
+            val alarmServiceManager = NotificationServiceManager(this)
+            alarmServiceManager.setEverydayNotification()
+        } else {
+            val alarmServiceManager = NotificationServiceManager(this)
+            alarmServiceManager.cancelEverydayNotification()
+        }
     }
 
     private fun runAfterDrawerClose(action: () -> Unit) {
@@ -305,7 +330,6 @@ class DashboardActivity :
             override fun onDayClick(dateClicked: Date?) {
                 binding.appBar.toolbarTitle.text =
                     AppUtils.yearMonthDateFormat.format(dateClicked!!)
-                Timber.d("date ${AppUtils.defaultDateFormat.format(dateClicked)}")
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {

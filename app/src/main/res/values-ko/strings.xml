@@ -128,9 +128,9 @@
     <string name="category_food_drink">식사/음료</string>
     <string name="category_shopping">쇼핑</string>
     <string name="category_personal_care">개인관리</string>
-    <string name="category_utility">주거</string>
+    <string name="category_utility">생활</string>
     <string name="category_communication">통신</string>
-    <string name="category_household">생활용품</string>
+    <string name="category_household">주거</string>
     <string name="category_education">교육</string>
     <string name="category_entertainment">엔터테인먼트</string>
     <string name="category_healthcare">건강</string>
@@ -376,5 +376,11 @@
     <string name="text_enter_password">패스워드를 입력하세요.</string>
     <string name="text_enable_password">패스워드 사용</string>
     <string name="password_cannot_be_blank">공백을 사용할 수 없습니다.</string>
+    <string name="text_delete_all">전체 데이터 삭제</string>
+    <string name="text_dialog_delete_all_title">전체 삭제</string>
+    <string name="text_dialog_delete_all_description">모든 거래내역이 삭제됩니다. 거래내역을 삭제하시겠습니까?</string>
+    <string name="text_notification">알림</string>
+    <string name="text_usage_input_notification">입력 알림 기능(매일)</string>
+    <string name="toolbar_title_notification">알림</string>
 
 </resources>

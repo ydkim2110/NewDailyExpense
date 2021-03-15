@@ -131,8 +131,9 @@ class ExpenseBudgetActivity :
 
     private fun subscribeToObserver() {
         viewModel.expenseBudgetList.observe(this) { data ->
-            val budgetedAmount = data.sumOf { it.budgetAmount!! }
-            val spentAmount = data.sumOf { it.sumByCategory!! }
+            val newData = data.filter { it.budgetAmount!! > BigDecimal(0) }
+            val budgetedAmount = newData.sumOf { it.budgetAmount!! }
+            val spentAmount = newData.sumOf { it.sumByCategory!! }
             val leftAmount = budgetedAmount.minus(spentAmount)
             var leftBudgetPercent = 0
 
@@ -174,13 +175,13 @@ class ExpenseBudgetActivity :
             }
             expenseBudgetAdapter = ExpenseBudgetAdapter(daysOfMonth)
             binding.recyclerBudget.adapter = expenseBudgetAdapter
-            expenseBudgetAdapter.submitList(data.sortedByDescending { it.sumByCategory })
+            expenseBudgetAdapter.submitList(newData.sortedByDescending { it.sumByCategory })
 
             expenseBudgetAdapter.setOnItemClickListener { categoryId ->
                 showDetailFragment(categoryId)
             }
 
-            if (data.isEmpty()) {
+            if (newData.isEmpty()) {
                 if (binding.noItemLayout.noItemLayout.isGone) {
                     binding.noItemLayout.noItemLayout.isVisible = true
                     binding.contentLayout.visibility = View.VISIBLE

@@ -1,9 +1,9 @@
 package com.reachfree.dailyexpense.di
 
-import android.R.attr.category
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase.Callback
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.reachfree.dailyexpense.data.LocalDatabase
 import com.reachfree.dailyexpense.data.dao.ExpenseBudgetDao
@@ -12,10 +12,9 @@ import com.reachfree.dailyexpense.data.repository.ExpenseBudgetRepository
 import com.reachfree.dailyexpense.data.repository.ExpenseBudgetRepositoryImpl
 import com.reachfree.dailyexpense.data.repository.TransactionRepository
 import com.reachfree.dailyexpense.data.repository.TransactionRepositoryImpl
-import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.LOCAL_DATABASE_NAME
 import com.reachfree.dailyexpense.util.DispatcherProvider
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.util.toMillis
 import dagger.Module
 import dagger.Provides
@@ -25,7 +24,6 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import java.time.LocalDateTime
-import java.util.*
 import javax.inject.Singleton
 
 
@@ -50,7 +48,7 @@ class DatabaseModule {
     fun provideLocalDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(context, LocalDatabase::class.java, LOCAL_DATABASE_NAME)
-//        .addCallback(callback)
+        .addMigrations(MIGRATION_1_2)
         .build()
 
     @Singleton
@@ -84,120 +82,9 @@ class DatabaseModule {
             get() = Dispatchers.Unconfined
     }
 
-    private val callback = object : Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-            val dateTime1 = LocalDateTime.now().toMillis()
-            val dateTime2 = LocalDateTime.now().plusDays(1).toMillis()
-            val dateTime3 = LocalDateTime.now().plusDays(2).toMillis()
-            val dateTime4 = LocalDateTime.now().plusDays(3).toMillis()
-            val dateTime5 = LocalDateTime.now().plusDays(4).toMillis()
-            val dateTime6 = LocalDateTime.now().plusDays(5).toMillis()
-            val dateTime7 = LocalDateTime.now().plusDays(6).toMillis()
-            val dateTime8 = LocalDateTime.now().minusDays(1).toMillis()
-            val dateTime9 = LocalDateTime.now().minusDays(2).toMillis()
-            val dateTime10 = LocalDateTime.now().minusDays(3).toMillis()
-            val dateTime11 = LocalDateTime.now().minusDays(4).toMillis()
-            val dateTime12 = LocalDateTime.now().minusDays(5).toMillis()
-            val dateTime13 = LocalDateTime.now().minusDays(6).toMillis()
-            val dateTime14 = LocalDateTime.now().minusDays(7).toMillis()
-
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('이삭 토스트', 300000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('순대국', 800000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('스타벅스', 410000, 0, 0, 0, ':food_drinks', ':coffee', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('개사료', 4000000, 0, 0, 0, ':pet', ':pet_food', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('이삭 토스트2', 300000, 0, 1, 0, ':food_drinks', ':eatingout', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('배당', 1500000, 1, 2, 0, ':interest_dividend', ':interest_dividend', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('택시', 550000, 0, 0, 2, ':transportation', ':taxi', ${dateTime1})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('감자탕', 1450000, 0, 0, 2, ':food_drinks', ':eatingout', ${dateTime2})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('커피', 1450000, 0, 1, 1, ':food_drinks', ':coffee', ${dateTime3})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('술값', 3450000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime3})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('신발구매', 15000000, 0, 0, 0, ':shopping', ':shoes', ${dateTime4})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('영화', 1800000, 0, 0, 0, ':entertainment', ':movie', ${dateTime5})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('택시', 450000, 0, 0, 2, ':transportation', ':taxi', ${dateTime6})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('월급', 400000000, 1, 2, 3, ':salary', ':salary', ${dateTime7})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('이자', 34200, 1, 2, 3, ':interest_dividend', ':interest_dividend', ${dateTime8})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('스타벅스', 410000, 0, 0, 0, ':food_drinks', ':coffee', ${dateTime8})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('순대국', 800000, 0, 0, 0, ':food_drinks', ':eatingout', ${dateTime8})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('월급', 130000000, 1, 2, 3, ':salary', ':salary', ${dateTime9})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('피씨방', 1550000, 0, 0, 2, ':entertainment', ':game', ${dateTime10})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('인터넷 강의', 16550000, 0, 0, 0, ':education', ':tuition', ${dateTime10})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('버스', 1100000, 0, 0, 0, ':transportation', ':bus', ${dateTime10})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('냉면', 750000, 0, 1, 0, ':food_drinks', ':eatingout', ${dateTime11})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('관리비', 150034, 0, 0, 0, ':household', ':maintenance_fee', ${dateTime12})"
-            )
-            db.execSQL(
-                "INSERT INTO transaction_table (description, amount, type, payment, pattern, categoryId, subCategoryId, registerDate)" +
-                        " VALUES ('숙박', 1500000, 0, 0, 0, ':travel', ':tra_accommodation', ${dateTime13})"
-            )
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE transaction_table ADD COLUMN interval INTEGER NOT NULL DEFAULT 0")
         }
     }
 }

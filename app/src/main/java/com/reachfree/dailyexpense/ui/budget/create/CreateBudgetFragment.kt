@@ -3,12 +3,10 @@ package com.reachfree.dailyexpense.ui.budget.create
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
@@ -18,12 +16,10 @@ import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.ExpenseBudgetEntity
 import com.reachfree.dailyexpense.databinding.CreateBudgetFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
-import com.reachfree.dailyexpense.ui.budget.ExpenseBudgetViewModel
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.time.YearMonth
@@ -76,7 +72,8 @@ class CreateBudgetFragment : BaseDialogFragment<CreateBudgetFragmentBinding>() {
         }
 
         createBudgetAdapter.setOnItemClickListener { categoryId ->
-            showDialog(categoryId)
+            val createBudgetDialog = CreateBudgetDialog.newInstance(categoryId)
+            createBudgetDialog.show(childFragmentManager, null)
         }
     }
 

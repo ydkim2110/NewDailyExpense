@@ -4,9 +4,12 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.util.Constants
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
+import com.reachfree.dailyexpense.util.AppUtils
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 /**
@@ -30,6 +33,9 @@ class MyApp : Application() {
         }
 
         AppCompatDelegate.setDefaultNightMode(sessionManager.getUserTheme())
+
+        val maxDate = LocalDate.now().minusWeeks(1).plusDays(1)
+        Timber.d("${DateTimeFormatter.ofPattern("dd/MM/yyyy").format(maxDate)}")
     }
 
 }

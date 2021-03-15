@@ -1,16 +1,11 @@
 package com.reachfree.dailyexpense.ui.add
 
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Category
@@ -18,6 +13,7 @@ import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.SubCategory
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.AddExpenseFragmentBinding
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.ui.add.bottomsheet.AddCategoryBottomSheet
 import com.reachfree.dailyexpense.ui.add.bottomsheet.AddSubCategoryBottomSheet
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
@@ -30,12 +26,10 @@ import com.reachfree.dailyexpense.util.Constants.TYPE_EXPENSE
 import com.reachfree.dailyexpense.util.extension.runDelayed
 import com.reachfree.dailyexpense.util.extension.setColorFilter
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
-import com.reachfree.dailyexpense.util.extension.showSoftKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.math.BigDecimal
 import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
 import javax.inject.Inject

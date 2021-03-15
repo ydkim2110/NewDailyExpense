@@ -22,7 +22,7 @@ import com.reachfree.dailyexpense.ui.viewmodel.TransactionViewModel
 import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.ProgressBarDialog
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers

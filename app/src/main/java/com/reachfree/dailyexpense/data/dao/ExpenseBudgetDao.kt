@@ -7,6 +7,7 @@ import com.reachfree.dailyexpense.data.model.CategoryExpenseByDate
 import com.reachfree.dailyexpense.data.model.ExpenseBudgetEntity
 import com.reachfree.dailyexpense.data.model.ExpenseByCategoryWithBudget
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import java.math.BigDecimal
 
 /**
  * DailyExpense
@@ -22,6 +23,9 @@ interface ExpenseBudgetDao {
 
     @Update
     suspend fun updateExpenseBudget(expenseBudget: ExpenseBudgetEntity)
+
+    @Query("UPDATE expense_budget_table SET amount = :amount WHERE categoryId LIKE :categoryId")
+    suspend fun updateExpenseBudget(amount: BigDecimal, categoryId: String)
 
     @Delete
     suspend fun deleteExpenseBudget(expenseBudget: ExpenseBudgetEntity)

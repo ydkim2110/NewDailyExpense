@@ -6,6 +6,7 @@ import com.reachfree.dailyexpense.data.model.CategoryExpenseByDate
 import com.reachfree.dailyexpense.data.model.ExpenseBudgetEntity
 import com.reachfree.dailyexpense.data.model.ExpenseByCategoryWithBudget
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import java.math.BigDecimal
 
 /**
  * DailyExpense
@@ -20,6 +21,7 @@ interface ExpenseBudgetRepository {
     suspend fun getAllExpenseBudget(startDate: Long, endDate: Long): Result<List<ExpenseByCategoryWithBudget>>
     suspend fun insertExpenseBudget(expenseBudget: ExpenseBudgetEntity)
     suspend fun updateExpenseBudget(expenseBudget: ExpenseBudgetEntity)
+    suspend fun updateExpenseBudget(amount: BigDecimal, categoryId: String)
     suspend fun deleteExpenseBudget(expenseBudget: ExpenseBudgetEntity)
     suspend fun deleteExpenseBudgetByCategoryId(categoryId: String)
 

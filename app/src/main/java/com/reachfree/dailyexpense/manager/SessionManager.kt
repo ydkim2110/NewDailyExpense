@@ -1,4 +1,4 @@
-package com.reachfree.dailyexpense.util
+package com.reachfree.dailyexpense.manager
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,9 +7,11 @@ import androidx.core.content.edit
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.User
 import com.reachfree.dailyexpense.util.Constants.PREF_KEY_CURRENCY_CODE
+import com.reachfree.dailyexpense.util.Constants.PREF_KEY_EVERY_DAY_NOTIFICATION
 import com.reachfree.dailyexpense.util.Constants.PREF_KEY_FULLNAME
 import com.reachfree.dailyexpense.util.Constants.PREF_KEY_IS_FIRST_LAUNCH
 import com.reachfree.dailyexpense.util.Constants.PREF_KEY_NICKNAME
+import com.reachfree.dailyexpense.util.PreferenceHelper
 import com.reachfree.dailyexpense.util.PreferenceHelper.get
 
 /**
@@ -61,6 +63,14 @@ class SessionManager(context: Context) {
     fun setUserTheme(theme: Int) = prefs.edit { putInt(USER_THEME, theme) }
 
     fun getUserTheme(): Int = prefs[USER_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM]
+
+    fun setEverydayNotification(isSet: Boolean) {
+        prefs.edit { putBoolean(PREF_KEY_EVERY_DAY_NOTIFICATION, isSet) }
+    }
+
+    fun getEverydayNotification(): Boolean {
+        return prefs[PREF_KEY_EVERY_DAY_NOTIFICATION, true]
+    }
 
     fun removeUserTheme() = prefs.edit{ remove(USER_THEME) }
 }

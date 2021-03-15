@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.reachfree.dailyexpense.util.Constants
+import com.reachfree.dailyexpense.util.Constants.INTERVAL
 import com.reachfree.dailyexpense.util.Constants.PATTERN
 import com.reachfree.dailyexpense.util.Constants.PAYMENT
 import com.reachfree.dailyexpense.util.Constants.TYPE
@@ -31,5 +32,6 @@ data class TransactionEntity(
     var pattern: Int = PATTERN.NORMAL.ordinal,
     var categoryId: String = "",
     var subCategoryId: String = "",
-    var registerDate: Long = Date().time
+    var registerDate: Long = Date().time,
+    var interval: Int = INTERVAL.NON_RECURRING.ordinal
 ) : Parcelable

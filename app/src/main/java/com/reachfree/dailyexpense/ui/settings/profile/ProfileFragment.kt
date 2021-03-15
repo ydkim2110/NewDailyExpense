@@ -9,7 +9,7 @@ import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.User
 import com.reachfree.dailyexpense.databinding.ProfileFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

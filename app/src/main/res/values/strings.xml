@@ -383,4 +383,10 @@
     <string name="text_enter_password">Enter password</string>
     <string name="text_enable_password">Enable Password</string>
     <string name="password_cannot_be_blank">password cannot be blank</string>
+    <string name="text_delete_all">Delete All</string>
+    <string name="text_dialog_delete_all_title">Delete All</string>
+    <string name="text_dialog_delete_all_description">All transactions are deleted. Are you sure you want to delete the transactions?</string>
+    <string name="text_notification">Notification</string>
+    <string name="text_usage_input_notification">Usage input notification</string>
+    <string name="toolbar_title_notification">Notification</string>
 </resources>

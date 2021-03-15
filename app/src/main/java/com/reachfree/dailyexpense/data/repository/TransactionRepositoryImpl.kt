@@ -37,6 +37,14 @@ class TransactionRepositoryImpl @Inject constructor(
         return transactionDao.deleteById(id)
     }
 
+    override suspend fun deleteAll() {
+        return transactionDao.deleteAll()
+    }
+
+    override fun getCountTodayTransaction(startDate: Long, endDate: Long): Int {
+        return transactionDao.getCountTodayTransaction(startDate, endDate)
+    }
+
     override suspend fun getAllTransactionsByDate(
         startDate: Long,
         endDate: Long

@@ -1,5 +1,6 @@
 package com.reachfree.dailyexpense.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.reachfree.dailyexpense.data.Result
 import com.reachfree.dailyexpense.data.dao.ExpenseBudgetDao
@@ -7,6 +8,8 @@ import com.reachfree.dailyexpense.data.model.CategoryExpenseByDate
 import com.reachfree.dailyexpense.data.model.ExpenseBudgetEntity
 import com.reachfree.dailyexpense.data.model.ExpenseByCategoryWithBudget
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import timber.log.Timber
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -26,6 +29,10 @@ class ExpenseBudgetRepositoryImpl @Inject constructor(
         return expenseBudgetDao.updateExpenseBudget(expenseBudget)
     }
 
+    override suspend fun updateExpenseBudget(amount: BigDecimal, categoryId: String) {
+        return expenseBudgetDao.updateExpenseBudget(amount, categoryId)
+    }
+
     override suspend fun deleteExpenseBudget(expenseBudget: ExpenseBudgetEntity) {
         return expenseBudgetDao.deleteExpenseBudget(expenseBudget)
     }
@@ -35,8 +42,13 @@ class ExpenseBudgetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getExpenseBudget(categoryId: String): Result<ExpenseBudgetEntity> {
-        val result = expenseBudgetDao.getExpenseBudget(categoryId)
-        return Result.Success(result)
+        return try {
+            val result = expenseBudgetDao.getExpenseBudget(categoryId)
+            Result.Success(result)
+        } catch (e: Exception) {
+            Timber.d("error $e")
+            Result.Error("notExist")
+        }
     }
 
     override suspend fun isExistExpenseBudget(categoryId: String): Int {

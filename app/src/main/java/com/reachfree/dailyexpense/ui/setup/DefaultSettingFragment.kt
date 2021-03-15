@@ -10,7 +10,7 @@ import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.databinding.DefaultSettingFragmentBinding
 import com.reachfree.dailyexpense.ui.base.BaseFragment
 import com.reachfree.dailyexpense.ui.setup.currency.CurrencyFragment
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

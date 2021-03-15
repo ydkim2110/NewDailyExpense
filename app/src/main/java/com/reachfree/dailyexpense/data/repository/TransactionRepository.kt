@@ -24,6 +24,10 @@ interface TransactionRepository {
 
     suspend fun deleteById(id: Int)
 
+    suspend fun deleteAll()
+
+    fun getCountTodayTransaction(startDate: Long, endDate: Long): Int
+
     suspend fun getAllTransactionsByDate(
         startDate: Long,
         endDate: Long

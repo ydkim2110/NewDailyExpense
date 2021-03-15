@@ -7,6 +7,8 @@ import com.reachfree.dailyexpense.data.dao.ExpenseBudgetDao
 import com.reachfree.dailyexpense.data.dao.TransactionDao
 import com.reachfree.dailyexpense.data.model.ExpenseBudgetEntity
 import com.reachfree.dailyexpense.data.model.TransactionEntity
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 /**
  * DailyExpense
@@ -16,7 +18,7 @@ import com.reachfree.dailyexpense.data.model.TransactionEntity
  */
 @Database(
     entities = [TransactionEntity::class, ExpenseBudgetEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -24,5 +26,7 @@ abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun transactionDao(): TransactionDao
     abstract fun expenseBudgetDao(): ExpenseBudgetDao
+
+    val databaseExecutor: ExecutorService = Executors.newSingleThreadExecutor()
 
 }

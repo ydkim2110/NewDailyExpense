@@ -11,6 +11,7 @@ import com.reachfree.dailyexpense.data.response.ExpenseBudgetResponse
 import com.reachfree.dailyexpense.util.DispatcherProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -73,4 +74,9 @@ class CreateBudgetViewModel @Inject constructor(
         }
     }
 
+    fun updateExpenseBudget(amount: BigDecimal, categoryId: String) {
+        viewModelScope.launch(dispatchers.io) {
+            repository.updateExpenseBudget(amount, categoryId)
+        }
+    }
 }

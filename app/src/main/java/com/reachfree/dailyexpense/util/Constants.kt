@@ -23,11 +23,28 @@ object Constants {
     const val CHART_ANIMATION_SPEED = 1000
     const val ANIMATION_DURATION = 1000L
 
+    // Notification
+    const val EXTRA_EXACT_ALARM_TIME = "EXTRA_EXACT_ALARM_TIME"
+    const val ACTION_SET_REPETITIVE_EXACT = "ACTION_SET_REPETITIVE_EXACT"
+    const val EVERY_DAY_NOTIFICATION = 0
+    const val ONE_DAY = (1000 * 60 * 60 * 24).toLong()
+    const val ONE_MIN = (1000 * 60).toLong()
+
+    const val EXTRA_REQUEST_CDOE = "requestCode"
+
+    const val ACTION_SHOW_ADD_EXPENSE = "ACTION_SHOW_ADD_EXPENSE"
+    const val ACTION_EVERY_DAY_NOTIFICATION = "com.reachfree.dailyexpense.manager.EVERY_DAY_NOTIFICATION"
+
+    const val NOTIFICATION_CHANNEL_ID = "lemontree_channel"
+    const val NOTIFICATION_CHANNEL_NAME = "lemontree"
+    const val NOTIFICATION_ID = 1
+
     // Preference
     const val PREF_KEY_IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH"
     const val PREF_KEY_CURRENCY_CODE = "CURRENCY"
     const val PREF_KEY_NICKNAME = "NICKNAME"
     const val PREF_KEY_FULLNAME = "FULLNAME"
+    const val PREF_KEY_EVERY_DAY_NOTIFICATION = "EVERY_DAY_NOTIFICATION"
 
     // Database
     const val LOCAL_DATABASE_NAME = "daily_expense"
@@ -207,6 +224,13 @@ object Constants {
         WASTE,
         INVEST,
         INCOME
+    }
+
+    enum class INTERVAL {
+        NON_RECURRING,
+        DAILY,
+        WEEKLY,
+        MONTHLY,
     }
 
     enum class Status {

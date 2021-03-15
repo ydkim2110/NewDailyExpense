@@ -1,6 +1,5 @@
 package com.reachfree.dailyexpense.ui.add
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,16 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Category
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.AddIncomeFragmentBinding
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.ui.add.bottomsheet.AddCategoryBottomSheet
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
 import com.reachfree.dailyexpense.util.*

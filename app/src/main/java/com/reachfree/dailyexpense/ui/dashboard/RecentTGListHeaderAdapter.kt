@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.reachfree.dailyexpense.R
-import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.ItemRecentTransactionDateBinding
+import com.reachfree.dailyexpense.manager.SessionManager
 import com.reachfree.dailyexpense.ui.transaction.TransactionGroup
 import com.reachfree.dailyexpense.util.*
 import java.math.BigDecimal

@@ -4,17 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.User
 import com.reachfree.dailyexpense.ui.settings.backup.BackupFragment
+import com.reachfree.dailyexpense.ui.settings.profile.PrefFragmentViewModel
 import com.reachfree.dailyexpense.ui.settings.profile.ProfileFragment
 import com.reachfree.dailyexpense.ui.setup.currency.CurrencyFragment
 import com.reachfree.dailyexpense.util.Preferences.THEME_ARRAY
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
+import com.reachfree.dailyexpense.ui.settings.notification.NotificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,15 +33,18 @@ import javax.inject.Inject
 const val PREF_PROFILE = "PROFILE"
 const val PREF_CURRENCY = "CURRENCY"
 const val PREF_APP_THEME = "APP_THEME"
+const val PREF_NOTIFICATION = "NOTIFICATION"
+const val PREF_DELETE_ALL = "DELETE_ALL"
 const val PREF_BACKUP = "BACKUP"
 
 @AndroidEntryPoint
-class PrefFragment: PreferenceFragmentCompat() {
+class SettingsPreferenceFragment: PreferenceFragmentCompat() {
 
     @Inject lateinit var sessionManager: SessionManager
+    private val viewModel: PrefFragmentViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences, null)
+        setPreferencesFromResource(R.xml.settings_preferences, null)
     }
 
     override fun onCreateView(
@@ -48,6 +56,8 @@ class PrefFragment: PreferenceFragmentCompat() {
         setupProfilePreference()
         setupCurrencyPreference()
         setupAppThemePreference()
+        setupNotificationPreference()
+        setupDeleteAllPreference()
         setupBackupPreference()
 
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -105,6 +115,49 @@ class PrefFragment: PreferenceFragmentCompat() {
             AppCompatDelegate.setDefaultNightMode(mode)
             sessionManager.setUserTheme(mode)
             preference.summary = getString(THEME_ARRAY.first { it.modeNight == sessionManager.getUserTheme() }.modeNameRes)
+            true
+        }
+    }
+
+    private fun setupNotificationPreference() {
+        val notificationPref = preferenceManager.findPreference<Preference>(PREF_NOTIFICATION)
+
+        notificationPref?.setOnPreferenceClickListener {
+            NotificationActivity.start(requireContext())
+            true
+        }
+    }
+
+    private fun setupDeleteAllPreference() {
+        val deleteAllPref = preferenceManager.findPreference<Preference>(PREF_DELETE_ALL)
+
+        deleteAllPref?.setOnPreferenceClickListener {
+            val builder = AlertDialog.Builder(requireContext(),
+                R.style.ThemeOverlay_MaterialComponents_MaterialAlertDialog_Background)
+
+            builder.setTitle(getString(R.string.text_dialog_delete_all_title))
+            builder.setMessage(getString(R.string.text_dialog_delete_all_description))
+
+            builder.setPositiveButton(getString(R.string.dialog_delete_positive)) { dialog, _ ->
+                viewModel.deleteAll()
+                dialog.dismiss()
+            }
+            builder.setNegativeButton(getString(R.string.dialog_delete_negative)) { dialog, _ -> dialog.dismiss() }
+
+            val alertDialog = builder.create()
+
+            alertDialog.setOnShowListener {
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setBackgroundResource(android.R.color.transparent)
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(ContextCompat.getColor(requireContext(), R.color.colorTextPrimary))
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setBackgroundResource(android.R.color.transparent)
+            }
+
+            alertDialog.show()
             true
         }
     }

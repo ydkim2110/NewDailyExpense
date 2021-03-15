@@ -26,6 +26,18 @@
         android:defaultValue="0" />
 
     <Preference
+        android:key="NOTIFICATION"
+        android:title="@string/text_notification"
+        android:icon="@drawable/ic_notification"
+        android:defaultValue="true" />
+
+    <Preference
+        android:key="DELETE_ALL"
+        android:title="@string/text_delete_all"
+        android:icon="@drawable/ic_delete"
+        android:defaultValue="true" />
+
+    <Preference
         android:key="BACKUP"
         android:title="@string/toolbar_title_backup_and_restore"
         android:icon="@drawable/ic_backup"

@@ -1,16 +1,15 @@
 package com.reachfree.dailyexpense.ui.base
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.reachfree.dailyexpense.databinding.SplashActivityBinding
 import com.reachfree.dailyexpense.ui.dashboard.DashboardActivity
 import com.reachfree.dailyexpense.ui.setup.SetupActivity
-import com.reachfree.dailyexpense.util.SessionManager
+import com.reachfree.dailyexpense.manager.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import timber.log.Timber
-import java.text.NumberFormat
 import java.util.*
 import javax.inject.Inject
 

@@ -27,8 +27,18 @@ interface TransactionDao {
     @Delete
     suspend fun delete(transaction: TransactionEntity)
 
+    @Query("DELETE FROM transaction_table")
+    suspend fun deleteAll()
+
     @Query("DELETE FROM transaction_table WHERE id LIKE :id")
     suspend fun deleteById(id: Int)
+
+    @Query("""
+        SELECT COUNT(*)
+        FROM transaction_table
+        WHERE registerDate BETWEEN :startDate AND :endDate
+    """)
+    fun getCountTodayTransaction(startDate: Long, endDate: Long): Int
 
     @Query("""
         SELECT *
