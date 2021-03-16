@@ -77,6 +77,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/addNewTransaction"
                 android:layout_width="wrap_content"
+                android:minWidth="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:backgroundTint="?colorSecondary"

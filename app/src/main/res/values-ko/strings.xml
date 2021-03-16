@@ -320,7 +320,7 @@
     <string name="text_transaction_count_zero">거래 내역이 없습니다.</string>
     <string name="toolbar_title_settings">설정</string>
     <string name="others">기타</string>
-    <string name="add_transaction">추가</string>
+    <string name="add_transaction">지출/수입 추가</string>
     <string name="text_payment">지불방식</string>
     <string name="text_no_budget">No Budgets.</string>
     <string name="text_hint_search_currency">찾기</string>

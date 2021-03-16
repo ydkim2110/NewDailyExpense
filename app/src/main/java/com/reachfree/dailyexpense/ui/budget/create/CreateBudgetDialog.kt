@@ -9,14 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.reachfree.dailyexpense.data.model.ExpenseBudgetEntity
 import com.reachfree.dailyexpense.databinding.DialogCreateBudgetBinding
 import com.reachfree.dailyexpense.ui.base.BaseDialogFragment
+import com.reachfree.dailyexpense.ui.budget.detail.ExpenseBudgetDetailFragment
+import com.reachfree.dailyexpense.util.AppUtils
 import com.reachfree.dailyexpense.util.Constants
 import com.reachfree.dailyexpense.util.Constants.Status
 import com.reachfree.dailyexpense.util.CurrencyUtils
+import com.reachfree.dailyexpense.util.extension.changeBackgroundTintColor
+import com.reachfree.dailyexpense.util.extension.load
+import com.reachfree.dailyexpense.util.extension.runDelayed
 import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -63,6 +69,13 @@ class CreateBudgetDialog : BaseDialogFragment<DialogCreateBudgetBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        categoryId?.let {
+            val category = AppUtils.getExpenseCategory(it)
+            binding.txtCategoryName.text = requireContext().resources.getString(category.visibleNameResId)
+            binding.imgCategoryIcon.load(category.iconResId)
+            binding.imgCategoryIcon.changeBackgroundTintColor(category.backgroundColor)
+        }
 
         binding.edtAmount.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -183,7 +196,7 @@ class CreateBudgetDialog : BaseDialogFragment<DialogCreateBudgetBinding>() {
             }
         }
 
-        dismiss()
+        runDelayed(300L) { dismiss() }
     }
 
     companion object {

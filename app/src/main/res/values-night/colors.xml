@@ -24,6 +24,7 @@
     <color name="colorItemTransactionDateBackground">#000000</color>
     <color name="colorArrowIcon">#FFFFFF</color>
     <color name="colorBackgroundCircle">#FFFFFF</color>
+    <color name="colorEditTextBackground">#121212</color>
 
     <color name="colorExpense">#F76353</color>
 

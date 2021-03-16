@@ -32,10 +32,7 @@ import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
 import com.reachfree.dailyexpense.util.CurrencyUtils
 import com.reachfree.dailyexpense.util.CurrencyUtils.changeAmountByCurrency
-import com.reachfree.dailyexpense.util.extension.animateProgressbar
-import com.reachfree.dailyexpense.util.extension.changeTintColor
-import com.reachfree.dailyexpense.util.extension.load
-import com.reachfree.dailyexpense.util.extension.setOnSingleClickListener
+import com.reachfree.dailyexpense.util.extension.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
 import java.time.format.DateTimeFormatter
@@ -100,6 +97,7 @@ class ExpenseBudgetDetailFragment : BaseDialogFragment<ExpenseBudgetDetailFragme
 
     private fun setupView() {
         binding.imgCategoryIcon.load(category.iconResId)
+        binding.imgCategoryIcon.changeBackgroundTintColor(category.backgroundColor)
     }
 
     private fun setupRecyclerView() {
