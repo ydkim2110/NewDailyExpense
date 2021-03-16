@@ -225,6 +225,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            android:layout_marginBottom="60dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -237,6 +238,24 @@
                             <include
                                 android:id="@+id/layoutWeekSummary"
                                 layout="@layout/transaction_summary_layout" />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/vertical_margin"
+                                android:layout_marginHorizontal="@dimen/horizontal_margin"
+                                android:backgroundTint="@color/colorCardBackground"
+                                app:cardCornerRadius="12dp">
+
+                                <com.reachfree.dailyexpense.util.ads.TemplateView
+                                    android:id="@+id/ad_view_native"
+                                    android:visibility="gone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:gnt_template_type="@layout/gnt_small_template_view"/>
+
+                            </androidx.cardview.widget.CardView>
+
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"

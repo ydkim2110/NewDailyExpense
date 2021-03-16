@@ -42,6 +42,20 @@ import kotlin.math.roundToInt
  */
 object AppUtils {
 
+    fun getAdViewHeightDP(activity: Activity): Int {
+        return when (getScreenHeightDP(activity)) {
+            in 0 until 400 -> 32
+            in 400..720 -> 50
+            else -> 90
+        }
+    }
+
+    private fun getScreenHeightDP(activity: Activity): Int {
+        val displayMetrics = activity.resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels / displayMetrics.density
+        return screenHeight.roundToInt()
+    }
+
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     val defaultDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val yearDashMonthDateFormat = SimpleDateFormat("yyyy-MM", Locale.getDefault())

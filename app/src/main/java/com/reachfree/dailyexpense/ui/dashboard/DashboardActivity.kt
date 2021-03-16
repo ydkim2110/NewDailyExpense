@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,6 +21,10 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -27,6 +34,7 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.android.play.core.tasks.Task
+import com.reachfree.dailyexpense.BuildConfig
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.Currency
 import com.reachfree.dailyexpense.data.model.TransactionEntity
@@ -122,6 +130,7 @@ class DashboardActivity :
         binding.recentTransactionsLayout.noItemLayout.txtNoItem.text = getString(R.string.text_no_transaction)
         binding.recentTransactionsLayout.noItemLayout.imgNoItem.load(R.drawable.logo)
 
+        loadAds()
         setupToolbar()
         setupNavigation()
         setupCalendarView()
@@ -132,6 +141,12 @@ class DashboardActivity :
         setupEverydayNotification()
 
         sessionManager.getPrefs().registerOnSharedPreferenceChangeListener(sharedPrefListener)
+    }
+
+    private fun loadAds() {
+        MobileAds.initialize(this) {
+            binding.adView.loadAd(AdRequest.Builder().build())
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

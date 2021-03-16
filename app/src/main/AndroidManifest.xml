@@ -9,12 +9,15 @@
     <application
         android:name=".MyApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyExpense">
-        <activity android:name=".ui.settings.notification.NotificationActivity"></activity>
+        <activity
+            android:name=".ui.settings.notification.NotificationActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.base.SplashActivity"
             android:screenOrientation="portrait">
@@ -60,6 +63,10 @@
         </receiver>
 
         <service android:name=".service.EveryDayService" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/ADMOB_TEST_ID" />
     </application>
 
 </manifest>

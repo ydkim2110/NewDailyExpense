@@ -18,6 +18,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.reachfree.dailyexpense.R
 import com.reachfree.dailyexpense.data.model.TransactionEntity
 import com.reachfree.dailyexpense.databinding.TransactionActivityBinding
@@ -32,6 +35,7 @@ import com.reachfree.dailyexpense.util.Constants.PATTERN.*
 import com.reachfree.dailyexpense.util.Constants.SortType
 import com.reachfree.dailyexpense.util.Constants.TYPE.EXPENSE
 import com.reachfree.dailyexpense.util.Constants.TYPE.INCOME
+import com.reachfree.dailyexpense.util.ads.NativeTemplateStyle
 import com.reachfree.dailyexpense.util.extension.animateProgressbar
 import com.reachfree.dailyexpense.util.extension.load
 import com.reachfree.dailyexpense.util.toMillis
@@ -41,8 +45,10 @@ import java.time.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 @AndroidEntryPoint
-class TransactionActivity : BaseActivity<TransactionActivityBinding>({ TransactionActivityBinding.inflate(it) }),
+class TransactionActivity
+    : BaseActivity<TransactionActivityBinding>({ TransactionActivityBinding.inflate(it) }),
     TGListHeaderAdapter.OnItemClickListener {
 
     override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
@@ -76,6 +82,7 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         setupCalendarView()
         setupOptions()
         subscribeToObserver()
+        loadAds()
 
         viewModel.getTransactionSortedBy(
             SortType.AMOUNT,
@@ -83,6 +90,39 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
             endOfMonth,
             intArrayOf(EXPENSE.ordinal, INCOME.ordinal)
         )
+    }
+
+    private fun loadAds() {
+        MobileAds.initialize(this) {
+            val adLoader = AdLoader.Builder(this, getString(R.string.ADMOB_NATIVEAD_TEST_ID))
+                .forNativeAd { ad: NativeAd ->
+                    // Show the ad.
+
+                    if (isDestroyed) {
+                        ad.destroy()
+                        return@forNativeAd
+                    }
+
+                    val styles = NativeTemplateStyle.Builder().build()
+                    binding.adViewNative.setStyles(styles)
+                    binding.adViewNative.visibility = View.VISIBLE
+                    binding.adViewNative.setNativeAd(ad)
+                }
+                .withAdListener(object : AdListener() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        // Handle the failure by logging, altering the UI, and so on.
+                    }
+                })
+                .withNativeAdOptions(
+                    NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build()
+                )
+                .build()
+
+            adLoader.loadAd(AdRequest.Builder().build())
+        }
     }
 
     private fun setupToolbar() {
@@ -120,7 +160,9 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 }
                 hideContentLayout()
 
-                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(firstDayOfNewMonth)
+                binding.appBar.toolbarTitle.text = AppUtils.yearMonthDateFormat.format(
+                    firstDayOfNewMonth
+                )
                 setupNewCalendarView(firstDayOfNewMonth)
             }
         })
@@ -166,7 +208,12 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
             val textView = TextView(this)
 
             textView.apply {
-                setTextColor(ContextCompat.getColor(this@TransactionActivity, R.color.colorTextPrimary))
+                setTextColor(
+                    ContextCompat.getColor(
+                        this@TransactionActivity,
+                        R.color.colorTextPrimary
+                    )
+                )
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16f)
                 gravity = Gravity.CENTER_VERTICAL or Gravity.END
 //                typeface = ResourcesCompat.getFont(requireContext(), R.font.cabin_bold)
@@ -200,7 +247,12 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
             val textView = TextView(this)
 
             textView.apply {
-                setTextColor(ContextCompat.getColor(this@TransactionActivity, R.color.colorTextPrimary))
+                setTextColor(
+                    ContextCompat.getColor(
+                        this@TransactionActivity,
+                        R.color.colorTextPrimary
+                    )
+                )
                 setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20f)
                 typeface = Typeface.DEFAULT_BOLD
                 gravity = Gravity.CENTER_VERTICAL or Gravity.END
@@ -224,15 +276,19 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
 
         binding.btnOptions.setOnClickListener {
             isOptionsExpanded = if (isOptionsExpanded) {
-                ObjectAnimator.ofFloat(binding.imageViewOptions,
-                    ROTATION, 0f)
+                ObjectAnimator.ofFloat(
+                    binding.imageViewOptions,
+                    ROTATION, 0f
+                )
                     .setDuration(ROTATION_ANIM_DURATION)
                     .start()
                 binding.linearLayoutOptions.visibility = View.GONE
                 false
             } else {
-                ObjectAnimator.ofFloat(binding.imageViewOptions,
-                    ROTATION, 180f)
+                ObjectAnimator.ofFloat(
+                    binding.imageViewOptions,
+                    ROTATION, 180f
+                )
                     .setDuration(ROTATION_ANIM_DURATION)
                     .start()
                 binding.linearLayoutOptions.visibility = View.VISIBLE
@@ -327,6 +383,7 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
                 }
             }
             newList.sortByDescending { it.key }
+
             transactionAdapter = TGListHeaderAdapter(this)
             binding.recyclerTransaction.adapter = transactionAdapter
             transactionAdapter.submitList(newList)
@@ -448,7 +505,12 @@ class TransactionActivity : BaseActivity<TransactionActivityBinding>({ Transacti
         binding.recyclerTransaction.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@TransactionActivity)
-            addItemDecoration(DividerItemDecoration(this@TransactionActivity, LinearLayoutManager.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@TransactionActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
             if (this.itemDecorationCount > 0) {
                 this.removeItemDecorationAt(0)
             }

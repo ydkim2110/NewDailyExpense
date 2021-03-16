@@ -78,6 +78,10 @@ class TGListHeaderAdapter(
         holder.bind(getItem(position))
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
     private class DiffUtils : DiffUtil.ItemCallback<TransactionGroup>() {
         override fun areItemsTheSame(
             oldItem: TransactionGroup,
@@ -97,5 +101,10 @@ class TGListHeaderAdapter(
 
     interface OnItemClickListener {
         fun onItemClickListener(transaction: TransactionEntity)
+    }
+
+    companion object {
+        private const val TYPE_AD = 0
+        private const val TYPE_TRANSACTION = 1
     }
 }
